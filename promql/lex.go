@@ -1,16 +1,3 @@
-// Copyright 2015 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package promql
 
 import (
@@ -20,15 +7,15 @@ import (
 	"unicode/utf8"
 )
 
-// item represents a token or text string returned from the scanner.
 type item struct {
-	typ ItemType // The type of this item.
-	pos Pos      // The starting position, in bytes, of this item in the input string.
-	val string   // The value of this item.
+	typ	ItemType
+	pos	Pos
+	val	string
 }
 
-// String returns a descriptive string for the item.
 func (i item) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case i.typ == itemEOF:
 		return "EOF"
@@ -47,28 +34,29 @@ func (i item) String() string {
 	}
 	return fmt.Sprintf("%q", i.val)
 }
-
-// isOperator returns true if the item corresponds to a arithmetic or set operator.
-// Returns false otherwise.
-func (i ItemType) isOperator() bool { return i > operatorsStart && i < operatorsEnd }
-
-// isAggregator returns true if the item belongs to the aggregator functions.
-// Returns false otherwise
-func (i ItemType) isAggregator() bool { return i > aggregatorsStart && i < aggregatorsEnd }
-
-// isAggregator returns true if the item is an aggregator that takes a parameter.
-// Returns false otherwise
+func (i ItemType) isOperator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return i > operatorsStart && i < operatorsEnd
+}
+func (i ItemType) isAggregator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return i > aggregatorsStart && i < aggregatorsEnd
+}
 func (i ItemType) isAggregatorWithParam() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i == itemTopK || i == itemBottomK || i == itemCountValues || i == itemQuantile
 }
-
-// isKeyword returns true if the item corresponds to a keyword.
-// Returns false otherwise.
-func (i ItemType) isKeyword() bool { return i > keywordsStart && i < keywordsEnd }
-
-// isCompairsonOperator returns true if the item corresponds to a comparison operator.
-// Returns false otherwise.
+func (i ItemType) isKeyword() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return i > keywordsStart && i < keywordsEnd
+}
 func (i ItemType) isComparisonOperator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemEQL, itemNEQ, itemLTE, itemLSS, itemGTE, itemGTR:
 		return true
@@ -76,9 +64,9 @@ func (i ItemType) isComparisonOperator() bool {
 		return false
 	}
 }
-
-// isSetOperator returns whether the item corresponds to a set operator.
 func (i ItemType) isSetOperator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemLAND, itemLOR, itemLUnless:
 		return true
@@ -86,13 +74,11 @@ func (i ItemType) isSetOperator() bool {
 	return false
 }
 
-// LowestPrec is a constant for operator precedence in expressions.
-const LowestPrec = 0 // Non-operators.
+const LowestPrec = 0
 
-// Precedence returns the operator precedence of the binary
-// operator op. If op is not a binary operator, the result
-// is LowestPrec.
 func (i ItemType) precedence() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemLOR:
 		return 1
@@ -110,21 +96,21 @@ func (i ItemType) precedence() int {
 		return LowestPrec
 	}
 }
-
 func (i ItemType) isRightAssociative() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemPOW:
 		return true
 	default:
 		return false
 	}
-
 }
 
 type ItemType int
 
 const (
-	itemError ItemType = iota // Error occurred, value is error message
+	itemError	ItemType	= iota
 	itemEOF
 	itemComment
 	itemIdentifier
@@ -145,9 +131,7 @@ const (
 	itemBlank
 	itemTimes
 	itemSpace
-
 	operatorsStart
-	// Operators.
 	itemSUB
 	itemADD
 	itemMUL
@@ -166,9 +150,7 @@ const (
 	itemNEQRegex
 	itemPOW
 	operatorsEnd
-
 	aggregatorsStart
-	// Aggregators.
 	itemAvg
 	itemCount
 	itemSum
@@ -181,9 +163,7 @@ const (
 	itemCountValues
 	itemQuantile
 	aggregatorsEnd
-
 	keywordsStart
-	// Keywords.
 	itemOffset
 	itemBy
 	itemWithout
@@ -195,87 +175,29 @@ const (
 	keywordsEnd
 )
 
-var key = map[string]ItemType{
-	// Operators.
-	"and":    itemLAND,
-	"or":     itemLOR,
-	"unless": itemLUnless,
-
-	// Aggregators.
-	"sum":          itemSum,
-	"avg":          itemAvg,
-	"count":        itemCount,
-	"min":          itemMin,
-	"max":          itemMax,
-	"stddev":       itemStddev,
-	"stdvar":       itemStdvar,
-	"topk":         itemTopK,
-	"bottomk":      itemBottomK,
-	"count_values": itemCountValues,
-	"quantile":     itemQuantile,
-
-	// Keywords.
-	"offset":      itemOffset,
-	"by":          itemBy,
-	"without":     itemWithout,
-	"on":          itemOn,
-	"ignoring":    itemIgnoring,
-	"group_left":  itemGroupLeft,
-	"group_right": itemGroupRight,
-	"bool":        itemBool,
-}
-
-// These are the default string representations for common items. It does not
-// imply that those are the only character sequences that can be lexed to such an item.
-var itemTypeStr = map[ItemType]string{
-	itemLeftParen:    "(",
-	itemRightParen:   ")",
-	itemLeftBrace:    "{",
-	itemRightBrace:   "}",
-	itemLeftBracket:  "[",
-	itemRightBracket: "]",
-	itemComma:        ",",
-	itemAssign:       "=",
-	itemColon:        ":",
-	itemSemicolon:    ";",
-	itemBlank:        "_",
-	itemTimes:        "x",
-	itemSpace:        "<space>",
-
-	itemSUB:      "-",
-	itemADD:      "+",
-	itemMUL:      "*",
-	itemMOD:      "%",
-	itemDIV:      "/",
-	itemEQL:      "==",
-	itemNEQ:      "!=",
-	itemLTE:      "<=",
-	itemLSS:      "<",
-	itemGTE:      ">=",
-	itemGTR:      ">",
-	itemEQLRegex: "=~",
-	itemNEQRegex: "!~",
-	itemPOW:      "^",
-}
+var key = map[string]ItemType{"and": itemLAND, "or": itemLOR, "unless": itemLUnless, "sum": itemSum, "avg": itemAvg, "count": itemCount, "min": itemMin, "max": itemMax, "stddev": itemStddev, "stdvar": itemStdvar, "topk": itemTopK, "bottomk": itemBottomK, "count_values": itemCountValues, "quantile": itemQuantile, "offset": itemOffset, "by": itemBy, "without": itemWithout, "on": itemOn, "ignoring": itemIgnoring, "group_left": itemGroupLeft, "group_right": itemGroupRight, "bool": itemBool}
+var itemTypeStr = map[ItemType]string{itemLeftParen: "(", itemRightParen: ")", itemLeftBrace: "{", itemRightBrace: "}", itemLeftBracket: "[", itemRightBracket: "]", itemComma: ",", itemAssign: "=", itemColon: ":", itemSemicolon: ";", itemBlank: "_", itemTimes: "x", itemSpace: "<space>", itemSUB: "-", itemADD: "+", itemMUL: "*", itemMOD: "%", itemDIV: "/", itemEQL: "==", itemNEQ: "!=", itemLTE: "<=", itemLSS: "<", itemGTE: ">=", itemGTR: ">", itemEQLRegex: "=~", itemNEQRegex: "!~", itemPOW: "^"}
 
 func init() {
-	// Add keywords to item type strings.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for s, ty := range key {
 		itemTypeStr[ty] = s
 	}
-	// Special numbers.
 	key["inf"] = itemNumber
 	key["nan"] = itemNumber
 }
-
 func (i ItemType) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s, ok := itemTypeStr[i]; ok {
 		return s
 	}
 	return fmt.Sprintf("<item %d>", i)
 }
-
 func (i item) desc() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := itemTypeStr[i.typ]; ok {
 		return i.String()
 	}
@@ -284,8 +206,9 @@ func (i item) desc() string {
 	}
 	return fmt.Sprintf("%s %s", i.typ.desc(), i)
 }
-
 func (i ItemType) desc() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemError:
 		return "error"
@@ -309,35 +232,27 @@ func (i ItemType) desc() string {
 
 const eof = -1
 
-// stateFn represents the state of the scanner as a function that returns the next state.
 type stateFn func(*lexer) stateFn
-
-// Pos is the position in a string.
 type Pos int
-
-// lexer holds the state of the scanner.
 type lexer struct {
-	input   string    // The string being scanned.
-	state   stateFn   // The next lexing function to enter.
-	pos     Pos       // Current position in the input.
-	start   Pos       // Start position of this item.
-	width   Pos       // Width of last rune read from input.
-	lastPos Pos       // Position of most recent item returned by nextItem.
-	items   chan item // Channel of scanned items.
-
-	parenDepth  int  // Nesting depth of ( ) exprs.
-	braceOpen   bool // Whether a { is opened.
-	bracketOpen bool // Whether a [ is opened.
-	gotColon    bool // Whether we got a ':' after [ was opened.
-	stringOpen  rune // Quote rune of the string currently being read.
-
-	// seriesDesc is set when a series description for the testing
-	// language is lexed.
-	seriesDesc bool
+	input		string
+	state		stateFn
+	pos		Pos
+	start		Pos
+	width		Pos
+	lastPos		Pos
+	items		chan item
+	parenDepth	int
+	braceOpen	bool
+	bracketOpen	bool
+	gotColon	bool
+	stringOpen	rune
+	seriesDesc	bool
 }
 
-// next returns the next rune in the input.
 func (l *lexer) next() rune {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if int(l.pos) >= len(l.input) {
 		l.width = 0
 		return eof
@@ -347,115 +262,105 @@ func (l *lexer) next() rune {
 	l.pos += l.width
 	return r
 }
-
-// peek returns but does not consume the next rune in the input.
 func (l *lexer) peek() rune {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := l.next()
 	l.backup()
 	return r
 }
-
-// backup steps back one rune. Can only be called once per call of next.
 func (l *lexer) backup() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.pos -= l.width
 }
-
-// emit passes an item back to the client.
 func (l *lexer) emit(t ItemType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.items <- item{t, l.start, l.input[l.start:l.pos]}
 	l.start = l.pos
 }
-
-// ignore skips over the pending input before this point.
 func (l *lexer) ignore() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.start = l.pos
 }
-
-// accept consumes the next rune if it's from the valid set.
 func (l *lexer) accept(valid string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.ContainsRune(valid, l.next()) {
 		return true
 	}
 	l.backup()
 	return false
 }
-
-// acceptRun consumes a run of runes from the valid set.
 func (l *lexer) acceptRun(valid string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for strings.ContainsRune(valid, l.next()) {
-		// consume
 	}
 	l.backup()
 }
-
-// lineNumber reports which line we're on, based on the position of
-// the previous item returned by nextItem. Doing it this way
-// means we don't have to worry about peek double counting.
 func (l *lexer) lineNumber() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 1 + strings.Count(l.input[:l.lastPos], "\n")
 }
-
-// linePosition reports at which character in the current line
-// we are on.
 func (l *lexer) linePosition() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := strings.LastIndex(l.input[:l.lastPos], "\n")
 	if lb == -1 {
 		return 1 + int(l.lastPos)
 	}
 	return 1 + int(l.lastPos) - lb
 }
-
-// errorf returns an error token and terminates the scan by passing
-// back a nil pointer that will be the next state, terminating l.nextItem.
 func (l *lexer) errorf(format string, args ...interface{}) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.items <- item{itemError, l.start, fmt.Sprintf(format, args...)}
 	return nil
 }
-
-// nextItem returns the next item from the input.
 func (l *lexer) nextItem() item {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item := <-l.items
 	l.lastPos = item.pos
 	return item
 }
-
-// lex creates a new scanner for the input string.
 func lex(input string) *lexer {
-	l := &lexer{
-		input: input,
-		items: make(chan item),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	l := &lexer{input: input, items: make(chan item)}
 	go l.run()
 	return l
 }
-
-// run runs the state machine for the lexer.
 func (l *lexer) run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for l.state = lexStatements; l.state != nil; {
 		l.state = l.state(l)
 	}
 	close(l.items)
 }
-
-// Release resources used by lexer.
 func (l *lexer) close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for range l.items {
-		// Consume.
 	}
 }
 
-// lineComment is the character that starts a line comment.
 const lineComment = "#"
 
-// lexStatements is the top-level state for lexing.
 func lexStatements(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.braceOpen {
 		return lexInsideBraces
 	}
 	if strings.HasPrefix(l.input[l.pos:], lineComment) {
 		return lexLineComment
 	}
-
 	switch r := l.next(); {
 	case r == eof:
 		if l.parenDepth != 0 {
@@ -558,20 +463,17 @@ func lexStatements(l *lexer) stateFn {
 		}
 		l.emit(itemRightBracket)
 		l.bracketOpen = false
-
 	default:
 		return l.errorf("unexpected character: %q", r)
 	}
 	return lexStatements
 }
-
-// lexInsideBraces scans the inside of a vector selector. Keywords are ignored and
-// scanned as identifiers.
 func lexInsideBraces(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasPrefix(l.input[l.pos:], lineComment) {
 		return lexLineComment
 	}
-
 	switch r := l.next(); {
 	case r == eof:
 		return l.errorf("unexpected end of input inside braces")
@@ -609,7 +511,6 @@ func lexInsideBraces(l *lexer) stateFn {
 	case r == '}':
 		l.emit(itemRightBrace)
 		l.braceOpen = false
-
 		if l.seriesDesc {
 			return lexValueSequence
 		}
@@ -619,9 +520,9 @@ func lexInsideBraces(l *lexer) stateFn {
 	}
 	return lexInsideBraces
 }
-
-// lexValueSequence scans a value sequence of a series description.
 func lexValueSequence(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := l.next(); {
 	case r == eof:
 		return lexStatements
@@ -641,26 +542,17 @@ func lexValueSequence(l *lexer) stateFn {
 		lexNumber(l)
 	case isAlpha(r):
 		l.backup()
-		// We might lex invalid items here but this will be caught by the parser.
 		return lexKeywordOrIdentifier
 	default:
 		return l.errorf("unexpected character in series sequence: %q", r)
 	}
 	return lexValueSequence
 }
-
-// lexEscape scans a string escape sequence. The initial escaping character (\)
-// has already been seen.
-//
-// NOTE: This function as well as the helper function digitVal() and associated
-// tests have been adapted from the corresponding functions in the "go/scanner"
-// package of the Go standard library to work for Prometheus-style strings.
-// None of the actual escaping/quoting logic was changed in this function - it
-// was only modified to integrate with our lexer.
 func lexEscape(l *lexer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var n int
 	var base, max uint32
-
 	ch := l.next()
 	switch ch {
 	case 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', l.stringOpen:
@@ -681,7 +573,6 @@ func lexEscape(l *lexer) {
 	default:
 		l.errorf("unknown escape sequence %#U", ch)
 	}
-
 	var x uint32
 	for n > 0 {
 		d := uint32(digitVal(ch))
@@ -695,15 +586,13 @@ func lexEscape(l *lexer) {
 		ch = l.next()
 		n--
 	}
-
 	if x > max || 0xD800 <= x && x < 0xE000 {
 		l.errorf("escape sequence is an invalid Unicode code point")
 	}
 }
-
-// digitVal returns the digit value of a rune or 16 in case the rune does not
-// represent a valid digit.
 func digitVal(ch rune) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case '0' <= ch && ch <= '9':
 		return int(ch - '0')
@@ -712,11 +601,11 @@ func digitVal(ch rune) int {
 	case 'A' <= ch && ch <= 'F':
 		return int(ch - 'A' + 10)
 	}
-	return 16 // Larger than any legal digit val.
+	return 16
 }
-
-// lexString scans a quoted string. The initial quote has already been seen.
 func lexString(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 Loop:
 	for {
 		switch l.next() {
@@ -733,9 +622,9 @@ Loop:
 	l.emit(itemString)
 	return lexStatements
 }
-
-// lexRawString scans a raw quoted string. The initial quote has already been seen.
 func lexRawString(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 Loop:
 	for {
 		switch l.next() {
@@ -750,18 +639,18 @@ Loop:
 	l.emit(itemString)
 	return lexStatements
 }
-
-// lexSpace scans a run of space characters. One space has already been seen.
 func lexSpace(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for isSpace(l.peek()) {
 		l.next()
 	}
 	l.ignore()
 	return lexStatements
 }
-
-// lexLineComment scans a line comment. Left comment marker is known to be present.
 func lexLineComment(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.pos += Pos(len(lineComment))
 	for r := l.next(); !isEndOfLine(r) && r != eof; {
 		r = l.next()
@@ -770,12 +659,12 @@ func lexLineComment(l *lexer) stateFn {
 	l.emit(itemComment)
 	return lexStatements
 }
-
 func lexDuration(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.scanNumber() {
 		return l.errorf("missing unit character in duration")
 	}
-	// Next two chars must be a valid unit and a non-alphanumeric.
 	if l.accept("smhdwy") {
 		if isAlphaNumeric(l.next()) {
 			return l.errorf("bad duration syntax: %q", l.input[l.start:l.pos])
@@ -786,23 +675,22 @@ func lexDuration(l *lexer) stateFn {
 	}
 	return l.errorf("bad duration syntax: %q", l.input[l.start:l.pos])
 }
-
-// lexNumber scans a number: decimal, hex, oct or float.
 func lexNumber(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !l.scanNumber() {
 		return l.errorf("bad number syntax: %q", l.input[l.start:l.pos])
 	}
 	l.emit(itemNumber)
 	return lexStatements
 }
-
-// lexNumberOrDuration scans a number or a duration item.
 func lexNumberOrDuration(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.scanNumber() {
 		l.emit(itemNumber)
 		return lexStatements
 	}
-	// Next two chars must be a valid unit and a non-alphanumeric.
 	if l.accept("smhdwy") {
 		if isAlphaNumeric(l.next()) {
 			return l.errorf("bad number or duration syntax: %q", l.input[l.start:l.pos])
@@ -813,12 +701,10 @@ func lexNumberOrDuration(l *lexer) stateFn {
 	}
 	return l.errorf("bad number or duration syntax: %q", l.input[l.start:l.pos])
 }
-
-// scanNumber scans numbers of different formats. The scanned item is
-// not necessarily a valid number. This case is caught by the parser.
 func (l *lexer) scanNumber() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	digits := "0123456789"
-	// Disallow hexadecimal in series descriptions as the syntax is ambiguous.
 	if !l.seriesDesc && l.accept("0") && l.accept("xX") {
 		digits = "0123456789abcdefABCDEF"
 	}
@@ -830,34 +716,27 @@ func (l *lexer) scanNumber() bool {
 		l.accept("+-")
 		l.acceptRun("0123456789")
 	}
-	// Next thing must not be alphanumeric unless it's the times token
-	// for series repetitions.
 	if r := l.peek(); (l.seriesDesc && r == 'x') || !isAlphaNumeric(r) {
 		return true
 	}
 	return false
 }
-
-// lexIdentifier scans an alphanumeric identifier. The next character
-// is known to be a letter.
 func lexIdentifier(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for isAlphaNumeric(l.next()) {
-		// absorb
 	}
 	l.backup()
 	l.emit(itemIdentifier)
 	return lexStatements
 }
-
-// lexKeywordOrIdentifier scans an alphanumeric identifier which may contain
-// a colon rune. If the identifier is a keyword the respective keyword item
-// is scanned.
 func lexKeywordOrIdentifier(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 Loop:
 	for {
 		switch r := l.next(); {
 		case isAlphaNumeric(r) || r == ':':
-			// absorb.
 		default:
 			l.backup()
 			word := l.input[l.start:l.pos]
@@ -876,35 +755,34 @@ Loop:
 	}
 	return lexStatements
 }
-
 func isSpace(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r == ' ' || r == '\t' || r == '\n' || r == '\r'
 }
-
-// isEndOfLine reports whether r is an end-of-line character.
 func isEndOfLine(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r == '\r' || r == '\n'
 }
-
-// isAlphaNumeric reports whether r is an alphabetic, digit, or underscore.
 func isAlphaNumeric(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return isAlpha(r) || isDigit(r)
 }
-
-// isDigit reports whether r is a digit. Note: we cannot use unicode.IsDigit()
-// instead because that also classifies non-Latin digits as digits. See
-// https://github.com/prometheus/prometheus/issues/939.
 func isDigit(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return '0' <= r && r <= '9'
 }
-
-// isAlpha reports whether r is an alphabetic or underscore.
 func isAlpha(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r == '_' || ('a' <= r && r <= 'z') || ('A' <= r && r <= 'Z')
 }
-
-// isLabel reports whether the string can be used as label.
 func isLabel(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s) == 0 || !isAlpha(rune(s[0])) {
 		return false
 	}

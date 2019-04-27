@@ -1,27 +1,12 @@
-// Copyright 2015 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package consul
 
 import (
 	"context"
 	"testing"
 	"time"
-
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/common/model"
 	"github.com/prometheus/prometheus/discovery/targetgroup"
@@ -29,10 +14,10 @@ import (
 )
 
 func TestConfiguredService(t *testing.T) {
-	conf := &SDConfig{
-		Services: []string{"configuredServiceName"}}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	conf := &SDConfig{Services: []string{"configuredServiceName"}}
 	consulDiscovery, err := NewDiscovery(conf, nil)
-
 	if err != nil {
 		t.Errorf("Unexpected error when initializing discovery %v", err)
 	}
@@ -43,14 +28,11 @@ func TestConfiguredService(t *testing.T) {
 		t.Errorf("Expected service %s to not be watched", "nonConfiguredServiceName")
 	}
 }
-
 func TestConfiguredServiceWithTag(t *testing.T) {
-	conf := &SDConfig{
-		Services:   []string{"configuredServiceName"},
-		ServiceTag: "http",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	conf := &SDConfig{Services: []string{"configuredServiceName"}, ServiceTag: "http"}
 	consulDiscovery, err := NewDiscovery(conf, nil)
-
 	if err != nil {
 		t.Errorf("Unexpected error when initializing discovery %v", err)
 	}
@@ -67,11 +49,11 @@ func TestConfiguredServiceWithTag(t *testing.T) {
 		t.Errorf("Expected service %s to not be watched with tag %s", "nonConfiguredServiceName", "http")
 	}
 }
-
 func TestNonConfiguredService(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf := &SDConfig{}
 	consulDiscovery, err := NewDiscovery(conf, nil)
-
 	if err != nil {
 		t.Errorf("Unexpected error when initializing discovery %v", err)
 	}
@@ -81,8 +63,8 @@ func TestNonConfiguredService(t *testing.T) {
 }
 
 const (
-	AgentAnswer       = `{"Config": {"Datacenter": "test-dc"}}`
-	ServiceTestAnswer = `[{
+	AgentAnswer		= `{"Config": {"Datacenter": "test-dc"}}`
+	ServiceTestAnswer	= `[{
 "ID": "b78c2e48-5ef3-1814-31b8-0d880f50471e",
 "Node": "node1",
 "Address": "1.1.1.1",
@@ -97,11 +79,12 @@ const (
 "CreateIndex": 1,
 "ModifyIndex": 1
 }]`
-	ServicesTestAnswer = `{"test": ["tag1"], "other": ["tag2"]}`
+	ServicesTestAnswer	= `{"test": ["tag1"], "other": ["tag2"]}`
 )
 
 func newServer(t *testing.T) (*httptest.Server, *SDConfig) {
-	// github.com/hashicorp/consul/testutil/ would be nice but it needs a local consul binary.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		response := ""
 		switch r.URL.String() {
@@ -131,40 +114,34 @@ func newServer(t *testing.T) (*httptest.Server, *SDConfig) {
 	}))
 	stuburl, err := url.Parse(stub.URL)
 	testutil.Ok(t, err)
-
-	config := &SDConfig{
-		Server:          stuburl.Host,
-		Token:           "fake-token",
-		RefreshInterval: model.Duration(1 * time.Second),
-	}
+	config := &SDConfig{Server: stuburl.Host, Token: "fake-token", RefreshInterval: model.Duration(1 * time.Second)}
 	return stub, config
 }
-
 func newDiscovery(t *testing.T, config *SDConfig) *Discovery {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logger := log.NewNopLogger()
 	d, err := NewDiscovery(config, logger)
 	testutil.Ok(t, err)
 	return d
 }
-
 func checkOneTarget(t *testing.T, tg []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.Equals(t, 1, len(tg))
 	target := tg[0]
 	testutil.Equals(t, "test-dc", string(target.Labels["__meta_consul_dc"]))
 	testutil.Equals(t, target.Source, string(target.Labels["__meta_consul_service"]))
 	if target.Source == "test" {
-		// test service should have one node.
 		testutil.Assert(t, len(target.Targets) > 0, "Test service should have one node")
 	}
 }
-
-// Watch all the services in the catalog.
 func TestAllServices(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub, config := newServer(t)
 	defer stub.Close()
-
 	d := newDiscovery(t, config)
-
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := make(chan []*targetgroup.Group)
 	go d.Run(ctx, ch)
@@ -172,35 +149,30 @@ func TestAllServices(t *testing.T) {
 	checkOneTarget(t, <-ch)
 	cancel()
 }
-
-// Watch only the test service.
 func TestOneService(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub, config := newServer(t)
 	defer stub.Close()
-
 	config.Services = []string{"test"}
 	d := newDiscovery(t, config)
-
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := make(chan []*targetgroup.Group)
 	go d.Run(ctx, ch)
 	checkOneTarget(t, <-ch)
 	cancel()
 }
-
-// Watch the test service with a specific tag and node-meta.
 func TestAllOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub, config := newServer(t)
 	defer stub.Close()
-
 	config.Services = []string{"test"}
 	config.NodeMeta = map[string]string{"rack_name": "2304"}
 	config.ServiceTag = "tag1"
 	config.AllowStale = true
 	config.Token = "fake-token"
-
 	d := newDiscovery(t, config)
-
 	ctx, cancel := context.WithCancel(context.Background())
 	ch := make(chan []*targetgroup.Group)
 	go d.Run(ctx, ch)

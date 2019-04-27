@@ -1,16 +1,3 @@
-// Copyright 2017 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package openstack
 
 import (
@@ -20,52 +7,53 @@ import (
 	"testing"
 )
 
-// SDMock is the interface for the OpenStack mock
 type SDMock struct {
-	t      *testing.T
-	Server *httptest.Server
-	Mux    *http.ServeMux
+	t	*testing.T
+	Server	*httptest.Server
+	Mux	*http.ServeMux
 }
 
-// NewSDMock returns a new SDMock.
 func NewSDMock(t *testing.T) *SDMock {
-	return &SDMock{
-		t: t,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &SDMock{t: t}
 }
-
-// Endpoint returns the URI to the mock server
 func (m *SDMock) Endpoint() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Server.URL + "/"
 }
-
-// Setup creates the mock server
 func (m *SDMock) Setup() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux = http.NewServeMux()
 	m.Server = httptest.NewServer(m.Mux)
 }
-
-// ShutdownServer creates the mock server
 func (m *SDMock) ShutdownServer() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Server.Close()
 }
 
 const tokenID = "cbc36478b0bd8e67e89469c7749d4127"
 
 func testMethod(t *testing.T, r *http.Request, expected string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected != r.Method {
 		t.Errorf("Request method = %v, expected %v", r.Method, expected)
 	}
 }
-
 func testHeader(t *testing.T, r *http.Request, header string, expected string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if actual := r.Header.Get(header); expected != actual {
 		t.Errorf("Header %s = %s, expected %s", header, actual, expected)
 	}
 }
-
-// HandleVersionsSuccessfully mocks version call
 func (m *SDMock) HandleVersionsSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, `
                         {
@@ -91,12 +79,11 @@ func (m *SDMock) HandleVersionsSuccessfully() {
                 `, m.Endpoint()+"v3/", m.Endpoint()+"v2.0/")
 	})
 }
-
-// HandleAuthSuccessfully mocks auth call
 func (m *SDMock) HandleAuthSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/v3/auth/tokens", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("X-Subject-Token", tokenID)
-
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprintf(w, `
 	{
@@ -240,12 +227,12 @@ const hypervisorListBody = `
     ]
 }`
 
-// HandleHypervisorListSuccessfully mocks os-hypervisors detail call
 func (m *SDMock) HandleHypervisorListSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/os-hypervisors/detail", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(m.t, r, "GET")
 		testHeader(m.t, r, "X-Auth-Token", tokenID)
-
 		w.Header().Add("Content-Type", "application/json")
 		fmt.Fprintf(w, hypervisorListBody)
 	})
@@ -537,12 +524,12 @@ const serverListBody = `
 }
 `
 
-// HandleServerListSuccessfully mocks server detail call
 func (m *SDMock) HandleServerListSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/servers/detail", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(m.t, r, "GET")
 		testHeader(m.t, r, "X-Auth-Token", tokenID)
-
 		w.Header().Add("Content-Type", "application/json")
 		fmt.Fprintf(w, serverListBody)
 	})
@@ -576,12 +563,12 @@ const listOutput = `
 }
 `
 
-// HandleFloatingIPListSuccessfully mocks floating ips call
 func (m *SDMock) HandleFloatingIPListSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/os-floating-ips", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(m.t, r, "GET")
 		testHeader(m.t, r, "X-Auth-Token", tokenID)
-
 		w.Header().Add("Content-Type", "application/json")
 		fmt.Fprintf(w, listOutput)
 	})

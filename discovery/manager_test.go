@@ -1,16 +1,3 @@
-// Copyright 2016 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package discovery
 
 import (
@@ -23,7 +10,6 @@ import (
 	"strconv"
 	"testing"
 	"time"
-
 	"github.com/go-kit/kit/log"
 	"github.com/prometheus/common/model"
 	"github.com/prometheus/prometheus/config"
@@ -32,638 +18,21 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// TestTargetUpdatesOrder checks that the target updates are received in the expected order.
 func TestTargetUpdatesOrder(t *testing.T) {
-
-	// The order by which the updates are send is determined by the interval passed to the mock discovery adapter
-	// Final targets array is ordered alphabetically by the name of the discoverer.
-	// For example discoverer "A" with targets "t2,t3" and discoverer "B" with targets "t1,t2" will result in "t2,t3,t1,t2" after the merge.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
-		title           string
-		updates         map[string][]update
-		expectedTargets [][]*targetgroup.Group
-	}{
-		{
-			title: "Single TP no updates",
-			updates: map[string][]update{
-				"tp1": {},
-			},
-			expectedTargets: nil,
-		},
-		{
-			title: "Multips TPs no updates",
-			updates: map[string][]update{
-				"tp1": {},
-				"tp2": {},
-				"tp3": {},
-			},
-			expectedTargets: nil,
-		},
-		{
-			title: "Single TP empty initials",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{},
-						interval:     5 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{},
-			},
-		},
-		{
-			title: "Multiple TPs empty initials",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{},
-						interval:     5 * time.Millisecond,
-					},
-				},
-				"tp2": {
-					{
-						targetGroups: []targetgroup.Group{},
-						interval:     200 * time.Millisecond,
-					},
-				},
-				"tp3": {
-					{
-						targetGroups: []targetgroup.Group{},
-						interval:     100 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{},
-				{},
-				{},
-			},
-		},
-		{
-			title: "Single TP initials only",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							}},
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-			},
-		},
-		{
-			title: "Multiple TPs initials only",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-					},
-				},
-				"tp2": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp2_group1",
-								Targets: []model.LabelSet{{"__instance__": "3"}},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				}, {
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-				},
-			},
-		},
-		{
-			title: "Single TP initials followed by empty updates",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-						interval: 0,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{},
-					},
-				},
-			},
-		},
-		{
-			title: "Single TP initials and new groups",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-						interval: 0,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "3"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "4"}},
-							},
-							{
-								Source:  "tp1_group3",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-					{
-						Source:  "tp1_group3",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-				},
-			},
-		},
-		{
-			title: "Multiple TPs initials and new groups",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group3",
-								Targets: []model.LabelSet{{"__instance__": "3"}},
-							},
-							{
-								Source:  "tp1_group4",
-								Targets: []model.LabelSet{{"__instance__": "4"}},
-							},
-						},
-						interval: 500 * time.Millisecond,
-					},
-				},
-				"tp2": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp2_group1",
-								Targets: []model.LabelSet{{"__instance__": "5"}},
-							},
-							{
-								Source:  "tp2_group2",
-								Targets: []model.LabelSet{{"__instance__": "6"}},
-							},
-						},
-						interval: 100 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp2_group3",
-								Targets: []model.LabelSet{{"__instance__": "7"}},
-							},
-							{
-								Source:  "tp2_group4",
-								Targets: []model.LabelSet{{"__instance__": "8"}},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "5"}},
-					},
-					{
-						Source:  "tp2_group2",
-						Targets: []model.LabelSet{{"__instance__": "6"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "5"}},
-					},
-					{
-						Source:  "tp2_group2",
-						Targets: []model.LabelSet{{"__instance__": "6"}},
-					},
-					{
-						Source:  "tp2_group3",
-						Targets: []model.LabelSet{{"__instance__": "7"}},
-					},
-					{
-						Source:  "tp2_group4",
-						Targets: []model.LabelSet{{"__instance__": "8"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-					{
-						Source:  "tp1_group3",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group4",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "5"}},
-					},
-					{
-						Source:  "tp2_group2",
-						Targets: []model.LabelSet{{"__instance__": "6"}},
-					},
-					{
-						Source:  "tp2_group3",
-						Targets: []model.LabelSet{{"__instance__": "7"}},
-					},
-					{
-						Source:  "tp2_group4",
-						Targets: []model.LabelSet{{"__instance__": "8"}},
-					},
-				},
-			},
-		},
-		{
-			title: "One TP initials arrive after other TP updates.",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "3"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "4"}},
-							},
-						},
-						interval: 150 * time.Millisecond,
-					},
-				},
-				"tp2": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp2_group1",
-								Targets: []model.LabelSet{{"__instance__": "5"}},
-							},
-							{
-								Source:  "tp2_group2",
-								Targets: []model.LabelSet{{"__instance__": "6"}},
-							},
-						},
-						interval: 200 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp2_group1",
-								Targets: []model.LabelSet{{"__instance__": "7"}},
-							},
-							{
-								Source:  "tp2_group2",
-								Targets: []model.LabelSet{{"__instance__": "8"}},
-							},
-						},
-						interval: 100 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "5"}},
-					},
-					{
-						Source:  "tp2_group2",
-						Targets: []model.LabelSet{{"__instance__": "6"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-					{
-						Source:  "tp2_group1",
-						Targets: []model.LabelSet{{"__instance__": "7"}},
-					},
-					{
-						Source:  "tp2_group2",
-						Targets: []model.LabelSet{{"__instance__": "8"}},
-					},
-				},
-			},
-		},
-
-		{
-			title: "Single TP empty update in between",
-			updates: map[string][]update{
-				"tp1": {
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-						interval: 30 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{},
-							},
-						},
-						interval: 10 * time.Millisecond,
-					},
-					{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tp1_group1",
-								Targets: []model.LabelSet{{"__instance__": "3"}},
-							},
-							{
-								Source:  "tp1_group2",
-								Targets: []model.LabelSet{{"__instance__": "4"}},
-							},
-						},
-						interval: 300 * time.Millisecond,
-					},
-				},
-			},
-			expectedTargets: [][]*targetgroup.Group{
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "1"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "2"}},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{},
-					},
-				},
-				{
-					{
-						Source:  "tp1_group1",
-						Targets: []model.LabelSet{{"__instance__": "3"}},
-					},
-					{
-						Source:  "tp1_group2",
-						Targets: []model.LabelSet{{"__instance__": "4"}},
-					},
-				},
-			},
-		},
-	}
-
+		title		string
+		updates		map[string][]update
+		expectedTargets	[][]*targetgroup.Group
+	}{{title: "Single TP no updates", updates: map[string][]update{"tp1": {}}, expectedTargets: nil}, {title: "Multips TPs no updates", updates: map[string][]update{"tp1": {}, "tp2": {}, "tp3": {}}, expectedTargets: nil}, {title: "Single TP empty initials", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{}, interval: 5 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{}}}, {title: "Multiple TPs empty initials", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{}, interval: 5 * time.Millisecond}}, "tp2": {{targetGroups: []targetgroup.Group{}, interval: 200 * time.Millisecond}}, "tp3": {{targetGroups: []targetgroup.Group{}, interval: 100 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{}, {}, {}}}, {title: "Single TP initials only", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}}}, {title: "Multiple TPs initials only", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}}}, "tp2": {{targetGroups: []targetgroup.Group{{Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}}, interval: 10 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}}}}, {title: "Single TP initials followed by empty updates", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, interval: 0}, {targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{}}, {Source: "tp1_group2", Targets: []model.LabelSet{}}}, interval: 10 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{}}, {Source: "tp1_group2", Targets: []model.LabelSet{}}}}}, {title: "Single TP initials and new groups", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, interval: 0}, {targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}, {Source: "tp1_group3", Targets: []model.LabelSet{{"__instance__": "1"}}}}, interval: 10 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}, {Source: "tp1_group3", Targets: []model.LabelSet{{"__instance__": "1"}}}}}}, {title: "Multiple TPs initials and new groups", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, interval: 10 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp1_group3", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group4", Targets: []model.LabelSet{{"__instance__": "4"}}}}, interval: 500 * time.Millisecond}}, "tp2": {{targetGroups: []targetgroup.Group{{Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}}, interval: 100 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp2_group3", Targets: []model.LabelSet{{"__instance__": "7"}}}, {Source: "tp2_group4", Targets: []model.LabelSet{{"__instance__": "8"}}}}, interval: 10 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}, {Source: "tp2_group3", Targets: []model.LabelSet{{"__instance__": "7"}}}, {Source: "tp2_group4", Targets: []model.LabelSet{{"__instance__": "8"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}, {Source: "tp1_group3", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group4", Targets: []model.LabelSet{{"__instance__": "4"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}, {Source: "tp2_group3", Targets: []model.LabelSet{{"__instance__": "7"}}}, {Source: "tp2_group4", Targets: []model.LabelSet{{"__instance__": "8"}}}}}}, {title: "One TP initials arrive after other TP updates.", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, interval: 10 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}}, interval: 150 * time.Millisecond}}, "tp2": {{targetGroups: []targetgroup.Group{{Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}}, interval: 200 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "7"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "8"}}}}, interval: 100 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "5"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "6"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}, {Source: "tp2_group1", Targets: []model.LabelSet{{"__instance__": "7"}}}, {Source: "tp2_group2", Targets: []model.LabelSet{{"__instance__": "8"}}}}}}, {title: "Single TP empty update in between", updates: map[string][]update{"tp1": {{targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, interval: 30 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{}}, {Source: "tp1_group2", Targets: []model.LabelSet{}}}, interval: 10 * time.Millisecond}, {targetGroups: []targetgroup.Group{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}}, interval: 300 * time.Millisecond}}}, expectedTargets: [][]*targetgroup.Group{{{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "2"}}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{}}, {Source: "tp1_group2", Targets: []model.LabelSet{}}}, {{Source: "tp1_group1", Targets: []model.LabelSet{{"__instance__": "3"}}}, {Source: "tp1_group2", Targets: []model.LabelSet{{"__instance__": "4"}}}}}}}
 	for i, tc := range testCases {
 		tc := tc
 		t.Run(tc.title, func(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
-
 			discoveryManager := NewManager(ctx, log.NewNopLogger())
 			discoveryManager.updatert = 100 * time.Millisecond
-
 			var totalUpdatesCount int
 			provUpdates := make(chan []*targetgroup.Group)
 			for _, up := range tc.updates {
@@ -672,7 +41,6 @@ func TestTargetUpdatesOrder(t *testing.T) {
 					totalUpdatesCount = totalUpdatesCount + len(up)
 				}
 			}
-
 		Loop:
 			for x := 0; x < totalUpdatesCount; x++ {
 				select {
@@ -683,10 +51,7 @@ func TestTargetUpdatesOrder(t *testing.T) {
 					discoveryManager.updateGroup(poolKey{setName: strconv.Itoa(i), provider: tc.title}, tgs)
 					for _, got := range discoveryManager.allGroups() {
 						assertEqualGroups(t, got, tc.expectedTargets[x], func(got, expected string) string {
-							return fmt.Sprintf("%d: \ntargets mismatch \ngot: %v \nexpected: %v",
-								x,
-								got,
-								expected)
+							return fmt.Sprintf("%d: \ntargets mismatch \ngot: %v \nexpected: %v", x, got, expected)
 						})
 					}
 				}
@@ -694,8 +59,9 @@ func TestTargetUpdatesOrder(t *testing.T) {
 		})
 	}
 }
-
 func assertEqualGroups(t *testing.T, got, expected []*targetgroup.Group, msg func(got, expected string) string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	format := func(groups []*targetgroup.Group) string {
 		var s string
@@ -707,35 +73,29 @@ func assertEqualGroups(t *testing.T, got, expected []*targetgroup.Group, msg fun
 		}
 		return s
 	}
-
-	// Need to sort by the groups's source as the received order is not guaranteed.
 	sort.Sort(byGroupSource(got))
 	sort.Sort(byGroupSource(expected))
-
 	if !reflect.DeepEqual(got, expected) {
 		t.Errorf(msg(format(got), format(expected)))
 	}
-
 }
-
 func verifyPresence(t *testing.T, tSets map[poolKey]map[string]*targetgroup.Group, poolKey poolKey, label string, present bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	if _, ok := tSets[poolKey]; !ok {
 		t.Fatalf("'%s' should be present in Pool keys: %v", poolKey, tSets)
 		return
 	}
-
 	match := false
 	var mergedTargets string
 	for _, targetGroup := range tSets[poolKey] {
-
 		for _, l := range targetGroup.Targets {
 			mergedTargets = mergedTargets + " " + l.String()
 			if l.String() == label {
 				match = true
 			}
 		}
-
 	}
 	if match != present {
 		msg := ""
@@ -745,10 +105,10 @@ func verifyPresence(t *testing.T, tSets map[poolKey]map[string]*targetgroup.Grou
 		t.Fatalf("%q should %s be present in Targets labels: %q", label, msg, mergedTargets)
 	}
 }
-
 func TestTargetSetRecreatesTargetGroupsEveryRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &config.Config{}
-
 	sOne := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -764,17 +124,14 @@ scrape_configs:
 	discoveryManager := NewManager(ctx, log.NewNopLogger())
 	discoveryManager.updatert = 100 * time.Millisecond
 	go discoveryManager.Run()
-
 	c := make(map[string]sd_config.ServiceDiscoveryConfig)
 	for _, v := range cfg.ScrapeConfigs {
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
-
 	<-discoveryManager.SyncCh()
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"bar:9090\"}", true)
-
 	sTwo := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -789,18 +146,14 @@ scrape_configs:
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
-
 	<-discoveryManager.SyncCh()
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"bar:9090\"}", false)
 }
-
-// TestTargetSetRecreatesEmptyStaticConfigs ensures that reloading a config file after
-// removing all targets from the static_configs sends an update with empty targetGroups.
-// This is required to signal the receiver that this target set has no current targets.
 func TestTargetSetRecreatesEmptyStaticConfigs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &config.Config{}
-
 	sOne := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -815,16 +168,13 @@ scrape_configs:
 	discoveryManager := NewManager(ctx, log.NewNopLogger())
 	discoveryManager.updatert = 100 * time.Millisecond
 	go discoveryManager.Run()
-
 	c := make(map[string]sd_config.ServiceDiscoveryConfig)
 	for _, v := range cfg.ScrapeConfigs {
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
-
 	<-discoveryManager.SyncCh()
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
-
 	sTwo := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -838,9 +188,7 @@ scrape_configs:
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
-
 	<-discoveryManager.SyncCh()
-
 	pkey := poolKey{setName: "prometheus", provider: "string/0"}
 	targetGroups, ok := discoveryManager.targets[pkey]
 	if !ok {
@@ -850,13 +198,13 @@ scrape_configs:
 	if !ok {
 		t.Fatalf("missing '' key in target groups %v", targetGroups)
 	}
-
 	if len(group.Targets) != 0 {
 		t.Fatalf("Invalid number of targets: expected 0, got %d", len(group.Targets))
 	}
 }
-
 func TestIdenticalConfigurationsAreCoalesced(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tmpFile, err := ioutil.TempFile("", "sd")
 	if err != nil {
 		t.Fatalf("error creating temporary file: %v", err)
@@ -873,9 +221,7 @@ func TestIdenticalConfigurationsAreCoalesced(t *testing.T) {
 		t.Fatalf("error linking temporary file: %v", err)
 	}
 	defer os.Remove(tmpFile2)
-
 	cfg := &config.Config{}
-
 	sOne := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -894,13 +240,11 @@ scrape_configs:
 	discoveryManager := NewManager(ctx, nil)
 	discoveryManager.updatert = 100 * time.Millisecond
 	go discoveryManager.Run()
-
 	c := make(map[string]sd_config.ServiceDiscoveryConfig)
 	for _, v := range cfg.ScrapeConfigs {
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
-
 	<-discoveryManager.SyncCh()
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus2", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
@@ -908,8 +252,9 @@ scrape_configs:
 		t.Fatalf("Invalid number of providers: expected 1, got %d", len(discoveryManager.providers))
 	}
 }
-
 func TestApplyConfigDoesNotModifyStaticProviderTargets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfgText := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -923,7 +268,6 @@ scrape_configs:
 		t.Fatalf("Unable to load YAML config cfgYaml: %s", err)
 	}
 	origScrpCfg := originalConfig.ScrapeConfigs[0]
-
 	processedConfig := &config.Config{}
 	if err := yaml.UnmarshalStrict([]byte(cfgText), processedConfig); err != nil {
 		t.Fatalf("Unable to load YAML config cfgYaml: %s", err)
@@ -933,155 +277,42 @@ scrape_configs:
 	discoveryManager := NewManager(ctx, log.NewNopLogger())
 	discoveryManager.updatert = 100 * time.Millisecond
 	go discoveryManager.Run()
-
 	c := make(map[string]sd_config.ServiceDiscoveryConfig)
 	for _, v := range processedConfig.ScrapeConfigs {
 		c[v.JobName] = v.ServiceDiscoveryConfig
 	}
 	discoveryManager.ApplyConfig(c)
 	<-discoveryManager.SyncCh()
-
 	for _, sdcfg := range c {
 		if !reflect.DeepEqual(origScrpCfg.ServiceDiscoveryConfig.StaticConfigs, sdcfg.StaticConfigs) {
-			t.Fatalf("discovery manager modified static config \n  expected: %v\n  got: %v\n",
-				origScrpCfg.ServiceDiscoveryConfig.StaticConfigs, sdcfg.StaticConfigs)
+			t.Fatalf("discovery manager modified static config \n  expected: %v\n  got: %v\n", origScrpCfg.ServiceDiscoveryConfig.StaticConfigs, sdcfg.StaticConfigs)
 		}
 	}
 }
-
 func TestCoordinationWithReceiver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	updateDelay := 100 * time.Millisecond
-
 	type expect struct {
-		delay time.Duration
-		tgs   map[string][]*targetgroup.Group
+		delay	time.Duration
+		tgs	map[string][]*targetgroup.Group
 	}
-
 	testCases := []struct {
-		title     string
-		providers map[string]Discoverer
-		expected  []expect
-	}{
-		{
-			title: "Receiver should get all updates even when one provider closes its channel",
-			providers: map[string]Discoverer{
-				"once1": &onceProvider{
-					tgs: []*targetgroup.Group{
-						{
-							Source:  "tg1",
-							Targets: []model.LabelSet{{"__instance__": "1"}},
-						},
-					},
-				},
-				"mock1": newMockDiscoveryProvider(
-					update{
-						interval: 2 * updateDelay,
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tg2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-					},
-				),
-			},
-			expected: []expect{
-				{
-					tgs: map[string][]*targetgroup.Group{
-						"once1": {
-							{
-								Source:  "tg1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-						},
-					},
-				},
-				{
-					tgs: map[string][]*targetgroup.Group{
-						"once1": {
-							{
-								Source:  "tg1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-						},
-						"mock1": {
-							{
-								Source:  "tg2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			title: "Receiver should get all updates even when the channel is blocked",
-			providers: map[string]Discoverer{
-				"mock1": newMockDiscoveryProvider(
-					update{
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tg1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-						},
-					},
-					update{
-						interval: 4 * updateDelay,
-						targetGroups: []targetgroup.Group{
-							{
-								Source:  "tg2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-					},
-				),
-			},
-			expected: []expect{
-				{
-					delay: 2 * updateDelay,
-					tgs: map[string][]*targetgroup.Group{
-						"mock1": {
-							{
-								Source:  "tg1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-						},
-					},
-				},
-				{
-					delay: 4 * updateDelay,
-					tgs: map[string][]*targetgroup.Group{
-						"mock1": {
-							{
-								Source:  "tg1",
-								Targets: []model.LabelSet{{"__instance__": "1"}},
-							},
-							{
-								Source:  "tg2",
-								Targets: []model.LabelSet{{"__instance__": "2"}},
-							},
-						},
-					},
-				},
-			},
-		},
-	}
-
+		title		string
+		providers	map[string]Discoverer
+		expected	[]expect
+	}{{title: "Receiver should get all updates even when one provider closes its channel", providers: map[string]Discoverer{"once1": &onceProvider{tgs: []*targetgroup.Group{{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}}}, "mock1": newMockDiscoveryProvider(update{interval: 2 * updateDelay, targetGroups: []targetgroup.Group{{Source: "tg2", Targets: []model.LabelSet{{"__instance__": "2"}}}}})}, expected: []expect{{tgs: map[string][]*targetgroup.Group{"once1": {{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}}}}, {tgs: map[string][]*targetgroup.Group{"once1": {{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}}, "mock1": {{Source: "tg2", Targets: []model.LabelSet{{"__instance__": "2"}}}}}}}}, {title: "Receiver should get all updates even when the channel is blocked", providers: map[string]Discoverer{"mock1": newMockDiscoveryProvider(update{targetGroups: []targetgroup.Group{{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}}}, update{interval: 4 * updateDelay, targetGroups: []targetgroup.Group{{Source: "tg2", Targets: []model.LabelSet{{"__instance__": "2"}}}}})}, expected: []expect{{delay: 2 * updateDelay, tgs: map[string][]*targetgroup.Group{"mock1": {{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}}}}, {delay: 4 * updateDelay, tgs: map[string][]*targetgroup.Group{"mock1": {{Source: "tg1", Targets: []model.LabelSet{{"__instance__": "1"}}}, {Source: "tg2", Targets: []model.LabelSet{{"__instance__": "2"}}}}}}}}}
 	for _, tc := range testCases {
 		tc := tc
 		t.Run(tc.title, func(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
-
 			mgr := NewManager(ctx, nil)
 			mgr.updatert = updateDelay
 			go mgr.Run()
-
 			for name, p := range tc.providers {
 				mgr.StartCustomProvider(ctx, name, p)
 			}
-
 			for i, expected := range tc.expected {
 				time.Sleep(expected.delay)
 				select {
@@ -1092,8 +323,7 @@ func TestCoordinationWithReceiver(t *testing.T) {
 						t.Fatalf("step %d: discovery manager channel is closed", i)
 					}
 					if len(tgs) != len(expected.tgs) {
-						t.Fatalf("step %d: target groups mismatch, got: %d, expected: %d\ngot: %#v\nexpected: %#v",
-							i, len(tgs), len(expected.tgs), tgs, expected.tgs)
+						t.Fatalf("step %d: target groups mismatch, got: %d, expected: %d\ngot: %#v\nexpected: %#v", i, len(tgs), len(expected.tgs), tgs, expected.tgs)
 					}
 					for k := range expected.tgs {
 						if _, ok := tgs[k]; !ok {
@@ -1110,22 +340,20 @@ func TestCoordinationWithReceiver(t *testing.T) {
 }
 
 type update struct {
-	targetGroups []targetgroup.Group
-	interval     time.Duration
+	targetGroups	[]targetgroup.Group
+	interval	time.Duration
 }
-
-type mockdiscoveryProvider struct {
-	updates []update
-}
+type mockdiscoveryProvider struct{ updates []update }
 
 func newMockDiscoveryProvider(updates ...update) mockdiscoveryProvider {
-	tp := mockdiscoveryProvider{
-		updates: updates,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tp := mockdiscoveryProvider{updates: updates}
 	return tp
 }
-
 func (tp mockdiscoveryProvider) Run(ctx context.Context, upCh chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, u := range tp.updates {
 		if u.interval > 0 {
 			t := time.NewTicker(u.interval)
@@ -1149,19 +377,29 @@ func (tp mockdiscoveryProvider) Run(ctx context.Context, upCh chan<- []*targetgr
 	<-ctx.Done()
 }
 
-// byGroupSource implements sort.Interface so we can sort by the Source field.
 type byGroupSource []*targetgroup.Group
 
-func (a byGroupSource) Len() int           { return len(a) }
-func (a byGroupSource) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a byGroupSource) Less(i, j int) bool { return a[i].Source < a[j].Source }
-
-// onceProvider sends updates once (if any) and closes the update channel.
-type onceProvider struct {
-	tgs []*targetgroup.Group
+func (a byGroupSource) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(a)
+}
+func (a byGroupSource) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	a[i], a[j] = a[j], a[i]
+}
+func (a byGroupSource) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return a[i].Source < a[j].Source
 }
 
+type onceProvider struct{ tgs []*targetgroup.Group }
+
 func (o onceProvider) Run(_ context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.tgs) > 0 {
 		ch <- o.tgs
 	}
