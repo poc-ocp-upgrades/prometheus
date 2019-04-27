@@ -12,6 +12,8 @@ import (
 func TestQueryRange(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, getURL := mockServer(200, `{"status": "success", "data": {"resultType": "matrix", "result": []}}`)
 	defer s.Close()
 	p := &promqlPrinter{}
@@ -48,6 +50,8 @@ func TestQueryRange(t *testing.T) {
 	}
 }
 func mockServer(code int, body string) (*httptest.Server, func() *url.URL) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var u *url.URL

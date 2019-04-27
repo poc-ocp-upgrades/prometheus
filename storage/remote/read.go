@@ -13,9 +13,13 @@ var remoteReadQueries = prometheus.NewGaugeVec(prometheus.GaugeOpts{Namespace: n
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(remoteReadQueries)
 }
 func QueryableClient(c *Client) storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	remoteReadQueries.WithLabelValues(c.Name())
@@ -31,6 +35,8 @@ type querier struct {
 }
 
 func (q *querier) Select(p *storage.SelectParams, matchers ...*labels.Matcher) (storage.SeriesSet, storage.Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	query, err := ToQuery(q.mint, q.maxt, matchers, p)
@@ -49,9 +55,13 @@ func (q *querier) Select(p *storage.SelectParams, matchers ...*labels.Matcher) (
 func (q *querier) LabelValues(name string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (q *querier) LabelNames() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil, nil
@@ -59,9 +69,13 @@ func (q *querier) LabelNames() ([]string, error) {
 func (q *querier) Close() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func ExternalLabelsHandler(next storage.Queryable, externalLabels model.LabelSet) storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return storage.QueryableFunc(func(ctx context.Context, mint, maxt int64) (storage.Querier, error) {
@@ -81,6 +95,8 @@ type externalLabelsQuerier struct {
 func (q externalLabelsQuerier) Select(p *storage.SelectParams, matchers ...*labels.Matcher) (storage.SeriesSet, storage.Warnings, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, added := q.addExternalLabels(matchers)
 	s, warnings, err := q.Querier.Select(p, m...)
 	if err != nil {
@@ -89,6 +105,8 @@ func (q externalLabelsQuerier) Select(p *storage.SelectParams, matchers ...*labe
 	return newSeriesSetFilter(s, added), warnings, nil
 }
 func PreferLocalStorageFilter(next storage.Queryable, cb startTimeCallback) storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return storage.QueryableFunc(func(ctx context.Context, mint, maxt int64) (storage.Querier, error) {
@@ -109,6 +127,8 @@ func PreferLocalStorageFilter(next storage.Queryable, cb startTimeCallback) stor
 func RequiredMatchersFilter(next storage.Queryable, required []*labels.Matcher) storage.Queryable {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return storage.QueryableFunc(func(ctx context.Context, mint, maxt int64) (storage.Querier, error) {
 		q, err := next.Querier(ctx, mint, maxt)
 		if err != nil {
@@ -124,6 +144,8 @@ type requiredMatchersQuerier struct {
 }
 
 func (q requiredMatchersQuerier) Select(p *storage.SelectParams, matchers ...*labels.Matcher) (storage.SeriesSet, storage.Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ms := q.requiredMatchers
@@ -144,6 +166,8 @@ func (q requiredMatchersQuerier) Select(p *storage.SelectParams, matchers ...*la
 	return q.Querier.Select(p, matchers...)
 }
 func (q externalLabelsQuerier) addExternalLabels(ms []*labels.Matcher) ([]*labels.Matcher, model.LabelSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	el := make(model.LabelSet, len(q.externalLabels))
@@ -167,6 +191,8 @@ func (q externalLabelsQuerier) addExternalLabels(ms []*labels.Matcher) ([]*label
 func newSeriesSetFilter(ss storage.SeriesSet, toFilter model.LabelSet) storage.SeriesSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &seriesSetFilter{SeriesSet: ss, toFilter: toFilter}
 }
 
@@ -179,14 +205,20 @@ type seriesSetFilter struct {
 func (ssf *seriesSetFilter) GetQuerier() storage.Querier {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ssf.querier
 }
 func (ssf *seriesSetFilter) SetQuerier(querier storage.Querier) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ssf.querier = querier
 }
 func (ssf seriesSetFilter) At() storage.Series {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return seriesFilter{Series: ssf.SeriesSet.At(), toFilter: ssf.toFilter}
@@ -198,6 +230,8 @@ type seriesFilter struct {
 }
 
 func (sf seriesFilter) Labels() labels.Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	labels := sf.Series.Labels()

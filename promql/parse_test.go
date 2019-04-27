@@ -22,6 +22,8 @@ var testExpr = []struct {
 func TestParseExpressions(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range testExpr {
 		expr, err := ParseExpr(test.input)
 		if err == errUnexpected {
@@ -47,6 +49,8 @@ func TestParseExpressions(t *testing.T) {
 func TestNaNExpression(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expr, err := ParseExpr("NaN")
 	if err != nil {
 		t.Errorf("error on input 'NaN'")
@@ -65,6 +69,8 @@ func TestNaNExpression(t *testing.T) {
 func mustLabelMatcher(mt labels.MatchType, name, val string) *labels.Matcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, err := labels.NewMatcher(mt, name, val)
 	if err != nil {
 		panic(err)
@@ -72,6 +78,8 @@ func mustLabelMatcher(mt labels.MatchType, name, val string) *labels.Matcher {
 	return m
 }
 func mustGetFunction(name string) *Function {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f, ok := getFunction(name)
@@ -93,6 +101,8 @@ const none = math.SmallestNonzeroFloat64
 func newSeq(vals ...float64) (res []sequenceValue) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, v := range vals {
 		if v == none {
 			res = append(res, sequenceValue{omitted: true})
@@ -103,6 +113,8 @@ func newSeq(vals ...float64) (res []sequenceValue) {
 	return res
 }
 func TestParseSeries(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, test := range testSeries {
@@ -133,6 +145,8 @@ func TestParseSeries(t *testing.T) {
 func TestRecoverParserRuntime(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := newParser("foo bar")
 	var err error
 	defer func() {
@@ -148,6 +162,8 @@ func TestRecoverParserRuntime(t *testing.T) {
 	a[123] = 1
 }
 func TestRecoverParserError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := newParser("foo bar")

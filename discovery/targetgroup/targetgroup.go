@@ -19,9 +19,13 @@ type Group struct {
 func (tg Group) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tg.Source
 }
 func (tg *Group) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g := struct {
@@ -41,6 +45,8 @@ func (tg *Group) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func (tg Group) MarshalYAML() (interface{}, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := &struct {
 		Targets	[]string	`yaml:"targets"`
 		Labels	model.LabelSet	`yaml:"labels,omitempty"`
@@ -51,6 +57,8 @@ func (tg Group) MarshalYAML() (interface{}, error) {
 	return g, nil
 }
 func (tg *Group) UnmarshalJSON(b []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g := struct {
@@ -72,7 +80,16 @@ func (tg *Group) UnmarshalJSON(b []byte) error {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

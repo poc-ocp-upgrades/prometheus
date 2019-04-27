@@ -14,6 +14,8 @@ import (
 func mustNewLabelMatcher(mt labels.MatchType, name, val string) *labels.Matcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, err := labels.NewMatcher(mt, name, val)
 	if err != nil {
 		panic(err)
@@ -21,6 +23,8 @@ func mustNewLabelMatcher(mt labels.MatchType, name, val string) *labels.Matcher 
 	return m
 }
 func TestExternalLabelsQuerierSelect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	matchers := []*labels.Matcher{mustNewLabelMatcher(labels.MatchEqual, "job", "api-server")}
@@ -35,6 +39,8 @@ func TestExternalLabelsQuerierSelect(t *testing.T) {
 	}
 }
 func TestExternalLabelsQuerierAddExternalLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -61,6 +67,8 @@ func TestExternalLabelsQuerierAddExternalLabels(t *testing.T) {
 	}
 }
 func TestSeriesSetFilter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -90,9 +98,13 @@ type mockSeriesSet struct{ storage.SeriesSet }
 func (mockQuerier) Select(*storage.SelectParams, ...*labels.Matcher) (storage.SeriesSet, storage.Warnings, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return mockSeriesSet{}, nil, nil
 }
 func TestPreferLocalStorageFilter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := context.Background()
@@ -120,6 +132,8 @@ func TestPreferLocalStorageFilter(t *testing.T) {
 func TestRequiredMatchersFilter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	f := RequiredMatchersFilter(storage.QueryableFunc(func(ctx context.Context, mint, maxt int64) (storage.Querier, error) {
 		return mockQuerier{ctx: ctx, mint: mint, maxt: maxt}, nil
@@ -134,6 +148,8 @@ func TestRequiredMatchersFilter(t *testing.T) {
 	}
 }
 func TestRequiredLabelsQuerierSelect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

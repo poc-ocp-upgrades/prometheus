@@ -20,6 +20,8 @@ var longErrMessage = strings.Repeat("error message", maxErrMsgLen)
 func TestStoreHTTPErrorHandling(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		code	int
 		err	error

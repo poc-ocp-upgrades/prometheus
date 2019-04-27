@@ -17,10 +17,14 @@ type Timer struct {
 func (t *Timer) Start() *Timer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.start = time.Now()
 	return t
 }
 func (t *Timer) Stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.duration += time.Since(t.start)
@@ -28,14 +32,20 @@ func (t *Timer) Stop() {
 func (t *Timer) ElapsedTime() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return time.Since(t.start)
 }
 func (t *Timer) Duration() float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.duration.Seconds()
 }
 func (t *Timer) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fmt.Sprintf("%s: %s", t.name, t.duration)
@@ -46,9 +56,13 @@ type TimerGroup struct{ timers map[fmt.Stringer]*Timer }
 func NewTimerGroup() *TimerGroup {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TimerGroup{timers: map[fmt.Stringer]*Timer{}}
 }
 func (t *TimerGroup) GetTimer(name fmt.Stringer) *Timer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if timer, exists := t.timers[name]; exists {
@@ -65,9 +79,13 @@ type byCreationTimeSorter struct{ Timers }
 func (t Timers) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(t)
 }
 func (t Timers) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t[i], t[j] = t[j], t[i]
@@ -75,9 +93,13 @@ func (t Timers) Swap(i, j int) {
 func (s byCreationTimeSorter) Less(i, j int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.Timers[i].created.Before(s.Timers[j].created)
 }
 func (t *TimerGroup) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	timers := byCreationTimeSorter{}

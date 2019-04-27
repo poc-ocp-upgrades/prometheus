@@ -23,6 +23,8 @@ var misquoted = []string{``, `"`, `"a`, `"'`, `b"`, `"\"`, `"\9"`, `"\19"`, `"\1
 func TestUnquote(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tt := range unquotetests {
 		if out, err := Unquote(tt.in); err != nil && out != tt.out {
 			t.Errorf("Unquote(%#q) = %q, %v want %q, nil", tt.in, out, err, tt.out)

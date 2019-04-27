@@ -21,6 +21,8 @@ var (
 func testUpdateServices(client AppListClient, ch chan []*targetgroup.Group) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	md, err := NewDiscovery(conf, nil)
 	if err != nil {
 		return err
@@ -29,6 +31,8 @@ func testUpdateServices(client AppListClient, ch chan []*targetgroup.Group) erro
 	return md.updateServices(context.Background(), ch)
 }
 func TestMarathonSDHandleError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -48,6 +52,8 @@ func TestMarathonSDHandleError(t *testing.T) {
 	}
 }
 func TestMarathonSDEmptyList(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -70,6 +76,8 @@ func TestMarathonSDEmptyList(t *testing.T) {
 func marathonTestAppList(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1"}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -80,6 +88,8 @@ func marathonTestAppList(labels map[string]string, runningTasks int) *AppList {
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -114,6 +124,8 @@ func TestMarathonSDSendGroup(t *testing.T) {
 func TestMarathonSDRemoveApp(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var ch = make(chan []*targetgroup.Group, 1)
 	md, err := NewDiscovery(conf, nil)
 	if err != nil {
@@ -141,6 +153,8 @@ func TestMarathonSDRemoveApp(t *testing.T) {
 	}
 }
 func TestMarathonSDRunAndStop(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -177,6 +191,8 @@ func TestMarathonSDRunAndStop(t *testing.T) {
 func marathonTestAppListWithMultiplePorts(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1"}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -187,6 +203,8 @@ func marathonTestAppListWithMultiplePorts(labels map[string]string, runningTasks
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithMultiplePort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -228,6 +246,8 @@ func TestMarathonSDSendGroupWithMultiplePort(t *testing.T) {
 func marathonTestZeroTaskPortAppList(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-2", Host: "mesos-slave-2", Ports: []uint32{}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -237,6 +257,8 @@ func marathonTestZeroTaskPortAppList(labels map[string]string, runningTasks int)
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonZeroTaskPorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -264,6 +286,8 @@ func TestMarathonZeroTaskPorts(t *testing.T) {
 func Test500ErrorHttpResponseWithValidJSONBody(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		ch	= make(chan []*targetgroup.Group, 1)
 		client	= fetchApps
@@ -287,6 +311,8 @@ func Test500ErrorHttpResponseWithValidJSONBody(t *testing.T) {
 func marathonTestAppListWithPortDefinitions(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", Ports: []uint32{1234, 5678}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -296,6 +322,8 @@ func marathonTestAppListWithPortDefinitions(labels map[string]string, runningTas
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithPortDefinitions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -343,6 +371,8 @@ func TestMarathonSDSendGroupWithPortDefinitions(t *testing.T) {
 func marathonTestAppListWithPortDefinitionsRequirePorts(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", Ports: []uint32{31000, 32000}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -352,6 +382,8 @@ func marathonTestAppListWithPortDefinitionsRequirePorts(labels map[string]string
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithPortDefinitionsRequirePorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -399,6 +431,8 @@ func TestMarathonSDSendGroupWithPortDefinitionsRequirePorts(t *testing.T) {
 func marathonTestAppListWithPorts(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", Ports: []uint32{31000, 32000}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -408,6 +442,8 @@ func marathonTestAppListWithPorts(labels map[string]string, runningTasks int) *A
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithPorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -455,6 +491,8 @@ func TestMarathonSDSendGroupWithPorts(t *testing.T) {
 func marathonTestAppListWithContainerPortMappings(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", Ports: []uint32{12345, 32000}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -464,6 +502,8 @@ func marathonTestAppListWithContainerPortMappings(labels map[string]string, runn
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithContainerPortMappings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -511,6 +551,8 @@ func TestMarathonSDSendGroupWithContainerPortMappings(t *testing.T) {
 func marathonTestAppListWithDockerContainerPortMappings(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", Ports: []uint32{31000, 12345}}
 		docker		= DockerContainer{Image: "repo/image:tag", PortMappings: []PortMapping{{Labels: labels, HostPort: 31000}, {Labels: make(map[string]string), HostPort: 0}}}
@@ -520,6 +562,8 @@ func marathonTestAppListWithDockerContainerPortMappings(labels map[string]string
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithDockerContainerPortMappings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -567,6 +611,8 @@ func TestMarathonSDSendGroupWithDockerContainerPortMappings(t *testing.T) {
 func marathonTestAppListWithContainerNetworkAndPortMappings(labels map[string]string, runningTasks int) *AppList {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		task		= Task{ID: "test-task-1", Host: "mesos-slave1", IPAddresses: []IPAddress{{Address: "1.2.3.4"}}}
 		docker		= DockerContainer{Image: "repo/image:tag"}
@@ -578,6 +624,8 @@ func marathonTestAppListWithContainerNetworkAndPortMappings(labels map[string]st
 	return &AppList{Apps: []App{app}}
 }
 func TestMarathonSDSendGroupWithContainerNetworkAndPortMapping(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

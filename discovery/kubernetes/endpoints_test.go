@@ -13,9 +13,13 @@ import (
 func makeEndpoints() *v1.Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1.Endpoints{ObjectMeta: metav1.ObjectMeta{Name: "testendpoints", Namespace: "default"}, Subsets: []v1.EndpointSubset{{Addresses: []v1.EndpointAddress{{IP: "1.2.3.4"}}, Ports: []v1.EndpointPort{{Name: "testport", Port: 9000, Protocol: v1.ProtocolTCP}}}, {Addresses: []v1.EndpointAddress{{IP: "2.3.4.5"}}, NotReadyAddresses: []v1.EndpointAddress{{IP: "2.3.4.5"}}, Ports: []v1.EndpointPort{{Name: "testport", Port: 9001, Protocol: v1.ProtocolTCP}}}}}
 }
 func TestEndpointsDiscoveryBeforeRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{})
@@ -26,6 +30,8 @@ func TestEndpointsDiscoveryBeforeRun(t *testing.T) {
 	}, expectedMaxItems: 1, expectedRes: map[string]*targetgroup.Group{"endpoints/default/testendpoints": {Targets: []model.LabelSet{{"__address__": "1.2.3.4:9000", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "false"}}, Labels: model.LabelSet{"__meta_kubernetes_namespace": "default", "__meta_kubernetes_endpoints_name": "testendpoints"}, Source: "endpoints/default/testendpoints"}}}.Run(t)
 }
 func TestEndpointsDiscoveryAdd(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	obj := &v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "testpod", Namespace: "default", UID: types.UID("deadbeef")}, Spec: v1.PodSpec{NodeName: "testnode", Containers: []v1.Container{{Name: "c1", Ports: []v1.ContainerPort{{Name: "mainport", ContainerPort: 9000, Protocol: v1.ProtocolTCP}}}, {Name: "c2", Ports: []v1.ContainerPort{{Name: "sideport", ContainerPort: 9001, Protocol: v1.ProtocolTCP}}}}}, Status: v1.PodStatus{HostIP: "2.3.4.5", PodIP: "1.2.3.4"}}
@@ -39,6 +45,8 @@ func TestEndpointsDiscoveryAdd(t *testing.T) {
 func TestEndpointsDiscoveryDelete(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{}, makeEndpoints())
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := makeEndpoints()
@@ -47,6 +55,8 @@ func TestEndpointsDiscoveryDelete(t *testing.T) {
 	}, expectedMaxItems: 2, expectedRes: map[string]*targetgroup.Group{"endpoints/default/testendpoints": {Source: "endpoints/default/testendpoints"}}}.Run(t)
 }
 func TestEndpointsDiscoveryUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{}, makeEndpoints())
@@ -59,6 +69,8 @@ func TestEndpointsDiscoveryUpdate(t *testing.T) {
 func TestEndpointsDiscoveryEmptySubsets(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{}, makeEndpoints())
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := &v1.Endpoints{ObjectMeta: metav1.ObjectMeta{Name: "testendpoints", Namespace: "default"}, Subsets: []v1.EndpointSubset{}}
@@ -69,6 +81,8 @@ func TestEndpointsDiscoveryEmptySubsets(t *testing.T) {
 func TestEndpointsDiscoveryWithService(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{}, makeEndpoints())
 	k8sDiscoveryTest{discovery: n, beforeRun: func() {
 		obj := &v1.Service{ObjectMeta: metav1.ObjectMeta{Name: "testendpoints", Namespace: "default", Labels: map[string]string{"app": "test"}}}
@@ -77,6 +91,8 @@ func TestEndpointsDiscoveryWithService(t *testing.T) {
 	}, expectedMaxItems: 1, expectedRes: map[string]*targetgroup.Group{"endpoints/default/testendpoints": {Targets: []model.LabelSet{{"__address__": "1.2.3.4:9000", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "false"}}, Labels: model.LabelSet{"__meta_kubernetes_namespace": "default", "__meta_kubernetes_endpoints_name": "testendpoints", "__meta_kubernetes_service_label_app": "test", "__meta_kubernetes_service_name": "testendpoints"}, Source: "endpoints/default/testendpoints"}}}.Run(t)
 }
 func TestEndpointsDiscoveryWithServiceUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleEndpoint, NamespaceDiscovery{}, makeEndpoints())
@@ -91,6 +107,8 @@ func TestEndpointsDiscoveryWithServiceUpdate(t *testing.T) {
 	}, expectedMaxItems: 2, expectedRes: map[string]*targetgroup.Group{"endpoints/default/testendpoints": {Targets: []model.LabelSet{{"__address__": "1.2.3.4:9000", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "true"}, {"__address__": "2.3.4.5:9001", "__meta_kubernetes_endpoint_port_name": "testport", "__meta_kubernetes_endpoint_port_protocol": "TCP", "__meta_kubernetes_endpoint_ready": "false"}}, Labels: model.LabelSet{"__meta_kubernetes_namespace": "default", "__meta_kubernetes_endpoints_name": "testendpoints", "__meta_kubernetes_service_label_app": "svc", "__meta_kubernetes_service_name": "testendpoints", "__meta_kubernetes_service_label_component": "testing"}, Source: "endpoints/default/testendpoints"}}}.Run(t)
 }
 func TestEndpointsDiscoveryNamespaces(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	epOne := makeEndpoints()

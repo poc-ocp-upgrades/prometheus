@@ -55,6 +55,8 @@ var localhostRepresentations = []string{"127.0.0.1", "localhost"}
 func withStackTracer(h http.Handler, l log.Logger) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
@@ -75,6 +77,8 @@ var (
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prometheus.MustRegister(requestDuration, responseSize)
@@ -105,6 +109,8 @@ type Handler struct {
 }
 
 func (h *Handler) ApplyConfig(conf *config.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h.mtx.Lock()
@@ -151,6 +157,8 @@ type Options struct {
 func instrumentHandlerWithPrefix(prefix string) func(handlerName string, handler http.HandlerFunc) http.HandlerFunc {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(handlerName string, handler http.HandlerFunc) http.HandlerFunc {
 		return instrumentHandler(prefix+handlerName, handler)
 	}
@@ -158,9 +166,13 @@ func instrumentHandlerWithPrefix(prefix string) func(handlerName string, handler
 func instrumentHandler(handlerName string, handler http.HandlerFunc) http.HandlerFunc {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return promhttp.InstrumentHandlerDuration(requestDuration.MustCurryWith(prometheus.Labels{"handler": handlerName}), promhttp.InstrumentHandlerResponseSize(responseSize.MustCurryWith(prometheus.Labels{"handler": handlerName}), handler))
 }
 func New(logger log.Logger, o *Options) *Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	router := route.New().WithInstrumentation(instrumentHandler)
@@ -248,6 +260,8 @@ func New(logger log.Logger, o *Options) *Handler {
 func serveDebug(w http.ResponseWriter, req *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := req.Context()
 	subpath := route.Param(ctx, "subpath")
 	if subpath == "/pprof" {
@@ -276,15 +290,21 @@ func serveDebug(w http.ResponseWriter, req *http.Request) {
 func (h *Handler) Ready() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	atomic.StoreUint32(&h.ready, 1)
 }
 func (h *Handler) isReady() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ready := atomic.LoadUint32(&h.ready)
 	return ready > 0
 }
 func (h *Handler) testReady(f http.HandlerFunc) http.HandlerFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -299,9 +319,13 @@ func (h *Handler) testReady(f http.HandlerFunc) http.HandlerFunc {
 func (h *Handler) testReadyHandler(f http.Handler) http.HandlerFunc {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.testReady(f.ServeHTTP)
 }
 func (h *Handler) Quit() <-chan struct{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return h.quitCh
@@ -309,9 +333,13 @@ func (h *Handler) Quit() <-chan struct{} {
 func (h *Handler) Reload() <-chan chan error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.reloadCh
 }
 func (h *Handler) Run(ctx context.Context) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	level.Info(h.logger).Log("msg", "Start listening for connections", "address", h.options.ListenAddress)
@@ -375,6 +403,8 @@ func (h *Handler) Run(ctx context.Context) error {
 func (h *Handler) alerts(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	alerts := h.ruleManager.AlertingRules()
 	alertsSorter := byAlertStateAndNameSorter{alerts: alerts}
 	sort.Sort(alertsSorter)
@@ -382,6 +412,8 @@ func (h *Handler) alerts(w http.ResponseWriter, r *http.Request) {
 	h.executeTemplate(w, "alerts.html", alertStatus)
 }
 func (h *Handler) consoles(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := r.Context()
@@ -427,9 +459,13 @@ func (h *Handler) consoles(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) graph(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.executeTemplate(w, "graph.html", nil)
 }
 func (h *Handler) status(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	status := struct {
@@ -470,6 +506,8 @@ func (h *Handler) status(w http.ResponseWriter, r *http.Request) {
 func toFloat64(f *io_prometheus_client.MetricFamily) float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := *f.Metric[0]
 	if m.Gauge != nil {
 		return m.Gauge.GetValue()
@@ -485,9 +523,13 @@ func toFloat64(f *io_prometheus_client.MetricFamily) float64 {
 func (h *Handler) flags(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.executeTemplate(w, "flags.html", h.flagsMap)
 }
 func (h *Handler) serveConfig(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h.mtx.RLock()
@@ -497,9 +539,13 @@ func (h *Handler) serveConfig(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) rules(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.executeTemplate(w, "rules.html", h.ruleManager)
 }
 func (h *Handler) serviceDiscovery(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var index []string
@@ -535,6 +581,8 @@ func (h *Handler) serviceDiscovery(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) targets(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tps := h.scrapeManager.TargetsActive()
 	for _, targets := range tps {
 		sort.Slice(targets, func(i, j int) bool {
@@ -551,6 +599,8 @@ func (h *Handler) targets(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) version(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dec := json.NewEncoder(w)
 	if err := dec.Encode(h.versionInfo); err != nil {
 		http.Error(w, fmt.Sprintf("error encoding JSON: %s", err), http.StatusInternalServerError)
@@ -559,10 +609,14 @@ func (h *Handler) version(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) quit(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(w, "Requesting termination... Goodbye!")
 	close(h.quitCh)
 }
 func (h *Handler) reload(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rc := make(chan error)
@@ -572,6 +626,8 @@ func (h *Handler) reload(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func (h *Handler) consolesPath() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, err := os.Stat(h.options.ConsoleTemplatesPath + "/index.html"); !os.IsNotExist(err) {
@@ -585,6 +641,8 @@ func (h *Handler) consolesPath() string {
 	return ""
 }
 func tmplFuncs(consolesPath string, opts *Options) template_text.FuncMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return template_text.FuncMap{"since": func(t time.Time) time.Duration {
@@ -669,6 +727,8 @@ func tmplFuncs(consolesPath string, opts *Options) template_text.FuncMap {
 func (h *Handler) getTemplate(name string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tmpl string
 	appendf := func(name string) error {
 		f, err := ui.Assets.Open(path.Join("/templates", name))
@@ -696,6 +756,8 @@ func (h *Handler) getTemplate(name string) (string, error) {
 func (h *Handler) executeTemplate(w http.ResponseWriter, name string, data interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	text, err := h.getTemplate(name)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -719,14 +781,20 @@ type byAlertStateAndNameSorter struct{ alerts []*rules.AlertingRule }
 func (s byAlertStateAndNameSorter) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s.alerts)
 }
 func (s byAlertStateAndNameSorter) Less(i, j int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.alerts[i].State() > s.alerts[j].State() || (s.alerts[i].State() == s.alerts[j].State() && s.alerts[i].Name() < s.alerts[j].Name())
 }
 func (s byAlertStateAndNameSorter) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.alerts[i], s.alerts[j] = s.alerts[j], s.alerts[i]

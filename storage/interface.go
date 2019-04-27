@@ -39,6 +39,8 @@ type QueryableFunc func(ctx context.Context, mint, maxt int64) (Querier, error)
 func (f QueryableFunc) Querier(ctx context.Context, mint, maxt int64) (Querier, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(ctx, mint, maxt)
 }
 

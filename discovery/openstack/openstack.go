@@ -51,6 +51,8 @@ const (
 func (c *Role) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := unmarshal((*string)(c)); err != nil {
 		return err
 	}
@@ -62,6 +64,8 @@ func (c *Role) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 }
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultSDConfig
@@ -81,6 +85,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(refreshFailuresCount)
 	prometheus.MustRegister(refreshDuration)
 }
@@ -91,6 +97,8 @@ type Discovery interface {
 }
 
 func NewDiscovery(conf *SDConfig, l log.Logger) (Discovery, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var opts gophercloud.AuthOptions

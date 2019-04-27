@@ -11,6 +11,8 @@ import (
 func TestMergeStringSlices(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		input		[][]string
 		expected	[]string
@@ -21,11 +23,15 @@ func TestMergeStringSlices(t *testing.T) {
 func TestMergeTwoStringSlices(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct{ a, b, expected []string }{{[]string{}, []string{}, []string{}}, {[]string{"foo"}, nil, []string{"foo"}}, {nil, []string{"bar"}, []string{"bar"}}, {[]string{"foo"}, []string{"bar"}, []string{"bar", "foo"}}, {[]string{"foo"}, []string{"bar", "baz"}, []string{"bar", "baz", "foo"}}, {[]string{"foo"}, []string{"foo"}, []string{"foo"}}} {
 		require.Equal(t, tc.expected, mergeTwoStringSlices(tc.a, tc.b))
 	}
 }
 func TestMergeSeriesSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {
@@ -46,6 +52,8 @@ func TestMergeSeriesSet(t *testing.T) {
 func TestMergeIterator(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		input		[]SeriesIterator
 		expected	[]sample
@@ -56,6 +64,8 @@ func TestMergeIterator(t *testing.T) {
 	}
 }
 func TestMergeIteratorSeek(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {
@@ -74,6 +84,8 @@ func TestMergeIteratorSeek(t *testing.T) {
 	}
 }
 func drainSamples(iter SeriesIterator) []sample {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	result := []sample{}
@@ -95,9 +107,13 @@ type mockSeriesSet struct {
 func newMockSeriesSet(series ...Series) SeriesSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &mockSeriesSet{idx: -1, series: series}
 }
 func (m *mockSeriesSet) Next() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.idx++
@@ -106,9 +122,13 @@ func (m *mockSeriesSet) Next() bool {
 func (m *mockSeriesSet) At() Series {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.series[m.idx]
 }
 func (m *mockSeriesSet) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -117,6 +137,8 @@ func (m *mockSeriesSet) Err() error {
 var result []sample
 
 func makeSeriesSet(numSeries, numSamples int) SeriesSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	series := []Series{}
@@ -133,6 +155,8 @@ func makeSeriesSet(numSeries, numSamples int) SeriesSet {
 func makeMergeSeriesSet(numSeriesSets, numSeries, numSamples int) SeriesSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	seriesSets := []SeriesSet{}
 	for i := 0; i < numSeriesSets; i++ {
 		seriesSets = append(seriesSets, makeSeriesSet(numSeries, numSamples))
@@ -140,6 +164,8 @@ func makeMergeSeriesSet(numSeriesSets, numSeries, numSamples int) SeriesSet {
 	return NewMergeSeriesSet(seriesSets, nil)
 }
 func benchmarkDrain(seriesSet SeriesSet, b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for n := 0; n < b.N; n++ {
@@ -151,10 +177,14 @@ func benchmarkDrain(seriesSet SeriesSet, b *testing.B) {
 func BenchmarkNoMergeSeriesSet_100_100(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	seriesSet := makeSeriesSet(100, 100)
 	benchmarkDrain(seriesSet, b)
 }
 func BenchmarkMergeSeriesSet(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, bm := range []struct{ numSeriesSets, numSeries, numSamples int }{{1, 100, 100}, {10, 100, 100}, {100, 100, 100}} {

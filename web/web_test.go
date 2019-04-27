@@ -19,10 +19,14 @@ import (
 func TestMain(m *testing.M) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv("no_proxy", "localhost,127.0.0.1,0.0.0.0,:")
 	os.Exit(m.Run())
 }
 func TestGlobalURL(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := &Options{ListenAddress: ":9090", ExternalURL: &url.URL{Scheme: "https", Host: "externalhost:80", Path: "/path/prefix"}}
@@ -39,6 +43,8 @@ func TestGlobalURL(t *testing.T) {
 	}
 }
 func TestReadyAndHealthy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Parallel()
@@ -100,6 +106,8 @@ func TestReadyAndHealthy(t *testing.T) {
 func TestRoutePrefix(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Parallel()
 	dbDir, err := ioutil.TempDir("", "tsdb-ready")
 	testutil.Ok(t, err)
@@ -151,6 +159,8 @@ func TestRoutePrefix(t *testing.T) {
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 }
 func TestDebugHandler(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {

@@ -16,9 +16,13 @@ type SDMock struct {
 func NewSDMock(t *testing.T) *SDMock {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SDMock{t: t}
 }
 func (m *SDMock) Endpoint() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return m.Server.URL + "/"
@@ -26,10 +30,14 @@ func (m *SDMock) Endpoint() string {
 func (m *SDMock) Setup() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux = http.NewServeMux()
 	m.Server = httptest.NewServer(m.Mux)
 }
 func (m *SDMock) ShutdownServer() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.Server.Close()
@@ -40,6 +48,8 @@ const tokenID = "cbc36478b0bd8e67e89469c7749d4127"
 func testMethod(t *testing.T, r *http.Request, expected string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected != r.Method {
 		t.Errorf("Request method = %v, expected %v", r.Method, expected)
 	}
@@ -47,11 +57,15 @@ func testMethod(t *testing.T, r *http.Request, expected string) {
 func testHeader(t *testing.T, r *http.Request, header string, expected string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if actual := r.Header.Get(header); expected != actual {
 		t.Errorf("Header %s = %s, expected %s", header, actual, expected)
 	}
 }
 func (m *SDMock) HandleVersionsSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -80,6 +94,8 @@ func (m *SDMock) HandleVersionsSuccessfully() {
 	})
 }
 func (m *SDMock) HandleAuthSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/v3/auth/tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -228,6 +244,8 @@ const hypervisorListBody = `
 }`
 
 func (m *SDMock) HandleHypervisorListSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/os-hypervisors/detail", func(w http.ResponseWriter, r *http.Request) {
@@ -527,6 +545,8 @@ const serverListBody = `
 func (m *SDMock) HandleServerListSuccessfully() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/servers/detail", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(m.t, r, "GET")
 		testHeader(m.t, r, "X-Auth-Token", tokenID)
@@ -564,6 +584,8 @@ const listOutput = `
 `
 
 func (m *SDMock) HandleFloatingIPListSuccessfully() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.Mux.HandleFunc("/os-floating-ips", func(w http.ResponseWriter, r *http.Request) {

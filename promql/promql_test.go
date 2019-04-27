@@ -8,6 +8,8 @@ import (
 func TestEvaluations(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	files, err := filepath.Glob("testdata/*.test")
 	if err != nil {
 		t.Fatal(err)

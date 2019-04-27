@@ -21,6 +21,8 @@ import (
 func TestTargetUpdatesOrder(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		title		string
 		updates		map[string][]update
@@ -62,6 +64,8 @@ func TestTargetUpdatesOrder(t *testing.T) {
 func assertEqualGroups(t *testing.T, got, expected []*targetgroup.Group, msg func(got, expected string) string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	format := func(groups []*targetgroup.Group) string {
 		var s string
@@ -80,6 +84,8 @@ func assertEqualGroups(t *testing.T, got, expected []*targetgroup.Group, msg fun
 	}
 }
 func verifyPresence(t *testing.T, tSets map[poolKey]map[string]*targetgroup.Group, poolKey poolKey, label string, present bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Helper()
@@ -106,6 +112,8 @@ func verifyPresence(t *testing.T, tSets map[poolKey]map[string]*targetgroup.Grou
 	}
 }
 func TestTargetSetRecreatesTargetGroupsEveryRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := &config.Config{}
@@ -151,6 +159,8 @@ scrape_configs:
 	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"bar:9090\"}", false)
 }
 func TestTargetSetRecreatesEmptyStaticConfigs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := &config.Config{}
@@ -205,6 +215,8 @@ scrape_configs:
 func TestIdenticalConfigurationsAreCoalesced(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tmpFile, err := ioutil.TempFile("", "sd")
 	if err != nil {
 		t.Fatalf("error creating temporary file: %v", err)
@@ -255,6 +267,8 @@ scrape_configs:
 func TestApplyConfigDoesNotModifyStaticProviderTargets(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfgText := `
 scrape_configs:
  - job_name: 'prometheus'
@@ -290,6 +304,8 @@ scrape_configs:
 	}
 }
 func TestCoordinationWithReceiver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	updateDelay := 100 * time.Millisecond
@@ -348,10 +364,14 @@ type mockdiscoveryProvider struct{ updates []update }
 func newMockDiscoveryProvider(updates ...update) mockdiscoveryProvider {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tp := mockdiscoveryProvider{updates: updates}
 	return tp
 }
 func (tp mockdiscoveryProvider) Run(ctx context.Context, upCh chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, u := range tp.updates {
@@ -382,14 +402,20 @@ type byGroupSource []*targetgroup.Group
 func (a byGroupSource) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(a)
 }
 func (a byGroupSource) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a[i], a[j] = a[j], a[i]
 }
 func (a byGroupSource) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return a[i].Source < a[j].Source
@@ -398,6 +424,8 @@ func (a byGroupSource) Less(i, j int) bool {
 type onceProvider struct{ tgs []*targetgroup.Group }
 
 func (o onceProvider) Run(_ context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(o.tgs) > 0 {

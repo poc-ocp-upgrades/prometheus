@@ -10,6 +10,8 @@ import (
 func TestParseFileSuccess(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, errs := ParseFile("testdata/test.yaml"); len(errs) > 0 {
 		t.Errorf("unexpected errors parsing file")
 		for _, err := range errs {
@@ -18,6 +20,8 @@ func TestParseFileSuccess(t *testing.T) {
 	}
 }
 func TestParseFileFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	table := []struct {
@@ -36,6 +40,8 @@ func TestParseFileFailure(t *testing.T) {
 	}
 }
 func TestTemplateParsing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

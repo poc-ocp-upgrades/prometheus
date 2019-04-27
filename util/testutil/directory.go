@@ -32,8 +32,12 @@ type (
 func (c nilCloser) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (c callbackCloser) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.fn()
@@ -41,9 +45,13 @@ func (c callbackCloser) Close() {
 func NewCallbackCloser(fn func()) Closer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &callbackCloser{fn: fn}
 }
 func (t temporaryDirectory) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	retries := temporaryDirectoryRemoveRetries
@@ -64,9 +72,13 @@ func (t temporaryDirectory) Close() {
 func (t temporaryDirectory) Path() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.path
 }
 func NewTemporaryDirectory(name string, t T) (handler TemporaryDirectory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

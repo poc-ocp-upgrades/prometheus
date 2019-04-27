@@ -29,9 +29,13 @@ type TSDBSnapshotRequest struct {
 func (m *TSDBSnapshotRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = TSDBSnapshotRequest{}
 }
 func (m *TSDBSnapshotRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -39,8 +43,12 @@ func (m *TSDBSnapshotRequest) String() string {
 func (*TSDBSnapshotRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*TSDBSnapshotRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{0}
@@ -48,9 +56,13 @@ func (*TSDBSnapshotRequest) Descriptor() ([]byte, []int) {
 func (m *TSDBSnapshotRequest) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *TSDBSnapshotRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -67,14 +79,20 @@ func (m *TSDBSnapshotRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 func (dst *TSDBSnapshotRequest) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBSnapshotRequest.Merge(dst, src)
 }
 func (m *TSDBSnapshotRequest) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *TSDBSnapshotRequest) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBSnapshotRequest.DiscardUnknown(m)
@@ -92,9 +110,13 @@ type TSDBSnapshotResponse struct {
 func (m *TSDBSnapshotResponse) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = TSDBSnapshotResponse{}
 }
 func (m *TSDBSnapshotResponse) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -102,8 +124,12 @@ func (m *TSDBSnapshotResponse) String() string {
 func (*TSDBSnapshotResponse) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*TSDBSnapshotResponse) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{1}
@@ -111,9 +137,13 @@ func (*TSDBSnapshotResponse) Descriptor() ([]byte, []int) {
 func (m *TSDBSnapshotResponse) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *TSDBSnapshotResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -130,14 +160,20 @@ func (m *TSDBSnapshotResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 func (dst *TSDBSnapshotResponse) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBSnapshotResponse.Merge(dst, src)
 }
 func (m *TSDBSnapshotResponse) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *TSDBSnapshotResponse) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBSnapshotResponse.DiscardUnknown(m)
@@ -154,9 +190,13 @@ type TSDBCleanTombstonesRequest struct {
 func (m *TSDBCleanTombstonesRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = TSDBCleanTombstonesRequest{}
 }
 func (m *TSDBCleanTombstonesRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -164,8 +204,12 @@ func (m *TSDBCleanTombstonesRequest) String() string {
 func (*TSDBCleanTombstonesRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*TSDBCleanTombstonesRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{2}
@@ -173,9 +217,13 @@ func (*TSDBCleanTombstonesRequest) Descriptor() ([]byte, []int) {
 func (m *TSDBCleanTombstonesRequest) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *TSDBCleanTombstonesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -192,14 +240,20 @@ func (m *TSDBCleanTombstonesRequest) XXX_Marshal(b []byte, deterministic bool) (
 func (dst *TSDBCleanTombstonesRequest) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBCleanTombstonesRequest.Merge(dst, src)
 }
 func (m *TSDBCleanTombstonesRequest) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *TSDBCleanTombstonesRequest) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBCleanTombstonesRequest.DiscardUnknown(m)
@@ -216,9 +270,13 @@ type TSDBCleanTombstonesResponse struct {
 func (m *TSDBCleanTombstonesResponse) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = TSDBCleanTombstonesResponse{}
 }
 func (m *TSDBCleanTombstonesResponse) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -226,8 +284,12 @@ func (m *TSDBCleanTombstonesResponse) String() string {
 func (*TSDBCleanTombstonesResponse) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*TSDBCleanTombstonesResponse) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{3}
@@ -235,9 +297,13 @@ func (*TSDBCleanTombstonesResponse) Descriptor() ([]byte, []int) {
 func (m *TSDBCleanTombstonesResponse) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *TSDBCleanTombstonesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -254,14 +320,20 @@ func (m *TSDBCleanTombstonesResponse) XXX_Marshal(b []byte, deterministic bool) 
 func (dst *TSDBCleanTombstonesResponse) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBCleanTombstonesResponse.Merge(dst, src)
 }
 func (m *TSDBCleanTombstonesResponse) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *TSDBCleanTombstonesResponse) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_TSDBCleanTombstonesResponse.DiscardUnknown(m)
@@ -281,9 +353,13 @@ type SeriesDeleteRequest struct {
 func (m *SeriesDeleteRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = SeriesDeleteRequest{}
 }
 func (m *SeriesDeleteRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -291,8 +367,12 @@ func (m *SeriesDeleteRequest) String() string {
 func (*SeriesDeleteRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*SeriesDeleteRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{4}
@@ -300,9 +380,13 @@ func (*SeriesDeleteRequest) Descriptor() ([]byte, []int) {
 func (m *SeriesDeleteRequest) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *SeriesDeleteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -319,14 +403,20 @@ func (m *SeriesDeleteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 func (dst *SeriesDeleteRequest) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_SeriesDeleteRequest.Merge(dst, src)
 }
 func (m *SeriesDeleteRequest) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *SeriesDeleteRequest) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_SeriesDeleteRequest.DiscardUnknown(m)
@@ -343,9 +433,13 @@ type SeriesDeleteResponse struct {
 func (m *SeriesDeleteResponse) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = SeriesDeleteResponse{}
 }
 func (m *SeriesDeleteResponse) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -353,8 +447,12 @@ func (m *SeriesDeleteResponse) String() string {
 func (*SeriesDeleteResponse) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*SeriesDeleteResponse) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_rpc_e0d54cfadc26b2e1, []int{5}
@@ -362,9 +460,13 @@ func (*SeriesDeleteResponse) Descriptor() ([]byte, []int) {
 func (m *SeriesDeleteResponse) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *SeriesDeleteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -381,14 +483,20 @@ func (m *SeriesDeleteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 func (dst *SeriesDeleteResponse) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_SeriesDeleteResponse.Merge(dst, src)
 }
 func (m *SeriesDeleteResponse) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *SeriesDeleteResponse) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_SeriesDeleteResponse.DiscardUnknown(m)
@@ -397,6 +505,8 @@ func (m *SeriesDeleteResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_SeriesDeleteResponse proto.InternalMessageInfo
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterType((*TSDBSnapshotRequest)(nil), "prometheus.TSDBSnapshotRequest")
@@ -422,9 +532,13 @@ type adminClient struct{ cc *grpc.ClientConn }
 func NewAdminClient(cc *grpc.ClientConn) AdminClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &adminClient{cc}
 }
 func (c *adminClient) TSDBSnapshot(ctx context.Context, in *TSDBSnapshotRequest, opts ...grpc.CallOption) (*TSDBSnapshotResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	out := new(TSDBSnapshotResponse)
@@ -437,6 +551,8 @@ func (c *adminClient) TSDBSnapshot(ctx context.Context, in *TSDBSnapshotRequest,
 func (c *adminClient) TSDBCleanTombstones(ctx context.Context, in *TSDBCleanTombstonesRequest, opts ...grpc.CallOption) (*TSDBCleanTombstonesResponse, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := new(TSDBCleanTombstonesResponse)
 	err := c.cc.Invoke(ctx, "/prometheus.Admin/TSDBCleanTombstones", in, out, opts...)
 	if err != nil {
@@ -445,6 +561,8 @@ func (c *adminClient) TSDBCleanTombstones(ctx context.Context, in *TSDBCleanTomb
 	return out, nil
 }
 func (c *adminClient) DeleteSeries(ctx context.Context, in *SeriesDeleteRequest, opts ...grpc.CallOption) (*SeriesDeleteResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	out := new(SeriesDeleteResponse)
@@ -464,9 +582,13 @@ type AdminServer interface {
 func RegisterAdminServer(s *grpc.Server, srv AdminServer) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.RegisterService(&_Admin_serviceDesc, srv)
 }
 func _Admin_TSDBSnapshot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	in := new(TSDBSnapshotRequest)
@@ -485,6 +607,8 @@ func _Admin_TSDBSnapshot_Handler(srv interface{}, ctx context.Context, dec func(
 func _Admin_TSDBCleanTombstones_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	in := new(TSDBCleanTombstonesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -499,6 +623,8 @@ func _Admin_TSDBCleanTombstones_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 func _Admin_DeleteSeries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	in := new(SeriesDeleteRequest)
@@ -520,6 +646,8 @@ var _Admin_serviceDesc = grpc.ServiceDesc{ServiceName: "prometheus.Admin", Handl
 func (m *TSDBSnapshotRequest) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -529,6 +657,8 @@ func (m *TSDBSnapshotRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *TSDBSnapshotRequest) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -553,6 +683,8 @@ func (m *TSDBSnapshotRequest) MarshalTo(dAtA []byte) (int, error) {
 func (m *TSDBSnapshotResponse) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -562,6 +694,8 @@ func (m *TSDBSnapshotResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *TSDBSnapshotResponse) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -582,6 +716,8 @@ func (m *TSDBSnapshotResponse) MarshalTo(dAtA []byte) (int, error) {
 func (m *TSDBCleanTombstonesRequest) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -591,6 +727,8 @@ func (m *TSDBCleanTombstonesRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *TSDBCleanTombstonesRequest) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -605,6 +743,8 @@ func (m *TSDBCleanTombstonesRequest) MarshalTo(dAtA []byte) (int, error) {
 func (m *TSDBCleanTombstonesResponse) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -614,6 +754,8 @@ func (m *TSDBCleanTombstonesResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *TSDBCleanTombstonesResponse) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -628,6 +770,8 @@ func (m *TSDBCleanTombstonesResponse) MarshalTo(dAtA []byte) (int, error) {
 func (m *SeriesDeleteRequest) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -637,6 +781,8 @@ func (m *SeriesDeleteRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *SeriesDeleteRequest) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -683,6 +829,8 @@ func (m *SeriesDeleteRequest) MarshalTo(dAtA []byte) (int, error) {
 func (m *SeriesDeleteResponse) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -692,6 +840,8 @@ func (m *SeriesDeleteResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *SeriesDeleteResponse) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -706,6 +856,8 @@ func (m *SeriesDeleteResponse) MarshalTo(dAtA []byte) (int, error) {
 func encodeVarintRpc(dAtA []byte, offset int, v uint64) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
@@ -715,6 +867,8 @@ func encodeVarintRpc(dAtA []byte, offset int, v uint64) int {
 	return offset + 1
 }
 func (m *TSDBSnapshotRequest) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -731,6 +885,8 @@ func (m *TSDBSnapshotRequest) Size() (n int) {
 	return n
 }
 func (m *TSDBSnapshotResponse) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -750,6 +906,8 @@ func (m *TSDBSnapshotResponse) Size() (n int) {
 func (m *TSDBCleanTombstonesRequest) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -763,6 +921,8 @@ func (m *TSDBCleanTombstonesRequest) Size() (n int) {
 func (m *TSDBCleanTombstonesResponse) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -774,6 +934,8 @@ func (m *TSDBCleanTombstonesResponse) Size() (n int) {
 	return n
 }
 func (m *SeriesDeleteRequest) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -803,6 +965,8 @@ func (m *SeriesDeleteRequest) Size() (n int) {
 func (m *SeriesDeleteResponse) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -814,6 +978,8 @@ func (m *SeriesDeleteResponse) Size() (n int) {
 	return n
 }
 func sovRpc(x uint64) (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -828,9 +994,13 @@ func sovRpc(x uint64) (n int) {
 func sozRpc(x uint64) (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sovRpc(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
 func (m *TSDBSnapshotRequest) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -903,6 +1073,8 @@ func (m *TSDBSnapshotRequest) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *TSDBSnapshotResponse) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -986,6 +1158,8 @@ func (m *TSDBSnapshotResponse) Unmarshal(dAtA []byte) error {
 func (m *TSDBCleanTombstonesRequest) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1038,6 +1212,8 @@ func (m *TSDBCleanTombstonesRequest) Unmarshal(dAtA []byte) error {
 func (m *TSDBCleanTombstonesResponse) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1088,6 +1264,8 @@ func (m *TSDBCleanTombstonesResponse) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *SeriesDeleteRequest) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1239,6 +1417,8 @@ func (m *SeriesDeleteRequest) Unmarshal(dAtA []byte) error {
 func (m *SeriesDeleteResponse) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1289,6 +1469,8 @@ func (m *SeriesDeleteResponse) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func skipRpc(dAtA []byte) (n int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1396,6 +1578,8 @@ var (
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterFile("rpc.proto", fileDescriptor_rpc_e0d54cfadc26b2e1)

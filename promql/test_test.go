@@ -11,6 +11,8 @@ import (
 func TestLazyLoader_WithSamplesTill(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type testCase struct {
 		ts		time.Time
 		series		[]Series

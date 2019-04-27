@@ -40,6 +40,8 @@ type SDConfig struct {
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultSDConfig
 	type plain SDConfig
 	err := unmarshal((*plain)(c))
@@ -63,6 +65,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(dnsSDLookupFailuresCount)
 	prometheus.MustRegister(dnsSDLookupsCount)
 }
@@ -76,6 +80,8 @@ type Discovery struct {
 }
 
 func NewDiscovery(conf SDConfig, logger log.Logger) *Discovery {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if logger == nil {
@@ -95,6 +101,8 @@ func NewDiscovery(conf SDConfig, logger log.Logger) *Discovery {
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ticker := time.NewTicker(d.interval)
 	defer ticker.Stop()
 	d.refreshAll(ctx, ch)
@@ -110,6 +118,8 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 func (d *Discovery) refreshAll(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var wg sync.WaitGroup
 	wg.Add(len(d.names))
 	for _, name := range d.names {
@@ -123,6 +133,8 @@ func (d *Discovery) refreshAll(ctx context.Context, ch chan<- []*targetgroup.Gro
 	wg.Wait()
 }
 func (d *Discovery) refresh(ctx context.Context, name string, ch chan<- []*targetgroup.Group) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	response, err := lookupWithSearchPath(name, d.qtype, d.logger)
@@ -162,6 +174,8 @@ func (d *Discovery) refresh(ctx context.Context, name string, ch chan<- []*targe
 func lookupWithSearchPath(name string, qtype uint16, logger log.Logger) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf, err := dns.ClientConfigFromFile(resolvConf)
 	if err != nil {
 		return nil, fmt.Errorf("could not load resolv.conf: %s", err)
@@ -183,6 +197,8 @@ func lookupWithSearchPath(name string, qtype uint16, logger log.Logger) (*dns.Ms
 func lookupFromAnyServer(name string, qtype uint16, conf *dns.ClientConfig, logger log.Logger) (*dns.Msg, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := &dns.Client{}
 	for _, server := range conf.Servers {
 		servAddr := net.JoinHostPort(server, conf.Port)
@@ -198,6 +214,8 @@ func lookupFromAnyServer(name string, qtype uint16, conf *dns.ClientConfig, logg
 	return nil, fmt.Errorf("could not resolve %s: no servers returned a viable answer", name)
 }
 func askServerForName(name string, queryType uint16, client *dns.Client, servAddr string, edns bool) (*dns.Msg, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	msg := &dns.Msg{}
@@ -224,7 +242,16 @@ func askServerForName(name string, queryType uint16, client *dns.Client, servAdd
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

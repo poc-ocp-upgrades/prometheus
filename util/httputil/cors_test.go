@@ -9,6 +9,8 @@ import (
 func getCORSHandlerFunc() http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hf := func(w http.ResponseWriter, r *http.Request) {
 		reg := regexp.MustCompile(`^https://foo\.com$`)
 		SetCORS(w, reg, r)
@@ -17,6 +19,8 @@ func getCORSHandlerFunc() http.Handler {
 	return http.HandlerFunc(hf)
 }
 func TestCORSHandler(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tearDown := setup()

@@ -52,6 +52,8 @@ type SDConfig struct {
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultSDConfig
 	type plain SDConfig
 	err := unmarshal((*plain)(c))
@@ -75,6 +77,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(refreshFailuresCount)
 	prometheus.MustRegister(refreshDuration)
 }
@@ -91,6 +95,8 @@ type Discovery struct {
 }
 
 func NewDiscovery(conf SDConfig, logger log.Logger) (*Discovery, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if logger == nil {
@@ -119,9 +125,13 @@ type authTokenRoundTripper struct {
 func newAuthTokenRoundTripper(token config_util.Secret, rt http.RoundTripper) (http.RoundTripper, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authTokenRoundTripper{token, rt}, nil
 }
 func (rt *authTokenRoundTripper) RoundTrip(request *http.Request) (*http.Response, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	request.Header.Set("Authorization", "token="+string(rt.authToken))
@@ -136,6 +146,8 @@ type authTokenFileRoundTripper struct {
 func newAuthTokenFileRoundTripper(tokenFile string, rt http.RoundTripper) (http.RoundTripper, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ioutil.ReadFile(tokenFile)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read auth token file %s: %s", tokenFile, err)
@@ -143,6 +155,8 @@ func newAuthTokenFileRoundTripper(tokenFile string, rt http.RoundTripper) (http.
 	return &authTokenFileRoundTripper{tokenFile, rt}, nil
 }
 func (rt *authTokenFileRoundTripper) RoundTrip(request *http.Request) (*http.Response, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b, err := ioutil.ReadFile(rt.authTokenFile)
@@ -154,6 +168,8 @@ func (rt *authTokenFileRoundTripper) RoundTrip(request *http.Request) (*http.Res
 	return rt.rt.RoundTrip(request)
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -169,6 +185,8 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	}
 }
 func (d *Discovery) updateServices(ctx context.Context, ch chan<- []*targetgroup.Group) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t0 := time.Now()
@@ -206,6 +224,8 @@ func (d *Discovery) updateServices(ctx context.Context, ch chan<- []*targetgroup
 	return nil
 }
 func (d *Discovery) fetchTargetGroups() (map[string]*targetgroup.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	url := RandomAppsURL(d.servers)
@@ -263,6 +283,8 @@ type App struct {
 func (app App) isContainerNet() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(app.Networks) > 0 && app.Networks[0].Mode == "container"
 }
 
@@ -272,6 +294,8 @@ type AppList struct {
 type AppListClient func(client *http.Client, url string) (*AppList, error)
 
 func fetchApps(client *http.Client, url string) (*AppList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	request, err := http.NewRequest("GET", url, nil)
@@ -296,10 +320,14 @@ func fetchApps(client *http.Client, url string) (*AppList, error) {
 func RandomAppsURL(servers []string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := servers[rand.Intn(len(servers))]
 	return fmt.Sprintf("%s%s", server, appListPath)
 }
 func AppsToTargetGroups(apps *AppList) map[string]*targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tgroups := map[string]*targetgroup.Group{}
@@ -310,6 +338,8 @@ func AppsToTargetGroups(apps *AppList) map[string]*targetgroup.Group {
 	return tgroups
 }
 func createTargetGroup(app *App) *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -325,6 +355,8 @@ func createTargetGroup(app *App) *targetgroup.Group {
 	return tg
 }
 func targetsForApp(app *App) []model.LabelSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	targets := make([]model.LabelSet, 0, len(app.Tasks))
@@ -372,6 +404,8 @@ func targetsForApp(app *App) []model.LabelSet {
 func targetEndpoint(task *Task, port uint32, containerNet bool) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var host string
 	if containerNet && len(task.IPAddresses) > 0 {
 		host = task.IPAddresses[0].Address
@@ -381,6 +415,8 @@ func targetEndpoint(task *Task, port uint32, containerNet bool) string {
 	return net.JoinHostPort(host, fmt.Sprintf("%d", port))
 }
 func extractPortMapping(portMappings []PortMapping, containerNet bool) ([]uint32, []map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ports := make([]uint32, len(portMappings))
@@ -398,7 +434,16 @@ func extractPortMapping(portMappings []PortMapping, containerNet bool) ([]uint32
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

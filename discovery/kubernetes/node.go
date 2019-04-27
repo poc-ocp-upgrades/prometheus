@@ -29,6 +29,8 @@ type Node struct {
 func NewNode(l log.Logger, inf cache.SharedInformer) *Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
@@ -48,6 +50,8 @@ func NewNode(l log.Logger, inf cache.SharedInformer) *Node {
 func (n *Node) enqueue(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		return
@@ -55,6 +59,8 @@ func (n *Node) enqueue(obj interface{}) {
 	n.queue.Add(key)
 }
 func (n *Node) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer n.queue.ShutDown()
@@ -69,6 +75,8 @@ func (n *Node) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	<-ctx.Done()
 }
 func (n *Node) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyObj, quit := n.queue.Get()
@@ -100,6 +108,8 @@ func (n *Node) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool
 func convertToNode(o interface{}) (*apiv1.Node, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	node, ok := o.(*apiv1.Node)
 	if ok {
 		return node, nil
@@ -109,9 +119,13 @@ func convertToNode(o interface{}) (*apiv1.Node, error) {
 func nodeSource(n *apiv1.Node) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nodeSourceFromName(n.Name)
 }
 func nodeSourceFromName(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "node/" + name
@@ -127,6 +141,8 @@ const (
 func nodeLabels(n *apiv1.Node) model.LabelSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ls := make(model.LabelSet, len(n.Labels)+len(n.Annotations)+1)
 	ls[nodeNameLabel] = lv(n.Name)
 	for k, v := range n.Labels {
@@ -140,6 +156,8 @@ func nodeLabels(n *apiv1.Node) model.LabelSet {
 	return ls
 }
 func (n *Node) buildNode(node *apiv1.Node) *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg := &targetgroup.Group{Source: nodeSource(node)}
@@ -159,6 +177,8 @@ func (n *Node) buildNode(node *apiv1.Node) *targetgroup.Group {
 	return tg
 }
 func nodeAddress(node *apiv1.Node) (string, map[apiv1.NodeAddressType][]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := map[apiv1.NodeAddressType][]string{}

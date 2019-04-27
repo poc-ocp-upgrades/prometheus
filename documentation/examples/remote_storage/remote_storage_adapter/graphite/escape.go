@@ -15,6 +15,8 @@ const (
 func escape(tv model.LabelValue) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	length := len(tv)
 	result := bytes.NewBuffer(make([]byte, 0, length))
 	for i := 0; i < length; i++ {

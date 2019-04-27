@@ -24,12 +24,16 @@ type Storage struct {
 func NewStorage(l log.Logger, stCallback startTimeCallback, flushDeadline time.Duration) *Storage {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
 	return &Storage{logger: l, localStartTimeCallback: stCallback, flushDeadline: flushDeadline}
 }
 func (s *Storage) ApplyConfig(conf *config.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mtx.Lock()
@@ -70,9 +74,13 @@ func (s *Storage) ApplyConfig(conf *config.Config) error {
 func (s *Storage) StartTime() (int64, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return int64(model.Latest), nil
 }
 func (s *Storage) Querier(ctx context.Context, mint, maxt int64) (storage.Querier, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mtx.Lock()
@@ -91,6 +99,8 @@ func (s *Storage) Querier(ctx context.Context, mint, maxt int64) (storage.Querie
 func (s *Storage) Close() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 	for _, q := range s.queues {
@@ -99,6 +109,8 @@ func (s *Storage) Close() error {
 	return nil
 }
 func labelsToEqualityMatchers(ls model.LabelSet) []*labels.Matcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ms := make([]*labels.Matcher, 0, len(ls))

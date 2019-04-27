@@ -42,9 +42,13 @@ type Target struct {
 func NewTarget(labels, discoveredLabels labels.Labels, params url.Values) *Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Target{labels: labels, discoveredLabels: discoveredLabels, params: params, health: HealthUnknown}
 }
 func (t *Target) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return t.URL().String()
@@ -64,6 +68,8 @@ type MetricMetadata struct {
 func (t *Target) MetadataList() []MetricMetadata {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.RLock()
 	defer t.mtx.RUnlock()
 	if t.metadata == nil {
@@ -72,6 +78,8 @@ func (t *Target) MetadataList() []MetricMetadata {
 	return t.metadata.listMetadata()
 }
 func (t *Target) Metadata(metric string) (MetricMetadata, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.mtx.RLock()
@@ -84,11 +92,15 @@ func (t *Target) Metadata(metric string) (MetricMetadata, bool) {
 func (t *Target) setMetadataStore(s metricMetadataStore) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.Lock()
 	defer t.mtx.Unlock()
 	t.metadata = s
 }
 func (t *Target) hash() uint64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := fnv.New64a()
@@ -97,6 +109,8 @@ func (t *Target) hash() uint64 {
 	return h.Sum64()
 }
 func (t *Target) offset(interval time.Duration) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	now := time.Now().UnixNano()
@@ -113,6 +127,8 @@ func (t *Target) offset(interval time.Duration) time.Duration {
 func (t *Target) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lset := make(labels.Labels, 0, len(t.labels))
 	for _, l := range t.labels {
 		if !strings.HasPrefix(l.Name, model.ReservedLabelPrefix) {
@@ -124,6 +140,8 @@ func (t *Target) Labels() labels.Labels {
 func (t *Target) DiscoveredLabels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.Lock()
 	defer t.mtx.Unlock()
 	lset := make(labels.Labels, len(t.discoveredLabels))
@@ -133,11 +151,15 @@ func (t *Target) DiscoveredLabels() labels.Labels {
 func (t *Target) SetDiscoveredLabels(l labels.Labels) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.Lock()
 	defer t.mtx.Unlock()
 	t.discoveredLabels = l
 }
 func (t *Target) URL() *url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	params := url.Values{}
@@ -161,6 +183,8 @@ func (t *Target) URL() *url.URL {
 func (t *Target) report(start time.Time, dur time.Duration, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.Lock()
 	defer t.mtx.Unlock()
 	if err == nil {
@@ -175,11 +199,15 @@ func (t *Target) report(start time.Time, dur time.Duration, err error) {
 func (t *Target) LastError() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.RLock()
 	defer t.mtx.RUnlock()
 	return t.lastError
 }
 func (t *Target) LastScrape() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.mtx.RLock()
@@ -189,11 +217,15 @@ func (t *Target) LastScrape() time.Time {
 func (t *Target) LastScrapeDuration() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.mtx.RLock()
 	defer t.mtx.RUnlock()
 	return t.lastScrapeDuration
 }
 func (t *Target) Health() TargetHealth {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.mtx.RLock()
@@ -206,14 +238,20 @@ type Targets []*Target
 func (ts Targets) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ts)
 }
 func (ts Targets) Less(i, j int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ts[i].URL().String() < ts[j].URL().String()
 }
 func (ts Targets) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ts[i], ts[j] = ts[j], ts[i]
@@ -230,6 +268,8 @@ type limitAppender struct {
 func (app *limitAppender) Add(lset labels.Labels, t int64, v float64) (uint64, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !value.IsStaleNaN(v) {
 		app.i++
 		if app.i > app.limit {
@@ -243,6 +283,8 @@ func (app *limitAppender) Add(lset labels.Labels, t int64, v float64) (uint64, e
 	return ref, nil
 }
 func (app *limitAppender) AddFast(lset labels.Labels, ref uint64, t int64, v float64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !value.IsStaleNaN(v) {
@@ -263,6 +305,8 @@ type timeLimitAppender struct {
 func (app *timeLimitAppender) Add(lset labels.Labels, t int64, v float64) (uint64, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t > app.maxTime {
 		return 0, storage.ErrOutOfBounds
 	}
@@ -275,6 +319,8 @@ func (app *timeLimitAppender) Add(lset labels.Labels, t int64, v float64) (uint6
 func (app *timeLimitAppender) AddFast(lset labels.Labels, ref uint64, t int64, v float64) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t > app.maxTime {
 		return storage.ErrOutOfBounds
 	}
@@ -282,6 +328,8 @@ func (app *timeLimitAppender) AddFast(lset labels.Labels, ref uint64, t int64, v
 	return err
 }
 func populateLabels(lset labels.Labels, cfg *config.ScrapeConfig) (res, orig labels.Labels, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	scrapeLabels := []labels.Label{{Name: model.JobLabel, Value: cfg.JobName}, {Name: model.MetricsPathLabel, Value: cfg.MetricsPath}, {Name: model.SchemeLabel, Value: cfg.Scheme}}
@@ -344,6 +392,8 @@ func populateLabels(lset labels.Labels, cfg *config.ScrapeConfig) (res, orig lab
 	return res, preRelabelLabels, nil
 }
 func targetsFromGroup(tg *targetgroup.Group, cfg *config.ScrapeConfig) ([]*Target, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	targets := make([]*Target, 0, len(tg.Targets))

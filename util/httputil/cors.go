@@ -10,6 +10,8 @@ var corsHeaders = map[string]string{"Access-Control-Allow-Headers": "Accept, Aut
 func SetCORS(w http.ResponseWriter, o *regexp.Regexp, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	origin := r.Header.Get("Origin")
 	if origin == "" {
 		return

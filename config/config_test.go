@@ -31,6 +31,8 @@ import (
 func mustParseURL(u string) *config_util.URL {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := url.Parse(u)
 	if err != nil {
 		panic(err)
@@ -43,6 +45,8 @@ var expectedConf = &Config{GlobalConfig: GlobalConfig{ScrapeInterval: model.Dura
 func TestLoadConfig(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := LoadFile("testdata/global_timeout.good.yml")
 	testutil.Ok(t, err)
 	c, err := LoadFile("testdata/conf.good.yml")
@@ -51,6 +55,8 @@ func TestLoadConfig(t *testing.T) {
 	testutil.Equals(t, expectedConf, c)
 }
 func TestElideSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c, err := LoadFile("testdata/conf.good.yml")
@@ -64,6 +70,8 @@ func TestElideSecrets(t *testing.T) {
 	testutil.Assert(t, !strings.Contains(yamlConfig, "mysecret"), "yaml marshal reveals authentication credentials.")
 }
 func TestLoadConfigRuleFilesAbsolutePath(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c, err := LoadFile(ruleFilesConfigFile)
@@ -80,6 +88,8 @@ var expectedErrors = []struct {
 func TestBadConfigs(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ee := range expectedErrors {
 		_, err := LoadFile("testdata/" + ee.filename)
 		testutil.NotOk(t, err, "%s", ee.filename)
@@ -87,6 +97,8 @@ func TestBadConfigs(t *testing.T) {
 	}
 }
 func TestBadStaticConfigsJSON(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	content, err := ioutil.ReadFile("testdata/static_config.bad.json")
@@ -98,6 +110,8 @@ func TestBadStaticConfigsJSON(t *testing.T) {
 func TestBadStaticConfigsYML(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	content, err := ioutil.ReadFile("testdata/static_config.bad.yml")
 	testutil.Ok(t, err)
 	var tg targetgroup.Group
@@ -105,6 +119,8 @@ func TestBadStaticConfigsYML(t *testing.T) {
 	testutil.NotOk(t, err, "")
 }
 func TestEmptyConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c, err := Load("")
@@ -115,6 +131,8 @@ func TestEmptyConfig(t *testing.T) {
 func TestEmptyGlobalBlock(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := Load("global:\n")
 	testutil.Ok(t, err)
 	exp := DefaultConfig
@@ -122,6 +140,8 @@ func TestEmptyGlobalBlock(t *testing.T) {
 	testutil.Equals(t, exp, *c)
 }
 func kubernetesSDHostURL() config_util.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tURL, _ := url.Parse("https://localhost:1234")

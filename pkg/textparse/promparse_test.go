@@ -16,6 +16,8 @@ import (
 func TestPromParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := `# HELP go_gc_duration_seconds A summary of the GC invocation durations.
 # 	TYPE go_gc_duration_seconds summary
 go_gc_duration_seconds{quantile="0"} 4.9351e-05
@@ -91,6 +93,8 @@ testmetric{label="\"bar\""} 1`
 func TestPromParseErrors(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := []struct {
 		input	string
 		err	string
@@ -106,6 +110,8 @@ func TestPromParseErrors(t *testing.T) {
 	}
 }
 func TestPromNullByteHandling(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cases := []struct {
@@ -132,6 +138,8 @@ const (
 )
 
 func BenchmarkParse(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for parserName, parser := range map[string]func([]byte) Parser{"prometheus": NewPromParser, "openmetrics": NewOpenMetricsParser} {
@@ -245,6 +253,8 @@ func BenchmarkParse(b *testing.B) {
 	}
 }
 func BenchmarkGzip(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, fn := range []string{"promtestdata.txt", "promtestdata.nometa.txt"} {

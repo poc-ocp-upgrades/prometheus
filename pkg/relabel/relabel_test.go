@@ -10,6 +10,8 @@ import (
 func TestRelabel(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input	labels.Labels
 		relabel	[]*Config
@@ -21,6 +23,8 @@ func TestRelabel(t *testing.T) {
 	}
 }
 func TestTargetLabelValidity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

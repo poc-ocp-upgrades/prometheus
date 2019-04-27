@@ -24,12 +24,16 @@ import (
 func TestPostPath(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var cases = []struct{ in, out string }{{in: "", out: "/api/v1/alerts"}, {in: "/", out: "/api/v1/alerts"}, {in: "/prefix", out: "/prefix/api/v1/alerts"}, {in: "/prefix//", out: "/prefix/api/v1/alerts"}, {in: "prefix//", out: "/prefix/api/v1/alerts"}}
 	for _, c := range cases {
 		testutil.Equals(t, c.out, postPath(c.in))
 	}
 }
 func TestHandlerNextBatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := NewManager(&Options{}, nil)
@@ -51,6 +55,8 @@ func TestHandlerNextBatch(t *testing.T) {
 func alertsEqual(a, b []*Alert) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a) != len(b) {
 		fmt.Println("len mismatch")
 		return false
@@ -64,6 +70,8 @@ func alertsEqual(a, b []*Alert) bool {
 	return true
 }
 func TestHandlerSendAll(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -114,6 +122,8 @@ func TestHandlerSendAll(t *testing.T) {
 func TestCustomDo(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const testURL = "http://testurl.com/"
 	const testBody = "testbody"
 	var received bool
@@ -131,6 +141,8 @@ func TestCustomDo(t *testing.T) {
 func TestExternalLabels(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := NewManager(&Options{QueueCapacity: 3 * maxBatchSize, ExternalLabels: model.LabelSet{"a": "b"}, RelabelConfigs: []*relabel.Config{{SourceLabels: model.LabelNames{"alertname"}, TargetLabel: "a", Action: "replace", Regex: relabel.MustNewRegexp("externalrelabelthis"), Replacement: "c"}}}, nil)
 	h.Send(&Alert{Labels: labels.FromStrings("alertname", "test")})
 	h.Send(&Alert{Labels: labels.FromStrings("alertname", "externalrelabelthis")})
@@ -140,6 +152,8 @@ func TestExternalLabels(t *testing.T) {
 func TestHandlerRelabel(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := NewManager(&Options{QueueCapacity: 3 * maxBatchSize, RelabelConfigs: []*relabel.Config{{SourceLabels: model.LabelNames{"alertname"}, Action: "drop", Regex: relabel.MustNewRegexp("drop")}, {SourceLabels: model.LabelNames{"alertname"}, TargetLabel: "alertname", Action: "replace", Regex: relabel.MustNewRegexp("rename"), Replacement: "renamed"}}}, nil)
 	h.Send(&Alert{Labels: labels.FromStrings("alertname", "drop")})
 	h.Send(&Alert{Labels: labels.FromStrings("alertname", "rename")})
@@ -147,6 +161,8 @@ func TestHandlerRelabel(t *testing.T) {
 	testutil.Assert(t, alertsEqual(expected, h.queue), "Expected alerts %v, got %v", expected, h.queue)
 }
 func TestHandlerQueueing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -208,6 +224,8 @@ type alertmanagerMock struct{ urlf func() string }
 func (a alertmanagerMock) url() *url.URL {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := url.Parse(a.urlf())
 	if err != nil {
 		panic(err)
@@ -217,12 +235,16 @@ func (a alertmanagerMock) url() *url.URL {
 func TestLabelSetNotReused(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tg := makeInputTargetGroup()
 	_, _, err := alertmanagerFromGroup(tg, &config.AlertmanagerConfig{})
 	testutil.Ok(t, err)
 	testutil.Equals(t, tg, makeInputTargetGroup())
 }
 func TestReload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var tests = []struct {
@@ -255,6 +277,8 @@ alerting:
 	}
 }
 func TestDroppedAlertmanagers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var tests = []struct {
@@ -291,6 +315,8 @@ alerting:
 	}
 }
 func makeInputTargetGroup() *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &targetgroup.Group{Targets: []model.LabelSet{{model.AddressLabel: model.LabelValue("1.1.1.1:9090"), model.LabelName("notcommon1"): model.LabelValue("label")}}, Labels: model.LabelSet{model.LabelName("common"): model.LabelValue("label")}, Source: "testsource"}

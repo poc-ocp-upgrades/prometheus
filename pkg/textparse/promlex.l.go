@@ -18,6 +18,8 @@ const (
 func (l *promlexer) Lex() token {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.i >= len(l.b) {
 		return tEOF
 	}
@@ -475,6 +477,8 @@ yyabort:
 	return tInvalid
 }
 func (l *promlexer) consumeComment() token {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for c := l.cur(); ; c = l.next() {

@@ -12,6 +12,8 @@ type TB interface {
 func Assert(tb TB, condition bool, format string, a ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tb.Helper()
 	if !condition {
 		tb.Fatalf("\033[31m"+format+"\033[39m\n", a...)
@@ -20,12 +22,16 @@ func Assert(tb TB, condition bool, format string, a ...interface{}) {
 func Ok(tb TB, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tb.Helper()
 	if err != nil {
 		tb.Fatalf("\033[31munexpected error: %v\033[39m\n", err)
 	}
 }
 func NotOk(tb TB, err error, format string, a ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tb.Helper()
@@ -37,6 +43,8 @@ func NotOk(tb TB, err error, format string, a ...interface{}) {
 	}
 }
 func Equals(tb TB, exp, act interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tb.Helper()

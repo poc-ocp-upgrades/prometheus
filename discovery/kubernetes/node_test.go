@@ -12,14 +12,20 @@ import (
 func makeNode(name, address string, labels map[string]string, annotations map[string]string) *v1.Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1.Node{ObjectMeta: metav1.ObjectMeta{Name: name, Labels: labels, Annotations: annotations}, Status: v1.NodeStatus{Addresses: []v1.NodeAddress{{Type: v1.NodeInternalIP, Address: address}}, DaemonEndpoints: v1.NodeDaemonEndpoints{KubeletEndpoint: v1.DaemonEndpoint{Port: 10250}}}}
 }
 func makeEnumeratedNode(i int) *v1.Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return makeNode(fmt.Sprintf("test%d", i), "1.2.3.4", map[string]string{}, map[string]string{})
 }
 func TestNodeDiscoveryBeforeStart(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleNode, NamespaceDiscovery{})
@@ -32,6 +38,8 @@ func TestNodeDiscoveryBeforeStart(t *testing.T) {
 func TestNodeDiscoveryAdd(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleNode, NamespaceDiscovery{})
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := makeEnumeratedNode(1)
@@ -42,6 +50,8 @@ func TestNodeDiscoveryAdd(t *testing.T) {
 func TestNodeDiscoveryDelete(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj := makeEnumeratedNode(0)
 	n, c, w := makeDiscovery(RoleNode, NamespaceDiscovery{}, obj)
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
@@ -50,6 +60,8 @@ func TestNodeDiscoveryDelete(t *testing.T) {
 	}, expectedMaxItems: 2, expectedRes: map[string]*targetgroup.Group{"node/test0": {Source: "node/test0"}}}.Run(t)
 }
 func TestNodeDiscoveryUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleNode, NamespaceDiscovery{})

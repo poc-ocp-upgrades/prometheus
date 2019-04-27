@@ -23,6 +23,8 @@ type Ingress struct {
 func NewIngress(l log.Logger, inf cache.SharedInformer) *Ingress {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &Ingress{logger: l, informer: inf, store: inf.GetStore(), queue: workqueue.NewNamed("ingress")}
 	s.informer.AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: func(o interface{}) {
 		eventCount.WithLabelValues("ingress", "add").Inc()
@@ -39,6 +41,8 @@ func NewIngress(l log.Logger, inf cache.SharedInformer) *Ingress {
 func (i *Ingress) enqueue(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		return
@@ -46,6 +50,8 @@ func (i *Ingress) enqueue(obj interface{}) {
 	i.queue.Add(key)
 }
 func (i *Ingress) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer i.queue.ShutDown()
@@ -60,6 +66,8 @@ func (i *Ingress) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	<-ctx.Done()
 }
 func (i *Ingress) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyObj, quit := i.queue.Get()
@@ -91,6 +99,8 @@ func (i *Ingress) process(ctx context.Context, ch chan<- []*targetgroup.Group) b
 func convertToIngress(o interface{}) (*v1beta1.Ingress, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ingress, ok := o.(*v1beta1.Ingress)
 	if ok {
 		return ingress, nil
@@ -100,9 +110,13 @@ func convertToIngress(o interface{}) (*v1beta1.Ingress, error) {
 func ingressSource(s *v1beta1.Ingress) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ingressSourceFromNamespaceAndName(s.Namespace, s.Name)
 }
 func ingressSourceFromNamespaceAndName(namespace, name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "ingress/" + namespace + "/" + name
@@ -118,6 +132,8 @@ const (
 )
 
 func ingressLabels(ingress *v1beta1.Ingress) model.LabelSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ls := make(model.LabelSet, len(ingress.Labels)+len(ingress.Annotations)+2)
@@ -136,6 +152,8 @@ func ingressLabels(ingress *v1beta1.Ingress) model.LabelSet {
 func pathsFromIngressRule(rv *v1beta1.IngressRuleValue) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rv.HTTP == nil {
 		return []string{"/"}
 	}
@@ -150,6 +168,8 @@ func pathsFromIngressRule(rv *v1beta1.IngressRuleValue) []string {
 	return paths
 }
 func (i *Ingress) buildIngress(ingress *v1beta1.Ingress) *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg := &targetgroup.Group{Source: ingressSource(ingress)}

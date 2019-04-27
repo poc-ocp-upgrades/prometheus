@@ -25,6 +25,8 @@ var promData = filepath.Join(os.TempDir(), "data")
 func TestMain(m *testing.M) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.Parse()
 	if testing.Short() {
 		os.Exit(m.Run())
@@ -49,6 +51,8 @@ func TestMain(m *testing.M) {
 	os.Exit(exitCode)
 }
 func TestStartupInterrupt(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if testing.Short() {
@@ -93,6 +97,8 @@ Loop:
 func TestComputeExternalURL(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input	string
 		valid	bool
@@ -107,6 +113,8 @@ func TestComputeExternalURL(t *testing.T) {
 	}
 }
 func TestFailedStartupExitCode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if testing.Short() {
@@ -130,9 +138,13 @@ type senderFunc func(alerts ...*notifier.Alert)
 func (s senderFunc) Send(alerts ...*notifier.Alert) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s(alerts...)
 }
 func TestSendAlerts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	testCases := []struct {
@@ -153,6 +165,8 @@ func TestSendAlerts(t *testing.T) {
 	}
 }
 func TestWALSegmentSizeBounds(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if testing.Short() {
@@ -186,6 +200,8 @@ func TestWALSegmentSizeBounds(t *testing.T) {
 	}
 }
 func TestChooseRetention(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	retention1, err := model.ParseDuration("20d")

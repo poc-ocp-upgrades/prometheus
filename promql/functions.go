@@ -23,9 +23,13 @@ type Function struct {
 func funcTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Vector{Sample{Point: Point{V: float64(enh.ts) / 1000}}}
 }
 func extrapolatedRate(vals []Value, args Expressions, enh *EvalNodeHelper, isCounter bool, isRate bool) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ms := args[0].(*MatrixSelector)
@@ -82,9 +86,13 @@ func extrapolatedRate(vals []Value, args Expressions, enh *EvalNodeHelper, isCou
 func funcDelta(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return extrapolatedRate(vals, args, enh, false, false)
 }
 func funcRate(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return extrapolatedRate(vals, args, enh, true, true)
@@ -92,9 +100,13 @@ func funcRate(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcIncrease(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return extrapolatedRate(vals, args, enh, true, false)
 }
 func funcIrate(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return instantValue(vals, enh.out, true)
@@ -102,9 +114,13 @@ func funcIrate(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcIdelta(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return instantValue(vals, enh.out, false)
 }
 func instantValue(vals []Value, out Vector, isRate bool) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, samples := range vals[0].(Matrix) {
@@ -133,6 +149,8 @@ func instantValue(vals []Value, out Vector, isRate bool) Vector {
 func calcTrendValue(i int, sf, tf, s0, s1, b float64) float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i == 0 {
 		return b
 	}
@@ -141,6 +159,8 @@ func calcTrendValue(i int, sf, tf, s0, s1, b float64) float64 {
 	return x + y
 }
 func funcHoltWinters(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mat := vals[0].(Matrix)
@@ -175,6 +195,8 @@ func funcHoltWinters(vals []Value, args Expressions, enh *EvalNodeHelper) Vector
 func funcSort(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	byValueSorter := vectorByReverseValueHeap(vals[0].(Vector))
 	sort.Sort(sort.Reverse(byValueSorter))
 	return Vector(byValueSorter)
@@ -182,11 +204,15 @@ func funcSort(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcSortDesc(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	byValueSorter := vectorByValueHeap(vals[0].(Vector))
 	sort.Sort(sort.Reverse(byValueSorter))
 	return Vector(byValueSorter)
 }
 func funcClampMax(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vec := vals[0].(Vector)
@@ -199,6 +225,8 @@ func funcClampMax(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcClampMin(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vec := vals[0].(Vector)
 	min := vals[1].(Vector)[0].Point.V
 	for _, el := range vec {
@@ -207,6 +235,8 @@ func funcClampMin(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	return enh.out
 }
 func funcRound(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vec := vals[0].(Vector)
@@ -224,6 +254,8 @@ func funcRound(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcScalar(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v := vals[0].(Vector)
 	if len(v) != 1 {
 		return append(enh.out, Sample{Point: Point{V: math.NaN()}})
@@ -231,6 +263,8 @@ func funcScalar(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	return append(enh.out, Sample{Point: Point{V: v[0].V}})
 }
 func aggrOverTime(vals []Value, enh *EvalNodeHelper, aggrFn func([]Point) float64) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mat := vals[0].(Matrix)
@@ -245,6 +279,8 @@ func aggrOverTime(vals []Value, enh *EvalNodeHelper, aggrFn func([]Point) float6
 func funcAvgOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		var mean, count float64
 		for _, v := range values {
@@ -257,11 +293,15 @@ func funcAvgOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector
 func funcCountOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		return float64(len(values))
 	})
 }
 func funcMaxOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
@@ -277,6 +317,8 @@ func funcMaxOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector
 func funcMinOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		min := values[0].V
 		for _, v := range values {
@@ -290,6 +332,8 @@ func funcMinOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector
 func funcSumOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		var sum float64
 		for _, v := range values {
@@ -299,6 +343,8 @@ func funcSumOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector
 	})
 }
 func funcQuantileOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := vals[0].(Vector)[0].V
@@ -318,6 +364,8 @@ func funcQuantileOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) V
 func funcStddevOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		var aux, count, mean float64
 		for _, v := range values {
@@ -332,6 +380,8 @@ func funcStddevOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vec
 func funcStdvarOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return aggrOverTime(vals, enh, func(values []Point) float64 {
 		var aux, count, mean float64
 		for _, v := range values {
@@ -344,6 +394,8 @@ func funcStdvarOverTime(vals []Value, args Expressions, enh *EvalNodeHelper) Vec
 	})
 }
 func funcAbsent(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(vals[0].(Vector)) > 0 {
@@ -362,6 +414,8 @@ func funcAbsent(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func simpleFunc(vals []Value, enh *EvalNodeHelper, f func(float64) float64) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, el := range vals[0].(Vector) {
 		enh.out = append(enh.out, Sample{Metric: enh.dropMetricName(el.Metric), Point: Point{V: f(el.V)}})
 	}
@@ -370,9 +424,13 @@ func simpleFunc(vals []Value, enh *EvalNodeHelper, f func(float64) float64) Vect
 func funcAbs(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Abs)
 }
 func funcCeil(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Ceil)
@@ -380,9 +438,13 @@ func funcCeil(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcFloor(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Floor)
 }
 func funcExp(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Exp)
@@ -390,9 +452,13 @@ func funcExp(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcSqrt(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Sqrt)
 }
 func funcLn(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Log)
@@ -400,14 +466,20 @@ func funcLn(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcLog2(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Log2)
 }
 func funcLog10(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return simpleFunc(vals, enh, math.Log10)
 }
 func funcTimestamp(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vec := vals[0].(Vector)
@@ -417,6 +489,8 @@ func funcTimestamp(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	return enh.out
 }
 func linearRegression(samples []Point, interceptTime int64) (slope, intercept float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -441,6 +515,8 @@ func linearRegression(samples []Point, interceptTime int64) (slope, intercept fl
 func funcDeriv(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mat := vals[0].(Matrix)
 	for _, samples := range mat {
 		if len(samples.Points) < 2 {
@@ -452,6 +528,8 @@ func funcDeriv(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	return enh.out
 }
 func funcPredictLinear(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mat := vals[0].(Matrix)
@@ -466,6 +544,8 @@ func funcPredictLinear(vals []Value, args Expressions, enh *EvalNodeHelper) Vect
 	return enh.out
 }
 func funcHistogramQuantile(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q := vals[0].(Vector)[0].V
@@ -502,6 +582,8 @@ func funcHistogramQuantile(vals []Value, args Expressions, enh *EvalNodeHelper) 
 func funcResets(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	in := vals[0].(Matrix)
 	for _, samples := range in {
 		resets := 0
@@ -520,6 +602,8 @@ func funcResets(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcChanges(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	in := vals[0].(Matrix)
 	for _, samples := range in {
 		changes := 0
@@ -536,6 +620,8 @@ func funcChanges(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	return enh.out
 }
 func funcLabelReplace(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -584,9 +670,13 @@ func funcLabelReplace(vals []Value, args Expressions, enh *EvalNodeHelper) Vecto
 func funcVector(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return append(enh.out, Sample{Metric: labels.Labels{}, Point: Point{V: vals[0].(Vector)[0].V}})
 }
 func funcLabelJoin(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -635,6 +725,8 @@ func funcLabelJoin(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func dateWrapper(vals []Value, enh *EvalNodeHelper, f func(time.Time) float64) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(vals) == 0 {
 		return append(enh.out, Sample{Metric: labels.Labels{}, Point: Point{V: f(time.Unix(enh.ts/1000, 0).UTC())}})
 	}
@@ -647,11 +739,15 @@ func dateWrapper(vals []Value, enh *EvalNodeHelper, f func(time.Time) float64) V
 func funcDaysInMonth(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
 		return float64(32 - time.Date(t.Year(), t.Month(), 32, 0, 0, 0, 0, time.UTC).Day())
 	})
 }
 func funcDayOfMonth(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
@@ -661,11 +757,15 @@ func funcDayOfMonth(vals []Value, args Expressions, enh *EvalNodeHelper) Vector 
 func funcDayOfWeek(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
 		return float64(t.Weekday())
 	})
 }
 func funcHour(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
@@ -675,6 +775,8 @@ func funcHour(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcMinute(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
 		return float64(t.Minute())
 	})
@@ -682,11 +784,15 @@ func funcMinute(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 func funcMonth(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
 		return float64(t.Month())
 	})
 }
 func funcYear(vals []Value, args Expressions, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return dateWrapper(vals, enh, func(t time.Time) float64 {
@@ -699,6 +805,8 @@ var functions = map[string]*Function{"abs": {Name: "abs", ArgTypes: []ValueType{
 func getFunction(name string) (*Function, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	function, ok := functions[name]
 	return function, ok
 }
@@ -708,9 +816,13 @@ type vectorByValueHeap Vector
 func (s vectorByValueHeap) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s vectorByValueHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if math.IsNaN(s[i].V) {
@@ -721,14 +833,20 @@ func (s vectorByValueHeap) Less(i, j int) bool {
 func (s vectorByValueHeap) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s *vectorByValueHeap) Push(x interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*s = append(*s, *(x.(*Sample)))
 }
 func (s *vectorByValueHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	old := *s
@@ -743,9 +861,13 @@ type vectorByReverseValueHeap Vector
 func (s vectorByReverseValueHeap) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s vectorByReverseValueHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if math.IsNaN(s[i].V) {
@@ -756,14 +878,20 @@ func (s vectorByReverseValueHeap) Less(i, j int) bool {
 func (s vectorByReverseValueHeap) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s *vectorByReverseValueHeap) Push(x interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*s = append(*s, *(x.(*Sample)))
 }
 func (s *vectorByReverseValueHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	old := *s

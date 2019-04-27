@@ -10,6 +10,8 @@ import (
 func TestOpenMetricsParse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := `# HELP go_gc_duration_seconds A summary of the GC invocation durations.
 # TYPE go_gc_duration_seconds summary
 # UNIT go_gc_duration_seconds seconds
@@ -94,6 +96,8 @@ testmetric{label="\"bar\""} 1`
 func TestOpenMetricsParseErrors(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := []struct {
 		input	string
 		err	string
@@ -109,6 +113,8 @@ func TestOpenMetricsParseErrors(t *testing.T) {
 	}
 }
 func TestOMNullByteHandling(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cases := []struct {

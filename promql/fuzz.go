@@ -11,6 +11,8 @@ const (
 func FuzzParseMetric(in []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := textparse.New(in)
 	for p.Next() {
 	}
@@ -22,6 +24,8 @@ func FuzzParseMetric(in []byte) int {
 func FuzzParseMetricSelector(in []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ParseMetricSelector(string(in))
 	if err == nil {
 		return fuzzInteresting
@@ -31,6 +35,8 @@ func FuzzParseMetricSelector(in []byte) int {
 func FuzzParseExpr(in []byte) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ParseExpr(string(in))
 	if err == nil {
 		return fuzzInteresting
@@ -38,6 +44,8 @@ func FuzzParseExpr(in []byte) int {
 	return fuzzMeh
 }
 func FuzzParseStmts(in []byte) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := ParseStmts(string(in))

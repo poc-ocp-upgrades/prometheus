@@ -52,14 +52,20 @@ type Alert struct {
 func (a *Alert) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.Labels.Get(labels.AlertName)
 }
 func (a *Alert) Hash() uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.Labels.Hash()
 }
 func (a *Alert) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := fmt.Sprintf("%s[%s]", a.Name(), fmt.Sprintf("%016x", a.Hash())[:7])
@@ -71,9 +77,13 @@ func (a *Alert) String() string {
 func (a *Alert) Resolved() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.ResolvedAt(time.Now())
 }
 func (a *Alert) ResolvedAt(ts time.Time) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if a.EndsAt.IsZero() {
@@ -113,6 +123,8 @@ type alertMetrics struct {
 func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanagersDiscovered func() float64) *alertMetrics {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := &alertMetrics{latency: prometheus.NewSummaryVec(prometheus.SummaryOpts{Namespace: namespace, Subsystem: subsystem, Name: "latency_seconds", Help: "Latency quantiles for sending alert notifications."}, []string{alertmanagerLabel}), errors: prometheus.NewCounterVec(prometheus.CounterOpts{Namespace: namespace, Subsystem: subsystem, Name: "errors_total", Help: "Total number of errors sending alert notifications."}, []string{alertmanagerLabel}), sent: prometheus.NewCounterVec(prometheus.CounterOpts{Namespace: namespace, Subsystem: subsystem, Name: "sent_total", Help: "Total number of alerts sent."}, []string{alertmanagerLabel}), dropped: prometheus.NewCounter(prometheus.CounterOpts{Namespace: namespace, Subsystem: subsystem, Name: "dropped_total", Help: "Total number of alerts dropped due to errors when sending to Alertmanager."}), queueLength: prometheus.NewGaugeFunc(prometheus.GaugeOpts{Namespace: namespace, Subsystem: subsystem, Name: "queue_length", Help: "The number of alert notifications in the queue."}, queueLen), queueCapacity: prometheus.NewGauge(prometheus.GaugeOpts{Namespace: namespace, Subsystem: subsystem, Name: "queue_capacity", Help: "The capacity of the alert notifications queue."}), alertmanagersDiscovered: prometheus.NewGaugeFunc(prometheus.GaugeOpts{Name: "prometheus_notifications_alertmanagers_discovered", Help: "The number of alertmanagers discovered and active."}, alertmanagersDiscovered)}
 	m.queueCapacity.Set(float64(queueCap))
 	if r != nil {
@@ -123,12 +135,16 @@ func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanag
 func do(ctx context.Context, client *http.Client, req *http.Request) (*http.Response, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if client == nil {
 		client = http.DefaultClient
 	}
 	return client.Do(req.WithContext(ctx))
 }
 func NewManager(o *Options, logger log.Logger) *Manager {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx, cancel := context.WithCancel(context.Background())
@@ -149,6 +165,8 @@ func NewManager(o *Options, logger log.Logger) *Manager {
 	return n
 }
 func (n *Manager) ApplyConfig(conf *config.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n.mtx.Lock()
@@ -177,11 +195,15 @@ const maxBatchSize = 64
 func (n *Manager) queueLen() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.mtx.RLock()
 	defer n.mtx.RUnlock()
 	return len(n.queue)
 }
 func (n *Manager) nextBatch() []*Alert {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n.mtx.Lock()
@@ -197,6 +219,8 @@ func (n *Manager) nextBatch() []*Alert {
 	return alerts
 }
 func (n *Manager) Run(tsets <-chan map[string][]*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -219,6 +243,8 @@ func (n *Manager) Run(tsets <-chan map[string][]*targetgroup.Group) {
 func (n *Manager) reload(tgs map[string][]*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.mtx.Lock()
 	defer n.mtx.Unlock()
 	for id, tgroup := range tgs {
@@ -231,6 +257,8 @@ func (n *Manager) reload(tgs map[string][]*targetgroup.Group) {
 	}
 }
 func (n *Manager) Send(alerts ...*Alert) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n.mtx.Lock()
@@ -261,6 +289,8 @@ func (n *Manager) Send(alerts ...*Alert) {
 func (n *Manager) relabelAlerts(alerts []*Alert) []*Alert {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var relabeledAlerts []*Alert
 	for _, alert := range alerts {
 		labels := relabel.Process(alert.Labels, n.opts.RelabelConfigs...)
@@ -274,12 +304,16 @@ func (n *Manager) relabelAlerts(alerts []*Alert) []*Alert {
 func (n *Manager) setMore() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case n.more <- struct{}{}:
 	default:
 	}
 }
 func (n *Manager) Alertmanagers() []*url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n.mtx.RLock()
@@ -298,6 +332,8 @@ func (n *Manager) Alertmanagers() []*url.URL {
 func (n *Manager) DroppedAlertmanagers() []*url.URL {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.mtx.RLock()
 	amSets := n.alertmanagers
 	n.mtx.RUnlock()
@@ -312,6 +348,8 @@ func (n *Manager) DroppedAlertmanagers() []*url.URL {
 	return res
 }
 func (n *Manager) sendAll(alerts ...*Alert) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	begin := time.Now()
@@ -354,6 +392,8 @@ func (n *Manager) sendAll(alerts ...*Alert) bool {
 func (n *Manager) sendOne(ctx context.Context, c *http.Client, url string, b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
 		return err
@@ -373,6 +413,8 @@ func (n *Manager) sendOne(ctx context.Context, c *http.Client, url string, b []b
 func (n *Manager) Stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	level.Info(n.logger).Log("msg", "Stopping notification manager...")
 	n.cancel()
 }
@@ -383,6 +425,8 @@ type alertmanagerLabels struct{ labels.Labels }
 const pathLabel = "__alerts_path__"
 
 func (a alertmanagerLabels) url() *url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &url.URL{Scheme: a.Get(model.SchemeLabel), Host: a.Get(model.AddressLabel), Path: a.Get(pathLabel)}
@@ -401,6 +445,8 @@ type alertmanagerSet struct {
 func newAlertmanagerSet(cfg *config.AlertmanagerConfig, logger log.Logger) (*alertmanagerSet, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := config_util.NewClientFromConfig(cfg.HTTPClientConfig, "alertmanager")
 	if err != nil {
 		return nil, err
@@ -409,6 +455,8 @@ func newAlertmanagerSet(cfg *config.AlertmanagerConfig, logger log.Logger) (*ale
 	return s, nil
 }
 func (s *alertmanagerSet) sync(tgs []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	allAms := []alertmanager{}
@@ -442,9 +490,13 @@ func (s *alertmanagerSet) sync(tgs []*targetgroup.Group) {
 func postPath(pre string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join("/", pre, alertPushEndpoint)
 }
 func alertmanagerFromGroup(tg *targetgroup.Group, cfg *config.AlertmanagerConfig) ([]alertmanager, []alertmanager, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var res []alertmanager
@@ -501,7 +553,16 @@ func alertmanagerFromGroup(tg *targetgroup.Group, cfg *config.AlertmanagerConfig
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

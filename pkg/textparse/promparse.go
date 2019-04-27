@@ -49,6 +49,8 @@ const (
 func (t token) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t {
 	case tInvalid:
 		return "INVALID"
@@ -96,14 +98,20 @@ func (t token) String() string {
 func (l *promlexer) buf() []byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.b[l.start:l.i]
 }
 func (l *promlexer) cur() byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.b[l.i]
 }
 func (l *promlexer) next() byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.i++
@@ -117,6 +125,8 @@ func (l *promlexer) next() byte {
 	return l.b[l.i]
 }
 func (l *promlexer) Error(es string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.err = errors.New(es)
@@ -137,9 +147,13 @@ type PromParser struct {
 func NewPromParser(b []byte) Parser {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &PromParser{l: &promlexer{b: append(b, '\n')}}
 }
 func (p *PromParser) Series() ([]byte, *int64, float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if p.hasTS {
@@ -148,6 +162,8 @@ func (p *PromParser) Series() ([]byte, *int64, float64) {
 	return p.series, nil, p.val
 }
 func (p *PromParser) Help() ([]byte, []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := p.l.b[p.offsets[0]:p.offsets[1]]
@@ -159,9 +175,13 @@ func (p *PromParser) Help() ([]byte, []byte) {
 func (p *PromParser) Type() ([]byte, MetricType) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.l.b[p.offsets[0]:p.offsets[1]], p.mtype
 }
 func (p *PromParser) Unit() ([]byte, []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil, nil
@@ -169,9 +189,13 @@ func (p *PromParser) Unit() ([]byte, []byte) {
 func (p *PromParser) Comment() []byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.text
 }
 func (p *PromParser) Metric(l *labels.Labels) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := string(p.series)
@@ -193,6 +217,8 @@ func (p *PromParser) Metric(l *labels.Labels) string {
 func (p *PromParser) nextToken() token {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if tok := p.l.Lex(); tok != tWhitespace {
 			return tok
@@ -202,9 +228,13 @@ func (p *PromParser) nextToken() token {
 func parseError(exp string, got token) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("%s, got %q", exp, got)
 }
 func (p *PromParser) Next() (Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -312,6 +342,8 @@ func (p *PromParser) Next() (Entry, error) {
 func (p *PromParser) parseLVals() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := p.nextToken()
 	for {
 		switch t {
@@ -342,6 +374,8 @@ var lvalReplacer = strings.NewReplacer(`\"`, "\"", `\\`, "\\", `\n`, "\n")
 var helpReplacer = strings.NewReplacer(`\\`, "\\", `\n`, "\n")
 
 func yoloString(b []byte) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return *((*string)(unsafe.Pointer(&b)))

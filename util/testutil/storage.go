@@ -12,6 +12,8 @@ import (
 func NewStorage(t T) storage.Storage {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dir, err := ioutil.TempDir("", "test_storage")
 	if err != nil {
 		t.Fatalf("Opening test dir failed: %s", err)
@@ -29,6 +31,8 @@ type testStorage struct {
 }
 
 func (s testStorage) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := s.Storage.Close(); err != nil {

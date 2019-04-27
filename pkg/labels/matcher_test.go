@@ -5,6 +5,8 @@ import "testing"
 func mustNewMatcher(t *testing.T, mType MatchType, value string) *Matcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, err := NewMatcher(mType, "", value)
 	if err != nil {
 		t.Fatal(err)
@@ -12,6 +14,8 @@ func mustNewMatcher(t *testing.T, mType MatchType, value string) *Matcher {
 	return m
 }
 func TestMatcher(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

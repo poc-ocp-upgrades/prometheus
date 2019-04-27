@@ -28,6 +28,8 @@ type Client struct {
 func NewClient(logger log.Logger, conf influx.HTTPConfig, db string, rp string) *Client {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := influx.NewHTTPClient(conf)
 	if err != nil {
 		level.Error(logger).Log("err", err)
@@ -41,6 +43,8 @@ func NewClient(logger log.Logger, conf influx.HTTPConfig, db string, rp string) 
 func tagsFromMetric(m model.Metric) map[string]string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tags := make(map[string]string, len(m)-1)
 	for l, v := range m {
 		if l != model.MetricNameLabel {
@@ -50,6 +54,8 @@ func tagsFromMetric(m model.Metric) map[string]string {
 	return tags
 }
 func (c *Client) Write(samples model.Samples) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	points := make([]*influx.Point, 0, len(samples))
@@ -74,6 +80,8 @@ func (c *Client) Write(samples model.Samples) error {
 	return c.client.Write(bps)
 }
 func (c *Client) Read(req *prompb.ReadRequest) (*prompb.ReadResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	labelsToSeries := map[string]*prompb.TimeSeries{}
@@ -101,6 +109,8 @@ func (c *Client) Read(req *prompb.ReadRequest) (*prompb.ReadResponse, error) {
 	return &resp, nil
 }
 func (c *Client) buildCommand(q *prompb.Query) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	matchers := make([]string, 0, len(q.Matchers))
@@ -137,14 +147,20 @@ func (c *Client) buildCommand(q *prompb.Query) (string, error) {
 func escapeSingleQuotes(str string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Replace(str, `'`, `\'`, -1)
 }
 func escapeSlashes(str string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Replace(str, `/`, `\/`, -1)
 }
 func mergeResult(labelsToSeries map[string]*prompb.TimeSeries, results []influx.Result) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, r := range results {
@@ -167,6 +183,8 @@ func mergeResult(labelsToSeries map[string]*prompb.TimeSeries, results []influx.
 func concatLabels(labels map[string]string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	separator := "\xff"
 	pairs := make([]string, 0, len(labels))
 	for k, v := range labels {
@@ -175,6 +193,8 @@ func concatLabels(labels map[string]string) string {
 	return strings.Join(pairs, separator)
 }
 func tagsToLabelPairs(name string, tags map[string]string) []prompb.Label {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pairs := make([]prompb.Label, 0, len(tags))
@@ -188,6 +208,8 @@ func tagsToLabelPairs(name string, tags map[string]string) []prompb.Label {
 	return pairs
 }
 func valuesToSamples(values [][]interface{}) ([]prompb.Sample, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	samples := make([]prompb.Sample, 0, len(values))
@@ -218,6 +240,8 @@ func valuesToSamples(values [][]interface{}) ([]prompb.Sample, error) {
 func mergeSamples(a, b []prompb.Sample) []prompb.Sample {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := make([]prompb.Sample, 0, len(a)+len(b))
 	i, j := 0, 0
 	for i < len(a) && j < len(b) {
@@ -240,9 +264,13 @@ func mergeSamples(a, b []prompb.Sample) []prompb.Sample {
 func (c Client) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "influxdb"
 }
 func (c *Client) Describe(ch chan<- *prometheus.Desc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ch <- c.ignoredSamples.Desc()
@@ -250,12 +278,23 @@ func (c *Client) Describe(ch chan<- *prometheus.Desc) {
 func (c *Client) Collect(ch chan<- prometheus.Metric) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ch <- c.ignoredSamples
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

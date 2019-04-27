@@ -15,6 +15,8 @@ import (
 func TestClient(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	samples := model.Samples{{Metric: model.Metric{model.MetricNameLabel: "testmetric", "test_label": "test_label_value1"}, Timestamp: model.Time(123456789123), Value: 1.23}, {Metric: model.Metric{model.MetricNameLabel: "testmetric", "test_label": "test_label_value2"}, Timestamp: model.Time(123456789123), Value: 5.1234}, {Metric: model.Metric{model.MetricNameLabel: "nan_value"}, Timestamp: model.Time(123456789123), Value: model.SampleValue(math.NaN())}, {Metric: model.Metric{model.MetricNameLabel: "pos_inf_value"}, Timestamp: model.Time(123456789123), Value: model.SampleValue(math.Inf(1))}, {Metric: model.Metric{model.MetricNameLabel: "neg_inf_value"}, Timestamp: model.Time(123456789123), Value: model.SampleValue(math.Inf(-1))}}
 	expectedBody := `testmetric,test_label=test_label_value1 value=1.23 123456789123
 testmetric,test_label=test_label_value2 value=5.1234 123456789123

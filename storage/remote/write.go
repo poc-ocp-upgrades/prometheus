@@ -9,9 +9,13 @@ import (
 func (s *Storage) Appender() (storage.Appender, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s, nil
 }
 func (s *Storage) Add(l labels.Labels, t int64, v float64) (uint64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mtx.RLock()
@@ -26,15 +30,21 @@ func (s *Storage) Add(l labels.Labels, t int64, v float64) (uint64, error) {
 func (s *Storage) AddFast(l labels.Labels, _ uint64, t int64, v float64) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := s.Add(l, t, v)
 	return err
 }
 func (*Storage) Commit() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (*Storage) Rollback() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil

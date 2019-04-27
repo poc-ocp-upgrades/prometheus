@@ -27,9 +27,13 @@ var LabelMatcher_Type_value = map[string]int32{"EQ": 0, "NEQ": 1, "RE": 2, "NRE"
 func (x LabelMatcher_Type) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return proto.EnumName(LabelMatcher_Type_name, int32(x))
 }
 func (LabelMatcher_Type) EnumDescriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{4, 0}
@@ -46,9 +50,13 @@ type Sample struct {
 func (m *Sample) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = Sample{}
 }
 func (m *Sample) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -56,8 +64,12 @@ func (m *Sample) String() string {
 func (*Sample) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*Sample) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{0}
@@ -65,9 +77,13 @@ func (*Sample) Descriptor() ([]byte, []int) {
 func (m *Sample) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *Sample) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -84,14 +100,20 @@ func (m *Sample) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *Sample) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_Sample.Merge(dst, src)
 }
 func (m *Sample) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *Sample) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_Sample.DiscardUnknown(m)
@@ -102,12 +124,16 @@ var xxx_messageInfo_Sample proto.InternalMessageInfo
 func (m *Sample) GetValue() float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Value
 	}
 	return 0
 }
 func (m *Sample) GetTimestamp() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -127,9 +153,13 @@ type TimeSeries struct {
 func (m *TimeSeries) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = TimeSeries{}
 }
 func (m *TimeSeries) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -137,8 +167,12 @@ func (m *TimeSeries) String() string {
 func (*TimeSeries) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*TimeSeries) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{1}
@@ -146,9 +180,13 @@ func (*TimeSeries) Descriptor() ([]byte, []int) {
 func (m *TimeSeries) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *TimeSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -165,14 +203,20 @@ func (m *TimeSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *TimeSeries) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_TimeSeries.Merge(dst, src)
 }
 func (m *TimeSeries) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *TimeSeries) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_TimeSeries.DiscardUnknown(m)
@@ -183,12 +227,16 @@ var xxx_messageInfo_TimeSeries proto.InternalMessageInfo
 func (m *TimeSeries) GetLabels() []Label {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Labels
 	}
 	return nil
 }
 func (m *TimeSeries) GetSamples() []Sample {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -208,9 +256,13 @@ type Label struct {
 func (m *Label) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = Label{}
 }
 func (m *Label) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -218,8 +270,12 @@ func (m *Label) String() string {
 func (*Label) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*Label) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{2}
@@ -227,9 +283,13 @@ func (*Label) Descriptor() ([]byte, []int) {
 func (m *Label) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *Label) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -246,14 +306,20 @@ func (m *Label) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *Label) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_Label.Merge(dst, src)
 }
 func (m *Label) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *Label) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_Label.DiscardUnknown(m)
@@ -264,12 +330,16 @@ var xxx_messageInfo_Label proto.InternalMessageInfo
 func (m *Label) GetName() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 func (m *Label) GetValue() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -288,9 +358,13 @@ type Labels struct {
 func (m *Labels) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = Labels{}
 }
 func (m *Labels) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -298,8 +372,12 @@ func (m *Labels) String() string {
 func (*Labels) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*Labels) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{3}
@@ -307,9 +385,13 @@ func (*Labels) Descriptor() ([]byte, []int) {
 func (m *Labels) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *Labels) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -326,14 +408,20 @@ func (m *Labels) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *Labels) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_Labels.Merge(dst, src)
 }
 func (m *Labels) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *Labels) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_Labels.DiscardUnknown(m)
@@ -342,6 +430,8 @@ func (m *Labels) XXX_DiscardUnknown() {
 var xxx_messageInfo_Labels proto.InternalMessageInfo
 
 func (m *Labels) GetLabels() []Label {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -362,9 +452,13 @@ type LabelMatcher struct {
 func (m *LabelMatcher) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = LabelMatcher{}
 }
 func (m *LabelMatcher) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -372,8 +466,12 @@ func (m *LabelMatcher) String() string {
 func (*LabelMatcher) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*LabelMatcher) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{4}
@@ -381,9 +479,13 @@ func (*LabelMatcher) Descriptor() ([]byte, []int) {
 func (m *LabelMatcher) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *LabelMatcher) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -400,14 +502,20 @@ func (m *LabelMatcher) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 func (dst *LabelMatcher) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_LabelMatcher.Merge(dst, src)
 }
 func (m *LabelMatcher) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *LabelMatcher) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_LabelMatcher.DiscardUnknown(m)
@@ -418,6 +526,8 @@ var xxx_messageInfo_LabelMatcher proto.InternalMessageInfo
 func (m *LabelMatcher) GetType() LabelMatcher_Type {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Type
 	}
@@ -426,12 +536,16 @@ func (m *LabelMatcher) GetType() LabelMatcher_Type {
 func (m *LabelMatcher) GetName() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 func (m *LabelMatcher) GetValue() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -453,9 +567,13 @@ type ReadHints struct {
 func (m *ReadHints) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = ReadHints{}
 }
 func (m *ReadHints) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -463,8 +581,12 @@ func (m *ReadHints) String() string {
 func (*ReadHints) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*ReadHints) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_types_38f70661e771add3, []int{5}
@@ -472,9 +594,13 @@ func (*ReadHints) Descriptor() ([]byte, []int) {
 func (m *ReadHints) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *ReadHints) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -491,14 +617,20 @@ func (m *ReadHints) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *ReadHints) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_ReadHints.Merge(dst, src)
 }
 func (m *ReadHints) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *ReadHints) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_ReadHints.DiscardUnknown(m)
@@ -509,12 +641,16 @@ var xxx_messageInfo_ReadHints proto.InternalMessageInfo
 func (m *ReadHints) GetStepMs() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.StepMs
 	}
 	return 0
 }
 func (m *ReadHints) GetFunc() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -525,6 +661,8 @@ func (m *ReadHints) GetFunc() string {
 func (m *ReadHints) GetStartMs() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.StartMs
 	}
@@ -533,12 +671,16 @@ func (m *ReadHints) GetStartMs() int64 {
 func (m *ReadHints) GetEndMs() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.EndMs
 	}
 	return 0
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterType((*Sample)(nil), "prometheus.Sample")
@@ -552,6 +694,8 @@ func init() {
 func (m *Sample) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -561,6 +705,8 @@ func (m *Sample) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *Sample) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -586,6 +732,8 @@ func (m *Sample) MarshalTo(dAtA []byte) (int, error) {
 func (m *TimeSeries) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -595,6 +743,8 @@ func (m *TimeSeries) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *TimeSeries) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -633,6 +783,8 @@ func (m *TimeSeries) MarshalTo(dAtA []byte) (int, error) {
 func (m *Label) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -642,6 +794,8 @@ func (m *Label) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *Label) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -668,6 +822,8 @@ func (m *Label) MarshalTo(dAtA []byte) (int, error) {
 func (m *Labels) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -677,6 +833,8 @@ func (m *Labels) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *Labels) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -703,6 +861,8 @@ func (m *Labels) MarshalTo(dAtA []byte) (int, error) {
 func (m *LabelMatcher) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -712,6 +872,8 @@ func (m *LabelMatcher) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *LabelMatcher) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -743,6 +905,8 @@ func (m *LabelMatcher) MarshalTo(dAtA []byte) (int, error) {
 func (m *ReadHints) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -752,6 +916,8 @@ func (m *ReadHints) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *ReadHints) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -787,6 +953,8 @@ func (m *ReadHints) MarshalTo(dAtA []byte) (int, error) {
 func encodeVarintTypes(dAtA []byte, offset int, v uint64) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
@@ -796,6 +964,8 @@ func encodeVarintTypes(dAtA []byte, offset int, v uint64) int {
 	return offset + 1
 }
 func (m *Sample) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -815,6 +985,8 @@ func (m *Sample) Size() (n int) {
 	return n
 }
 func (m *TimeSeries) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -842,6 +1014,8 @@ func (m *TimeSeries) Size() (n int) {
 func (m *Label) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -863,6 +1037,8 @@ func (m *Label) Size() (n int) {
 func (m *Labels) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -880,6 +1056,8 @@ func (m *Labels) Size() (n int) {
 	return n
 }
 func (m *LabelMatcher) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -904,6 +1082,8 @@ func (m *LabelMatcher) Size() (n int) {
 	return n
 }
 func (m *ReadHints) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -932,6 +1112,8 @@ func (m *ReadHints) Size() (n int) {
 func sovTypes(x uint64) (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		n++
 		x >>= 7
@@ -944,9 +1126,13 @@ func sovTypes(x uint64) (n int) {
 func sozTypes(x uint64) (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sovTypes(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
 func (m *Sample) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1029,6 +1215,8 @@ func (m *Sample) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *TimeSeries) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1145,6 +1333,8 @@ func (m *TimeSeries) Unmarshal(dAtA []byte) error {
 func (m *Label) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1255,6 +1445,8 @@ func (m *Label) Unmarshal(dAtA []byte) error {
 func (m *Labels) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1336,6 +1528,8 @@ func (m *Labels) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *LabelMatcher) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1465,6 +1659,8 @@ func (m *LabelMatcher) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *ReadHints) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1605,6 +1801,8 @@ func (m *ReadHints) Unmarshal(dAtA []byte) error {
 func skipTypes(dAtA []byte) (n int, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1710,6 +1908,8 @@ var (
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterFile("types.proto", fileDescriptor_types_38f70661e771add3)

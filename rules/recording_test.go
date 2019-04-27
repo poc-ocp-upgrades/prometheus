@@ -13,6 +13,8 @@ import (
 func TestRuleEval(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := testutil.NewStorage(t)
 	defer storage.Close()
 	opts := promql.EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 10 * time.Second}
@@ -34,6 +36,8 @@ func TestRuleEval(t *testing.T) {
 	}
 }
 func TestRecordingRuleHTMLSnippet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expr, err := promql.ParseExpr(`foo{html="<b>BOLD<b>"}`)

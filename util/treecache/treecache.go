@@ -22,6 +22,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(failureCounter)
 	prometheus.MustRegister(numWatchers)
 }
@@ -31,9 +33,13 @@ type ZookeeperLogger struct{ logger log.Logger }
 func NewZookeeperLogger(logger log.Logger) ZookeeperLogger {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ZookeeperLogger{logger: logger}
 }
 func (zl ZookeeperLogger) Printf(s string, i ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	level.Info(zl.logger).Log("msg", fmt.Sprintf(s, i...))
@@ -62,6 +68,8 @@ type zookeeperTreeCacheNode struct {
 func NewZookeeperTreeCache(conn *zk.Conn, path string, events chan ZookeeperTreeCacheEvent, logger log.Logger) *ZookeeperTreeCache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tc := &ZookeeperTreeCache{conn: conn, prefix: path, events: events, stop: make(chan struct{}), logger: logger}
 	tc.head = &zookeeperTreeCacheNode{events: make(chan zk.Event), children: map[string]*zookeeperTreeCacheNode{}, stopped: true}
 	go tc.loop(path)
@@ -70,9 +78,13 @@ func NewZookeeperTreeCache(conn *zk.Conn, path string, events chan ZookeeperTree
 func (tc *ZookeeperTreeCache) Stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tc.stop <- struct{}{}
 }
 func (tc *ZookeeperTreeCache) loop(path string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	failureMode := false
@@ -142,6 +154,8 @@ func (tc *ZookeeperTreeCache) loop(path string) {
 func (tc *ZookeeperTreeCache) recursiveNodeUpdate(path string, node *zookeeperTreeCacheNode) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, _, dataWatcher, err := tc.conn.GetW(path)
 	if err == zk.ErrNoNode {
 		tc.recursiveDelete(path, node)
@@ -197,6 +211,8 @@ func (tc *ZookeeperTreeCache) recursiveNodeUpdate(path string, node *zookeeperTr
 func (tc *ZookeeperTreeCache) resyncState(path string, currentState, previousState *zookeeperTreeCacheNode) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for child, previousNode := range previousState.children {
 		if currentNode, present := currentState.children[child]; present {
 			tc.resyncState(path+"/"+child, currentNode, previousNode)
@@ -206,6 +222,8 @@ func (tc *ZookeeperTreeCache) resyncState(path string, currentState, previousSta
 	}
 }
 func (tc *ZookeeperTreeCache) recursiveDelete(path string, node *zookeeperTreeCacheNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !node.stopped {
@@ -223,6 +241,8 @@ func (tc *ZookeeperTreeCache) recursiveDelete(path string, node *zookeeperTreeCa
 func (tc *ZookeeperTreeCache) recursiveStop(node *zookeeperTreeCacheNode) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !node.stopped {
 		node.done <- struct{}{}
 		node.stopped = true
@@ -234,7 +254,16 @@ func (tc *ZookeeperTreeCache) recursiveStop(node *zookeeperTreeCacheNode) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -46,6 +46,8 @@ const (
 func (c *Role) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := unmarshal((*string)(c)); err != nil {
 		return err
 	}
@@ -68,6 +70,8 @@ type SDConfig struct {
 }
 
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = SDConfig{}
@@ -98,11 +102,15 @@ type NamespaceDiscovery struct {
 func (c *NamespaceDiscovery) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = NamespaceDiscovery{}
 	type plain NamespaceDiscovery
 	return unmarshal((*plain)(c))
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prometheus.MustRegister(eventCount)
@@ -136,6 +144,8 @@ type Discovery struct {
 func (d *Discovery) getNamespaces() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaces := d.namespaceDiscovery.Names
 	if len(namespaces) == 0 {
 		namespaces = []string{apiv1.NamespaceAll}
@@ -143,6 +153,8 @@ func (d *Discovery) getNamespaces() []string {
 	return namespaces
 }
 func New(l log.Logger, conf *SDConfig) (*Discovery, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l == nil {
@@ -197,6 +209,8 @@ func New(l log.Logger, conf *SDConfig) (*Discovery, error) {
 const resyncPeriod = 10 * time.Minute
 
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d.Lock()
@@ -291,9 +305,13 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 func lv(s string) model.LabelValue {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return model.LabelValue(s)
 }
 func send(ctx context.Context, l log.Logger, role Role, ch chan<- []*targetgroup.Group, tg *targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if tg == nil {

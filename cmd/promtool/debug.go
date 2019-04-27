@@ -16,6 +16,8 @@ type debugWriterConfig struct {
 func debugWrite(cfg debugWriterConfig) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	archiver, err := newTarGzFileWriter(cfg.tarballName)
 	if err != nil {
 		return errors.Wrap(err, "error creating a new archiver")

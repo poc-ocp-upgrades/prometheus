@@ -25,6 +25,8 @@ type Service struct {
 func NewService(l log.Logger, inf cache.SharedInformer) *Service {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
@@ -44,6 +46,8 @@ func NewService(l log.Logger, inf cache.SharedInformer) *Service {
 func (s *Service) enqueue(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		return
@@ -51,6 +55,8 @@ func (s *Service) enqueue(obj interface{}) {
 	s.queue.Add(key)
 }
 func (s *Service) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer s.queue.ShutDown()
@@ -65,6 +71,8 @@ func (s *Service) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	<-ctx.Done()
 }
 func (s *Service) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyObj, quit := s.queue.Get()
@@ -96,6 +104,8 @@ func (s *Service) process(ctx context.Context, ch chan<- []*targetgroup.Group) b
 func convertToService(o interface{}) (*apiv1.Service, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	service, ok := o.(*apiv1.Service)
 	if ok {
 		return service, nil
@@ -105,9 +115,13 @@ func convertToService(o interface{}) (*apiv1.Service, error) {
 func serviceSource(s *apiv1.Service) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return serviceSourceFromNamespaceAndName(s.Namespace, s.Name)
 }
 func serviceSourceFromNamespaceAndName(namespace, name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "svc/" + namespace + "/" + name
@@ -126,6 +140,8 @@ const (
 func serviceLabels(svc *apiv1.Service) model.LabelSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ls := make(model.LabelSet, len(svc.Labels)+len(svc.Annotations)+2)
 	ls[serviceNameLabel] = lv(svc.Name)
 	ls[namespaceLabel] = lv(svc.Namespace)
@@ -140,6 +156,8 @@ func serviceLabels(svc *apiv1.Service) model.LabelSet {
 	return ls
 }
 func (s *Service) buildService(svc *apiv1.Service) *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg := &targetgroup.Group{Source: serviceSource(svc)}

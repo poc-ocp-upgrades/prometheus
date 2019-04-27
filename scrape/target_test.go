@@ -24,6 +24,8 @@ const (
 func TestTargetLabels(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	target := newTestTarget("example.com:80", 0, labels.FromStrings("job", "some_job", "foo", "bar"))
 	want := labels.FromStrings(model.JobLabel, "some_job", "foo", "bar")
 	got := target.Labels()
@@ -32,6 +34,8 @@ func TestTargetLabels(t *testing.T) {
 	}
 }
 func TestTargetOffset(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	interval := 10 * time.Second
@@ -65,6 +69,8 @@ func TestTargetOffset(t *testing.T) {
 func TestTargetURL(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	params := url.Values{"abc": []string{"foo", "bar", "baz"}, "xyz": []string{"hoo"}}
 	labels := labels.FromMap(map[string]string{model.AddressLabel: "example.com:1234", model.SchemeLabel: "https", model.MetricsPathLabel: "/metricz", "__param_abc": "overwrite", "__param_cde": "huu"})
 	target := NewTarget(labels, labels, params)
@@ -77,6 +83,8 @@ func TestTargetURL(t *testing.T) {
 func newTestTarget(targetURL string, deadline time.Duration, lbls labels.Labels) *Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := labels.NewBuilder(lbls)
 	lb.Set(model.SchemeLabel, "http")
 	lb.Set(model.AddressLabel, strings.TrimPrefix(targetURL, "http://"))
@@ -84,6 +92,8 @@ func newTestTarget(targetURL string, deadline time.Duration, lbls labels.Labels)
 	return &Target{labels: lb.Labels()}
 }
 func TestNewHTTPBearerToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -107,6 +117,8 @@ func TestNewHTTPBearerToken(t *testing.T) {
 func TestNewHTTPBearerTokenFile(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		expected := "Bearer 12345"
 		received := r.Header.Get("Authorization")
@@ -126,6 +138,8 @@ func TestNewHTTPBearerTokenFile(t *testing.T) {
 	}
 }
 func TestNewHTTPBasicAuth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -148,6 +162,8 @@ func TestNewHTTPBasicAuth(t *testing.T) {
 func TestNewHTTPCACert(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", `text/plain; version=0.0.4`)
 		w.Write([]byte{})
@@ -166,6 +182,8 @@ func TestNewHTTPCACert(t *testing.T) {
 	}
 }
 func TestNewHTTPClientCert(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -192,6 +210,8 @@ func TestNewHTTPClientCert(t *testing.T) {
 func TestNewHTTPWithServerName(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", `text/plain; version=0.0.4`)
 		w.Write([]byte{})
@@ -210,6 +230,8 @@ func TestNewHTTPWithServerName(t *testing.T) {
 	}
 }
 func TestNewHTTPWithBadServerName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -232,6 +254,8 @@ func TestNewHTTPWithBadServerName(t *testing.T) {
 func newTLSConfig(certName string, t *testing.T) *tls.Config {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tlsConfig := &tls.Config{}
 	caCertPool := x509.NewCertPool()
 	caCert, err := ioutil.ReadFile(caCertPath)
@@ -252,6 +276,8 @@ func newTLSConfig(certName string, t *testing.T) *tls.Config {
 	return tlsConfig
 }
 func TestNewClientWithBadTLSConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := config_util.HTTPClientConfig{TLSConfig: config_util.TLSConfig{CAFile: "testdata/nonexistent_ca.cer", CertFile: "testdata/nonexistent_client.cer", KeyFile: "testdata/nonexistent_client.key"}}

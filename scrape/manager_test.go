@@ -17,6 +17,8 @@ import (
 func TestPopulateLabels(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := []struct {
 		in	labels.Labels
 		cfg	*config.ScrapeConfig
@@ -34,6 +36,8 @@ func TestPopulateLabels(t *testing.T) {
 	}
 }
 func TestManagerReloadNoChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tsetName := "test"
@@ -59,6 +63,8 @@ scrape_configs:
 	scrapeManager.ApplyConfig(cfg)
 }
 func TestManagerTargetsUpdates(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := NewManager(nil, nil)

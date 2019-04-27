@@ -26,6 +26,8 @@ var (
 func TestTritonSDNew(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	td, err := New(nil, &conf)
 	testutil.Ok(t, err)
 	testutil.Assert(t, td != nil, "")
@@ -40,11 +42,15 @@ func TestTritonSDNew(t *testing.T) {
 func TestTritonSDNewBadConfig(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	td, err := New(nil, &badconf)
 	testutil.NotOk(t, err, "")
 	testutil.Assert(t, td == nil, "")
 }
 func TestTritonSDNewGroupsConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	td, err := New(nil, &groupsconf)
@@ -60,6 +66,8 @@ func TestTritonSDNewGroupsConfig(t *testing.T) {
 	testutil.Equals(t, groupsconf.Port, td.sdConfig.Port)
 }
 func TestTritonSDRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -85,10 +93,14 @@ func TestTritonSDRun(t *testing.T) {
 func TestTritonSDRefreshNoTargets(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tgts := testTritonSDRefresh(t, "{\"containers\":[]}")
 	testutil.Assert(t, tgts == nil, "")
 }
 func TestTritonSDRefreshMultipleTargets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -117,6 +129,8 @@ func TestTritonSDRefreshMultipleTargets(t *testing.T) {
 func TestTritonSDRefreshNoServer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		td, err = New(nil, &conf)
 	)
@@ -129,6 +143,8 @@ func TestTritonSDRefreshNoServer(t *testing.T) {
 	testutil.Assert(t, tg.Targets == nil, "")
 }
 func testTritonSDRefresh(t *testing.T, dstr string) []model.LabelSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

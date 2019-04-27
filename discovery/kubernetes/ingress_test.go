@@ -20,6 +20,8 @@ const (
 func makeIngress(tls TLSMode) *v1beta1.Ingress {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := &v1beta1.Ingress{ObjectMeta: metav1.ObjectMeta{Name: "testingress", Namespace: "default", Labels: map[string]string{"testlabel": "testvalue"}, Annotations: map[string]string{"testannotation": "testannotationvalue"}}, Spec: v1beta1.IngressSpec{TLS: nil, Rules: []v1beta1.IngressRule{{Host: "example.com", IngressRuleValue: v1beta1.IngressRuleValue{HTTP: &v1beta1.HTTPIngressRuleValue{Paths: []v1beta1.HTTPIngressPath{{Path: "/"}, {Path: "/foo"}}}}}, {Host: "nobackend.example.com", IngressRuleValue: v1beta1.IngressRuleValue{HTTP: &v1beta1.HTTPIngressRuleValue{}}}, {Host: "test.example.com", IngressRuleValue: v1beta1.IngressRuleValue{HTTP: &v1beta1.HTTPIngressRuleValue{Paths: []v1beta1.HTTPIngressPath{{}}}}}}}}
 	switch tls {
 	case TLSYes:
@@ -30,6 +32,8 @@ func makeIngress(tls TLSMode) *v1beta1.Ingress {
 	return ret
 }
 func expectedTargetGroups(ns string, tls TLSMode) map[string]*targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	scheme1 := "http"
@@ -47,6 +51,8 @@ func expectedTargetGroups(ns string, tls TLSMode) map[string]*targetgroup.Group 
 func TestIngressDiscoveryAdd(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleIngress, NamespaceDiscovery{Names: []string{"default"}})
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := makeIngress(TLSNo)
@@ -55,6 +61,8 @@ func TestIngressDiscoveryAdd(t *testing.T) {
 	}, expectedMaxItems: 1, expectedRes: expectedTargetGroups("default", TLSNo)}.Run(t)
 }
 func TestIngressDiscoveryAddTLS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleIngress, NamespaceDiscovery{Names: []string{"default"}})
@@ -67,6 +75,8 @@ func TestIngressDiscoveryAddTLS(t *testing.T) {
 func TestIngressDiscoveryAddMixed(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleIngress, NamespaceDiscovery{Names: []string{"default"}})
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := makeIngress(TLSMixed)
@@ -75,6 +85,8 @@ func TestIngressDiscoveryAddMixed(t *testing.T) {
 	}, expectedMaxItems: 1, expectedRes: expectedTargetGroups("default", TLSMixed)}.Run(t)
 }
 func TestIngressDiscoveryNamespaces(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RoleIngress, NamespaceDiscovery{Names: []string{"ns1", "ns2"}})

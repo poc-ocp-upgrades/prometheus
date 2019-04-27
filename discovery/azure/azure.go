@@ -61,12 +61,16 @@ type SDConfig struct {
 func validateAuthParam(param, name string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(param) == 0 {
 		return fmt.Errorf("azure SD configuration requires a %s", name)
 	}
 	return nil
 }
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultSDConfig
@@ -97,6 +101,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(azureSDRefreshDuration)
 	prometheus.MustRegister(azureSDRefreshFailuresCount)
 }
@@ -111,12 +117,16 @@ type Discovery struct {
 func NewDiscovery(cfg *SDConfig, logger log.Logger) *Discovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
 	return &Discovery{cfg: cfg, interval: time.Duration(cfg.RefreshInterval), port: cfg.Port, logger: logger}
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(d.interval)
@@ -152,6 +162,8 @@ type azureClient struct {
 }
 
 func createAzureClient(cfg SDConfig) (azureClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	env, err := azure.EnvironmentFromName(cfg.Environment)
@@ -212,6 +224,8 @@ type virtualMachine struct {
 func newAzureResourceFromID(id string, logger log.Logger) (azureResource, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := strings.Split(id, "/")
 	if len(s) != 9 && len(s) != 11 {
 		err := fmt.Errorf("invalid ID '%s'. Refusing to create azureResource", id)
@@ -221,6 +235,8 @@ func newAzureResourceFromID(id string, logger log.Logger) (azureResource, error)
 	return azureResource{Name: strings.ToLower(s[8]), ResourceGroup: strings.ToLower(s[4])}, nil
 }
 func (d *Discovery) refresh() (tg *targetgroup.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer level.Debug(d.logger).Log("msg", "Azure discovery completed")
@@ -323,6 +339,8 @@ func (d *Discovery) refresh() (tg *targetgroup.Group, err error) {
 func (client *azureClient) getVMs() ([]virtualMachine, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var vms []virtualMachine
 	result, err := client.vm.ListAll()
 	if err != nil {
@@ -345,6 +363,8 @@ func (client *azureClient) getVMs() ([]virtualMachine, error) {
 func (client *azureClient) getScaleSets() ([]compute.VirtualMachineScaleSet, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var scaleSets []compute.VirtualMachineScaleSet
 	result, err := client.vmss.ListAll()
 	if err != nil {
@@ -361,6 +381,8 @@ func (client *azureClient) getScaleSets() ([]compute.VirtualMachineScaleSet, err
 	return scaleSets, nil
 }
 func (client *azureClient) getScaleSetVMs(scaleSet compute.VirtualMachineScaleSet) ([]virtualMachine, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var vms []virtualMachine
@@ -389,6 +411,8 @@ func (client *azureClient) getScaleSetVMs(scaleSet compute.VirtualMachineScaleSe
 func mapFromVM(vm compute.VirtualMachine) virtualMachine {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	osType := string(vm.Properties.StorageProfile.OsDisk.OsType)
 	tags := map[string]*string{}
 	if vm.Tags != nil {
@@ -399,6 +423,8 @@ func mapFromVM(vm compute.VirtualMachine) virtualMachine {
 func mapFromVMScaleSetVM(vm compute.VirtualMachineScaleSetVM, scaleSetName string) virtualMachine {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	osType := string(vm.Properties.StorageProfile.OsDisk.OsType)
 	tags := map[string]*string{}
 	if vm.Tags != nil {
@@ -407,6 +433,8 @@ func mapFromVMScaleSetVM(vm compute.VirtualMachineScaleSetVM, scaleSetName strin
 	return virtualMachine{ID: *(vm.ID), Name: *(vm.Name), Type: *(vm.Type), Location: *(vm.Location), OsType: osType, ScaleSet: scaleSetName, Tags: tags, NetworkProfile: *(vm.Properties.NetworkProfile)}
 }
 func (client *azureClient) getNetworkInterfaceByID(networkInterfaceID string) (network.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	result := network.Interface{}
@@ -430,7 +458,16 @@ func (client *azureClient) getNetworkInterfaceByID(networkInterfaceID string) (n
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

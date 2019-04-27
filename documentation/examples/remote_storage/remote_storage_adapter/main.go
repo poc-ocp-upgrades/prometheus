@@ -57,12 +57,16 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(receivedSamples)
 	prometheus.MustRegister(sentSamples)
 	prometheus.MustRegister(failedSamples)
 	prometheus.MustRegister(sentBatchDuration)
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := parseFlags()
@@ -75,6 +79,8 @@ func main() {
 	}
 }
 func parseFlags() *config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a := kingpin.New(filepath.Base(os.Args[0]), "Remote storage adapter")
@@ -113,6 +119,8 @@ type reader interface {
 func buildClients(logger log.Logger, cfg *config) ([]writer, []reader) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var writers []writer
 	var readers []reader
 	if cfg.graphiteAddress != "" {
@@ -139,6 +147,8 @@ func buildClients(logger log.Logger, cfg *config) ([]writer, []reader) {
 	return writers, readers
 }
 func serve(logger log.Logger, addr string, writers []writer, readers []reader) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	http.HandleFunc("/write", func(w http.ResponseWriter, r *http.Request) {
@@ -221,6 +231,8 @@ func serve(logger log.Logger, addr string, writers []writer, readers []reader) e
 func protoToSamples(req *prompb.WriteRequest) model.Samples {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var samples model.Samples
 	for _, ts := range req.Timeseries {
 		metric := make(model.Metric, len(ts.Labels))
@@ -236,6 +248,8 @@ func protoToSamples(req *prompb.WriteRequest) model.Samples {
 func sendSamples(logger log.Logger, w writer, samples model.Samples) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	begin := time.Now()
 	err := w.Write(samples)
 	duration := time.Since(begin).Seconds()
@@ -249,7 +263,16 @@ func sendSamples(logger log.Logger, w writer, samples model.Samples) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

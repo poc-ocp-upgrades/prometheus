@@ -20,6 +20,8 @@ import (
 func RulesUnitTest(files ...string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failed := false
 	for _, f := range files {
 		if errs := ruleUnitTest(f); errs != nil {
@@ -39,6 +41,8 @@ func RulesUnitTest(files ...string) int {
 	return 0
 }
 func ruleUnitTest(filename string) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fmt.Println("Unit Testing: ", filename)
@@ -87,6 +91,8 @@ type unitTestFile struct {
 func (utf *unitTestFile) maxEvalTime() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var maxd time.Duration
 	for _, t := range utf.Tests {
 		d := t.maxEvalTime()
@@ -105,6 +111,8 @@ type testGroup struct {
 }
 
 func (tg *testGroup) test(mint, maxt time.Time, evalInterval time.Duration, groupOrderMap map[string]int, ruleFiles ...string) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewLazyLoader(nil, tg.seriesLoadingString())
@@ -237,6 +245,8 @@ Outer:
 func (tg *testGroup) seriesLoadingString() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := ""
 	result += "load " + shortDuration(tg.Interval) + "\n"
 	for _, is := range tg.InputSeries {
@@ -245,6 +255,8 @@ func (tg *testGroup) seriesLoadingString() string {
 	return result
 }
 func shortDuration(d time.Duration) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := d.String()
@@ -259,6 +271,8 @@ func shortDuration(d time.Duration) string {
 func orderedGroups(groupsMap map[string]*rules.Group, groupOrderMap map[string]int) []*rules.Group {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	groups := make([]*rules.Group, 0, len(groupsMap))
 	for _, g := range groupsMap {
 		groups = append(groups, g)
@@ -269,6 +283,8 @@ func orderedGroups(groupsMap map[string]*rules.Group, groupOrderMap map[string]i
 	return groups
 }
 func (tg *testGroup) maxEvalTime() time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var maxd time.Duration
@@ -285,6 +301,8 @@ func (tg *testGroup) maxEvalTime() time.Duration {
 	return maxd
 }
 func query(ctx context.Context, qs string, t time.Time, engine *promql.Engine, qu storage.Queryable) (promql.Vector, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q, err := engine.NewInstantQuery(qu, qs, t)
@@ -310,14 +328,20 @@ type labelsAndAnnotations []labelAndAnnotation
 func (la labelsAndAnnotations) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(la)
 }
 func (la labelsAndAnnotations) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	la[i], la[j] = la[j], la[i]
 }
 func (la labelsAndAnnotations) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	diff := labels.Compare(la[i].Labels, la[j].Labels)
@@ -327,6 +351,8 @@ func (la labelsAndAnnotations) Less(i, j int) bool {
 	return labels.Compare(la[i].Annotations, la[j].Annotations) < 0
 }
 func (la labelsAndAnnotations) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(la) == 0 {
@@ -346,6 +372,8 @@ type labelAndAnnotation struct {
 }
 
 func (la *labelAndAnnotation) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "Labels:" + la.Labels.String() + " Annotations:" + la.Annotations.String()
@@ -381,6 +409,8 @@ type parsedSample struct {
 func parsedSamplesString(pss []parsedSample) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(pss) == 0 {
 		return "nil"
 	}
@@ -393,12 +423,16 @@ func parsedSamplesString(pss []parsedSample) string {
 func (ps *parsedSample) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ps.Labels.String() + " " + strconv.FormatFloat(ps.Value, 'E', -1, 64)
 }
 
 type dummyLogger struct{}
 
 func (l *dummyLogger) Log(keyvals ...interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil

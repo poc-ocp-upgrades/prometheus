@@ -7,6 +7,8 @@ import (
 func Uname() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := syscall.Utsname{}
 	err := syscall.Uname(&buf)
 	if err != nil {

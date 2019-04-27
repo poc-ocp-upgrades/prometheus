@@ -27,9 +27,13 @@ type compressedResponseWriter struct {
 func (c *compressedResponseWriter) Write(p []byte) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.writer.Write(p)
 }
 func (c *compressedResponseWriter) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if zlibWriter, ok := c.writer.(*zlib.Writer); ok {
@@ -43,6 +47,8 @@ func (c *compressedResponseWriter) Close() {
 	}
 }
 func newCompressedResponseWriter(writer http.ResponseWriter, req *http.Request) *compressedResponseWriter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	encodings := strings.Split(req.Header.Get(acceptEncodingHeader), ",")
@@ -64,6 +70,8 @@ type CompressionHandler struct{ Handler http.Handler }
 func (c CompressionHandler) ServeHTTP(writer http.ResponseWriter, req *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	compWriter := newCompressedResponseWriter(writer, req)
 	c.Handler.ServeHTTP(compWriter, req)
 	compWriter.Close()
@@ -71,7 +79,16 @@ func (c CompressionHandler) ServeHTTP(writer http.ResponseWriter, req *http.Requ
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

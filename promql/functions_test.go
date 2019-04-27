@@ -12,6 +12,8 @@ import (
 func TestDeriv(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := testutil.NewStorage(t)
 	defer storage.Close()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10000, Timeout: 10 * time.Second}

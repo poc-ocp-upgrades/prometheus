@@ -82,6 +82,8 @@ test_metric_without_labels{instance="baz"} 1001 6000000
 func TestFederation(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
 		load 1m
 			test_metric1{foo="bar",instance="i"}    0+100x100
@@ -115,6 +117,8 @@ func TestFederation(t *testing.T) {
 	}
 }
 func normalizeBody(body *bytes.Buffer) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

@@ -12,6 +12,8 @@ import (
 func TestMetrics(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	db := testutil.NewStorage(t)
 	defer db.Close()
 	metrics := &dto.Metric{}

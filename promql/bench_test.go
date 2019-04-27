@@ -14,6 +14,8 @@ import (
 func BenchmarkRangeQuery(b *testing.B) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := testutil.NewStorage(b)
 	defer storage.Close()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 50000000, Timeout: 100 * time.Second}

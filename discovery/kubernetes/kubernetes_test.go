@@ -26,6 +26,8 @@ type watcherFactory struct {
 func (wf *watcherFactory) watchFor(gvr schema.GroupVersionResource) *watch.FakeWatcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	wf.Lock()
 	defer wf.Unlock()
 	var fakewatch *watch.FakeWatcher
@@ -39,9 +41,13 @@ func (wf *watcherFactory) watchFor(gvr schema.GroupVersionResource) *watch.FakeW
 func (wf *watcherFactory) Nodes() *watch.FakeWatcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wf.watchFor(schema.GroupVersionResource{Group: "", Version: "v1", Resource: "nodes"})
 }
 func (wf *watcherFactory) Ingresses() *watch.FakeWatcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return wf.watchFor(schema.GroupVersionResource{Group: "extensions", Version: "v1beta1", Resource: "ingresses"})
@@ -49,9 +55,13 @@ func (wf *watcherFactory) Ingresses() *watch.FakeWatcher {
 func (wf *watcherFactory) Endpoints() *watch.FakeWatcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wf.watchFor(schema.GroupVersionResource{Group: "", Version: "v1", Resource: "endpoints"})
 }
 func (wf *watcherFactory) Services() *watch.FakeWatcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return wf.watchFor(schema.GroupVersionResource{Group: "", Version: "v1", Resource: "services"})
@@ -59,9 +69,13 @@ func (wf *watcherFactory) Services() *watch.FakeWatcher {
 func (wf *watcherFactory) Pods() *watch.FakeWatcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wf.watchFor(schema.GroupVersionResource{Group: "", Version: "v1", Resource: "pods"})
 }
 func makeDiscovery(role Role, nsDiscovery NamespaceDiscovery, objects ...runtime.Object) (*Discovery, kubernetes.Interface, *watcherFactory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	clientset := fake.NewSimpleClientset(objects...)
@@ -82,6 +96,8 @@ type k8sDiscoveryTest struct {
 }
 
 func (d k8sDiscoveryTest) Run(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ch := make(chan []*targetgroup.Group)
@@ -113,6 +129,8 @@ func (d k8sDiscoveryTest) Run(t *testing.T) {
 func readResultWithTimeout(t *testing.T, ch <-chan []*targetgroup.Group, max int, timeout time.Duration, resChan chan<- map[string]*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allTgs := make([][]*targetgroup.Group, 0)
 Loop:
 	for {
@@ -141,6 +159,8 @@ Loop:
 func requireTargetGroups(t *testing.T, expected, res map[string]*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b1, err := json.Marshal(expected)
 	if err != nil {
 		panic(err)
@@ -164,6 +184,8 @@ var _ hasSynced = &Service{}
 func (d *Discovery) hasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.RLock()
 	defer d.RUnlock()
 	for _, discoverer := range d.discoverers {
@@ -178,9 +200,13 @@ func (d *Discovery) hasSynced() bool {
 func (n *Node) hasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.informer.HasSynced()
 }
 func (e *Endpoints) hasSynced() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.endpointsInf.HasSynced() && e.serviceInf.HasSynced() && e.podInf.HasSynced()
@@ -188,14 +214,20 @@ func (e *Endpoints) hasSynced() bool {
 func (i *Ingress) hasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.informer.HasSynced()
 }
 func (p *Pod) hasSynced() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.informer.HasSynced()
 }
 func (s *Service) hasSynced() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return s.informer.HasSynced()

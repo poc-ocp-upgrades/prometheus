@@ -41,12 +41,16 @@ type Test struct {
 func NewTest(t testutil.T, input string) (*Test, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &Test{T: t, cmds: []testCommand{}}
 	err := test.parse(input)
 	test.clear()
 	return test, err
 }
 func newTestFromFile(t testutil.T, filename string) (*Test, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	content, err := ioutil.ReadFile(filename)
@@ -58,9 +62,13 @@ func newTestFromFile(t testutil.T, filename string) (*Test, error) {
 func (t *Test) QueryEngine() *Engine {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.queryEngine
 }
 func (t *Test) Queryable() storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return t.storage
@@ -68,9 +76,13 @@ func (t *Test) Queryable() storage.Queryable {
 func (t *Test) Context() context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.context
 }
 func (t *Test) Storage() storage.Storage {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return t.storage
@@ -78,9 +90,13 @@ func (t *Test) Storage() storage.Storage {
 func raise(line int, format string, v ...interface{}) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ParseErr{Line: line + 1, Err: fmt.Errorf(format, v...)}
 }
 func parseLoad(lines []string, i int) (int, *loadCmd, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !patLoad.MatchString(lines[i]) {
@@ -111,6 +127,8 @@ func parseLoad(lines []string, i int) (int, *loadCmd, error) {
 	return i, cmd, nil
 }
 func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !patEvalInstant.MatchString(lines[i]) {
@@ -170,6 +188,8 @@ func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
 func getLines(input string) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := strings.Split(input, "\n")
 	for i, l := range lines {
 		l = strings.TrimSpace(l)
@@ -181,6 +201,8 @@ func getLines(input string) []string {
 	return lines
 }
 func (t *Test) parse(input string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	lines := getLines(input)
@@ -214,12 +236,18 @@ type testCommand interface{ testCmd() }
 func (*clearCmd) testCmd() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*loadCmd) testCmd() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*evalCmd) testCmd() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
@@ -233,14 +261,20 @@ type loadCmd struct {
 func newLoadCmd(gap time.Duration) *loadCmd {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &loadCmd{gap: gap, metrics: map[uint64]labels.Labels{}, defs: map[uint64][]Point{}}
 }
 func (cmd loadCmd) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "load"
 }
 func (cmd *loadCmd) set(m labels.Labels, vals ...sequenceValue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	h := m.Hash()
@@ -256,6 +290,8 @@ func (cmd *loadCmd) set(m labels.Labels, vals ...sequenceValue) {
 	cmd.metrics[h] = m
 }
 func (cmd *loadCmd) append(a storage.Appender) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for h, smpls := range cmd.defs {
@@ -285,9 +321,13 @@ type entry struct {
 func (e entry) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%d: %s", e.pos, e.vals)
 }
 func newEvalCmd(expr string, start time.Time, line int) *evalCmd {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &evalCmd{expr: expr, start: start, line: line, metrics: map[uint64]labels.Labels{}, expected: map[uint64]entry{}}
@@ -295,9 +335,13 @@ func newEvalCmd(expr string, start time.Time, line int) *evalCmd {
 func (ev *evalCmd) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "eval"
 }
 func (ev *evalCmd) expect(pos int, m labels.Labels, vals ...sequenceValue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -309,6 +353,8 @@ func (ev *evalCmd) expect(pos int, m labels.Labels, vals ...sequenceValue) {
 	ev.expected[h] = entry{pos: pos, vals: vals}
 }
 func (ev *evalCmd) compareResult(result Value) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch val := result.(type) {
@@ -354,9 +400,13 @@ type clearCmd struct{}
 func (cmd clearCmd) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "clear"
 }
 func (t *Test) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, cmd := range t.cmds {
@@ -368,6 +418,8 @@ func (t *Test) Run() error {
 	return nil
 }
 func (t *Test) exec(tc testCommand) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch cmd := tc.(type) {
@@ -443,6 +495,8 @@ func (t *Test) exec(tc testCommand) error {
 func (t *Test) clear() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.storage != nil {
 		if err := t.storage.Close(); err != nil {
 			t.T.Fatalf("closing test storage: %s", err)
@@ -459,12 +513,16 @@ func (t *Test) clear() {
 func (t *Test) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.cancelCtx()
 	if err := t.storage.Close(); err != nil {
 		t.T.Fatalf("closing test storage: %s", err)
 	}
 }
 func almostEqual(a, b float64) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if math.IsNaN(a) && math.IsNaN(b) {
@@ -480,6 +538,8 @@ func almostEqual(a, b float64) bool {
 	return diff/(math.Abs(a)+math.Abs(b)) < epsilon
 }
 func parseNumber(s string) (float64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, err := strconv.ParseInt(s, 0, 64)
@@ -505,12 +565,16 @@ type LazyLoader struct {
 func NewLazyLoader(t testutil.T, input string) (*LazyLoader, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ll := &LazyLoader{T: t}
 	err := ll.parse(input)
 	ll.clear()
 	return ll, err
 }
 func (ll *LazyLoader) parse(input string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	lines := getLines(input)
@@ -534,6 +598,8 @@ func (ll *LazyLoader) parse(input string) error {
 func (ll *LazyLoader) clear() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ll.storage != nil {
 		if err := ll.storage.Close(); err != nil {
 			ll.T.Fatalf("closing test storage: %s", err)
@@ -548,6 +614,8 @@ func (ll *LazyLoader) clear() {
 	ll.context, ll.cancelCtx = context.WithCancel(context.Background())
 }
 func (ll *LazyLoader) appendTill(ts int64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app, err := ll.storage.Appender()
@@ -574,10 +642,14 @@ func (ll *LazyLoader) appendTill(ts int64) error {
 func (ll *LazyLoader) WithSamplesTill(ts time.Time, fn func(error)) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tsMilli := ts.Sub(time.Unix(0, 0)) / time.Millisecond
 	fn(ll.appendTill(int64(tsMilli)))
 }
 func (ll *LazyLoader) QueryEngine() *Engine {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ll.queryEngine
@@ -585,9 +657,13 @@ func (ll *LazyLoader) QueryEngine() *Engine {
 func (ll *LazyLoader) Queryable() storage.Queryable {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.storage
 }
 func (ll *LazyLoader) Context() context.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ll.context
@@ -595,9 +671,13 @@ func (ll *LazyLoader) Context() context.Context {
 func (ll *LazyLoader) Storage() storage.Storage {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.storage
 }
 func (ll *LazyLoader) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ll.cancelCtx()

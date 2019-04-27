@@ -42,9 +42,13 @@ var (
 func SetDefaultEvaluationInterval(ev time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	atomic.StoreInt64(&DefaultEvaluationInterval, durationToInt64Millis(ev))
 }
 func GetDefaultEvaluationInterval() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return atomic.LoadInt64(&DefaultEvaluationInterval)
@@ -62,6 +66,8 @@ type engineMetrics struct {
 func convertibleToInt64(v float64) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return v <= maxInt64 && v >= minInt64
 }
 
@@ -75,9 +81,13 @@ type (
 func (e ErrQueryTimeout) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("query timed out in %s", string(e))
 }
 func (e ErrQueryCanceled) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fmt.Sprintf("query was canceled in %s", string(e))
@@ -85,9 +95,13 @@ func (e ErrQueryCanceled) Error() string {
 func (e ErrTooManySamples) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("query processing would load too many samples into memory in %s", string(e))
 }
 func (e ErrStorage) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Err.Error()
@@ -113,14 +127,20 @@ type query struct {
 func (q *query) Statement() Statement {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return q.stmt
 }
 func (q *query) Stats() *stats.QueryTimers {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return q.stats
 }
 func (q *query) Cancel() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if q.cancel != nil {
@@ -130,11 +150,15 @@ func (q *query) Cancel() {
 func (q *query) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, s := range q.matrix {
 		putPointSlice(s.Points)
 	}
 }
 func (q *query) Exec(ctx context.Context) *Result {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if span := opentracing.SpanFromContext(ctx); span != nil {
@@ -146,6 +170,8 @@ func (q *query) Exec(ctx context.Context) *Result {
 func contextDone(ctx context.Context, env string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case <-ctx.Done():
 		return contextErr(ctx.Err(), env)
@@ -154,6 +180,8 @@ func contextDone(ctx context.Context, env string) error {
 	}
 }
 func contextErr(err error, env string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch err {
@@ -184,6 +212,8 @@ type Engine struct {
 func NewEngine(opts EngineOpts) *Engine {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if opts.Logger == nil {
 		opts.Logger = log.NewNopLogger()
 	}
@@ -197,6 +227,8 @@ func NewEngine(opts EngineOpts) *Engine {
 func (ng *Engine) NewInstantQuery(q storage.Queryable, qs string, ts time.Time) (Query, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expr, err := ParseExpr(qs)
 	if err != nil {
 		return nil, err
@@ -206,6 +238,8 @@ func (ng *Engine) NewInstantQuery(q storage.Queryable, qs string, ts time.Time) 
 	return qry, nil
 }
 func (ng *Engine) NewRangeQuery(q storage.Queryable, qs string, start, end time.Time, interval time.Duration) (Query, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expr, err := ParseExpr(qs)
@@ -222,6 +256,8 @@ func (ng *Engine) NewRangeQuery(q storage.Queryable, qs string, start, end time.
 func (ng *Engine) newQuery(q storage.Queryable, expr Expr, start, end time.Time, interval time.Duration) *query {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	es := &EvalStmt{Expr: expr, Start: start, End: end, Interval: interval}
 	qry := &query{stmt: es, ng: ng, stats: stats.NewQueryTimers(), queryable: q}
 	return qry
@@ -232,19 +268,27 @@ type testStmt func(context.Context) error
 func (testStmt) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test statement"
 }
 func (testStmt) stmt() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (ng *Engine) newTestQuery(f func(context.Context) error) Query {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	qry := &query{q: "test statement", stmt: testStmt(f), ng: ng, stats: stats.NewQueryTimers()}
 	return qry
 }
 func (ng *Engine) exec(ctx context.Context, q *query) (Value, storage.Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ng.metrics.currentQueries.Inc()
@@ -277,14 +321,20 @@ func (ng *Engine) exec(ctx context.Context, q *query) (Value, storage.Warnings, 
 func timeMilliseconds(t time.Time) int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.UnixNano() / int64(time.Millisecond/time.Nanosecond)
 }
 func durationMilliseconds(d time.Duration) int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return int64(d / (time.Millisecond / time.Nanosecond))
 }
 func (ng *Engine) execEvalStmt(ctx context.Context, query *query, s *EvalStmt) (Value, storage.Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prepareSpanTimer, ctxPrepare := query.stats.GetSpanTimer(ctx, stats.QueryPreparationTime, ng.metrics.queryPrepareTime)
@@ -347,6 +397,8 @@ func (ng *Engine) execEvalStmt(ctx context.Context, query *query, s *EvalStmt) (
 func (ng *Engine) cumulativeSubqueryOffset(path []Node) time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var subqOffset time.Duration
 	for _, node := range path {
 		switch n := node.(type) {
@@ -357,6 +409,8 @@ func (ng *Engine) cumulativeSubqueryOffset(path []Node) time.Duration {
 	return subqOffset
 }
 func (ng *Engine) populateSeries(ctx context.Context, q storage.Queryable, s *EvalStmt) (storage.Querier, storage.Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var maxOffset time.Duration
@@ -429,6 +483,8 @@ func (ng *Engine) populateSeries(ctx context.Context, q storage.Queryable, s *Ev
 func extractFuncFromPath(p []Node) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(p) == 0 {
 		return ""
 	}
@@ -443,6 +499,8 @@ func extractFuncFromPath(p []Node) string {
 	return extractFuncFromPath(p[:len(p)-1])
 }
 func checkForSeriesSetExpansion(ctx context.Context, expr Expr) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch e := expr.(type) {
@@ -470,6 +528,8 @@ func checkForSeriesSetExpansion(ctx context.Context, expr Expr) error {
 func expandSeriesSet(ctx context.Context, it storage.SeriesSet) (res []storage.Series, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for it.Next() {
 		select {
 		case <-ctx.Done():
@@ -495,14 +555,20 @@ type evaluator struct {
 func (ev *evaluator) errorf(format string, args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ev.error(fmt.Errorf(format, args...))
 }
 func (ev *evaluator) error(err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic(err)
 }
 func (ev *evaluator) recover(errp *error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e := recover()
@@ -519,6 +585,8 @@ func (ev *evaluator) recover(errp *error) {
 	}
 }
 func (ev *evaluator) Eval(expr Expr) (v Value, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer ev.recover(&err)
@@ -540,6 +608,8 @@ type EvalNodeHelper struct {
 func (enh *EvalNodeHelper) dropMetricName(l labels.Labels) labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if enh.dmn == nil {
 		enh.dmn = make(map[uint64]labels.Labels, len(enh.out))
 	}
@@ -553,6 +623,8 @@ func (enh *EvalNodeHelper) dropMetricName(l labels.Labels) labels.Labels {
 	return ret
 }
 func (enh *EvalNodeHelper) signatureFunc(on bool, names ...string) func(labels.Labels) uint64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if enh.sigf == nil {
@@ -571,6 +643,8 @@ func (enh *EvalNodeHelper) signatureFunc(on bool, names ...string) func(labels.L
 	}
 }
 func (ev *evaluator) rangeEval(f func([]Value, *EvalNodeHelper) Vector, exprs ...Expr) Matrix {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	numSteps := int((ev.endTimestamp-ev.startTimestamp)/ev.interval) + 1
@@ -662,6 +736,8 @@ func (ev *evaluator) rangeEval(f func([]Value, *EvalNodeHelper) Vector, exprs ..
 func (ev *evaluator) evalSubquery(subq *SubqueryExpr) *MatrixSelector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := ev.eval(subq).(Matrix)
 	ms := &MatrixSelector{Range: subq.Range, Offset: subq.Offset, series: make([]storage.Series, 0, len(val))}
 	for _, s := range val {
@@ -670,6 +746,8 @@ func (ev *evaluator) evalSubquery(subq *SubqueryExpr) *MatrixSelector {
 	return ms
 }
 func (ev *evaluator) eval(expr Expr) Value {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := contextDone(ev.ctx, "expression evaluation"); err != nil {
@@ -891,9 +969,13 @@ func (ev *evaluator) eval(expr Expr) Value {
 func durationToInt64Millis(d time.Duration) int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return int64(d / time.Millisecond)
 }
 func (ev *evaluator) vectorSelector(node *VectorSelector, ts int64) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := checkForSeriesSetExpansion(ev.ctx, node); err != nil {
@@ -917,6 +999,8 @@ func (ev *evaluator) vectorSelector(node *VectorSelector, ts int64) Vector {
 	return vec
 }
 func (ev *evaluator) vectorSelectorSingle(it *storage.BufferedSeriesIterator, node *VectorSelector, ts int64) (int64, float64, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	refTime := ts - durationMilliseconds(node.Offset)
@@ -948,6 +1032,8 @@ var pointPool = sync.Pool{}
 func getPointSlice(sz int) []Point {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := pointPool.Get()
 	if p != nil {
 		return p.([]Point)
@@ -957,9 +1043,13 @@ func getPointSlice(sz int) []Point {
 func putPointSlice(p []Point) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pointPool.Put(p[:0])
 }
 func (ev *evaluator) matrixSelector(node *MatrixSelector) Matrix {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := checkForSeriesSetExpansion(ev.ctx, node); err != nil {
@@ -988,6 +1078,8 @@ func (ev *evaluator) matrixSelector(node *MatrixSelector) Matrix {
 	return matrix
 }
 func (ev *evaluator) matrixIterSlice(it *storage.BufferedSeriesIterator, mint, maxt int64, out []Point) []Point {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(out) > 0 && out[len(out)-1].T >= mint {
@@ -1035,6 +1127,8 @@ func (ev *evaluator) matrixIterSlice(it *storage.BufferedSeriesIterator, mint, m
 func (ev *evaluator) VectorAnd(lhs, rhs Vector, matching *VectorMatching, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matching.Card != CardManyToMany {
 		panic("set operations must only use many-to-many matching")
 	}
@@ -1051,6 +1145,8 @@ func (ev *evaluator) VectorAnd(lhs, rhs Vector, matching *VectorMatching, enh *E
 	return enh.out
 }
 func (ev *evaluator) VectorOr(lhs, rhs Vector, matching *VectorMatching, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if matching.Card != CardManyToMany {
@@ -1072,6 +1168,8 @@ func (ev *evaluator) VectorOr(lhs, rhs Vector, matching *VectorMatching, enh *Ev
 func (ev *evaluator) VectorUnless(lhs, rhs Vector, matching *VectorMatching, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matching.Card != CardManyToMany {
 		panic("set operations must only use many-to-many matching")
 	}
@@ -1088,6 +1186,8 @@ func (ev *evaluator) VectorUnless(lhs, rhs Vector, matching *VectorMatching, enh
 	return enh.out
 }
 func (ev *evaluator) VectorBinop(op ItemType, lhs, rhs Vector, matching *VectorMatching, returnBool bool, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if matching.Card == CardManyToMany {
@@ -1164,6 +1264,8 @@ func (ev *evaluator) VectorBinop(op ItemType, lhs, rhs Vector, matching *VectorM
 func signatureFunc(on bool, names ...string) func(labels.Labels) uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if on {
 		return func(lset labels.Labels) uint64 {
 			return lset.HashForLabels(names...)
@@ -1174,6 +1276,8 @@ func signatureFunc(on bool, names ...string) func(labels.Labels) uint64 {
 	}
 }
 func resultMetric(lhs, rhs labels.Labels, op ItemType, matching *VectorMatching, enh *EvalNodeHelper) labels.Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if enh.resultMetric == nil {
@@ -1217,6 +1321,8 @@ func resultMetric(lhs, rhs labels.Labels, op ItemType, matching *VectorMatching,
 func (ev *evaluator) VectorscalarBinop(op ItemType, lhs Vector, rhs Scalar, swap, returnBool bool, enh *EvalNodeHelper) Vector {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, lhsSample := range lhs {
 		lv, rv := lhsSample.V, rhs.V
 		if swap {
@@ -1244,9 +1350,13 @@ func (ev *evaluator) VectorscalarBinop(op ItemType, lhs Vector, rhs Scalar, swap
 func dropMetricName(l labels.Labels) labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labels.NewBuilder(l).Del(labels.MetricName).Labels()
 }
 func scalarBinop(op ItemType, lhs, rhs float64) float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch op {
@@ -1278,6 +1388,8 @@ func scalarBinop(op ItemType, lhs, rhs float64) float64 {
 	panic(fmt.Errorf("operator %q not allowed for Scalar operations", op))
 }
 func vectorElemBinop(op ItemType, lhs, rhs float64) (float64, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch op {
@@ -1319,6 +1431,8 @@ type groupedAggregation struct {
 }
 
 func (ev *evaluator) aggregation(op ItemType, grouping []string, without bool, param interface{}, vec Vector, enh *EvalNodeHelper) Vector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	result := map[uint64]*groupedAggregation{}
@@ -1473,12 +1587,16 @@ func (ev *evaluator) aggregation(op ItemType, grouping []string, without bool, p
 func btos(b bool) float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b {
 		return 1
 	}
 	return 0
 }
 func shouldDropMetricName(op ItemType) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch op {
@@ -1489,6 +1607,8 @@ func shouldDropMetricName(op ItemType) bool {
 	}
 }
 func documentedType(t ValueType) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch t {

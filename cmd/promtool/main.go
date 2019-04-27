@@ -28,6 +28,8 @@ import (
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	app := kingpin.New(filepath.Base(os.Args[0]), "Tooling for the Prometheus monitoring system.")
 	app.Version(version.Print("promtool"))
 	app.HelpFlag.Short('h')
@@ -102,6 +104,8 @@ func main() {
 func CheckConfig(files ...string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failed := false
 	for _, f := range files {
 		ruleFiles, err := checkConfig(f)
@@ -130,6 +134,8 @@ func CheckConfig(files ...string) int {
 func checkFileExists(fn string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fn == "" {
 		return nil
 	}
@@ -137,6 +143,8 @@ func checkFileExists(fn string) error {
 	return err
 }
 func checkConfig(filename string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fmt.Println("Checking", filename)
@@ -190,6 +198,8 @@ func checkConfig(filename string) ([]string, error) {
 func checkTLSConfig(tlsConfig config_util.TLSConfig) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := checkFileExists(tlsConfig.CertFile); err != nil {
 		return fmt.Errorf("error checking client cert file %q: %s", tlsConfig.CertFile, err)
 	}
@@ -205,6 +215,8 @@ func checkTLSConfig(tlsConfig config_util.TLSConfig) error {
 	return nil
 }
 func CheckRules(files ...string) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	failed := false
@@ -226,6 +238,8 @@ func CheckRules(files ...string) int {
 	return 0
 }
 func checkRules(filename string) (int, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fmt.Println("Checking", filename)
@@ -253,6 +267,8 @@ $ curl -s http://localhost:9090/metrics | promtool check metrics
 func CheckMetrics() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := promlint.New(os.Stdin)
 	problems, err := l.Lint()
 	if err != nil {
@@ -268,6 +284,8 @@ func CheckMetrics() int {
 	return 0
 }
 func QueryInstant(url, query string, p printer) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	config := api.Config{Address: url}
@@ -288,6 +306,8 @@ func QueryInstant(url, query string, p printer) int {
 	return 0
 }
 func QueryRange(url, query, start, end string, step time.Duration, p printer) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	config := api.Config{Address: url}
@@ -336,6 +356,8 @@ func QueryRange(url, query, start, end string, step time.Duration, p printer) in
 func QuerySeries(url *url.URL, matchers []string, start, end string, p printer) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := api.Config{Address: url.String()}
 	c, err := api.NewClient(config)
 	if err != nil {
@@ -377,6 +399,8 @@ func QuerySeries(url *url.URL, matchers []string, start, end string, p printer) 
 func QueryLabels(url *url.URL, name string, p printer) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := api.Config{Address: url.String()}
 	c, err := api.NewClient(config)
 	if err != nil {
@@ -395,6 +419,8 @@ func QueryLabels(url *url.URL, name string, p printer) int {
 	return 0
 }
 func parseTime(s string) (time.Time, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if t, err := strconv.ParseFloat(s, 64); err == nil {
@@ -431,6 +457,8 @@ var (
 func debugPprof(url string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := debugWrite(debugWriterConfig{serverURL: url, tarballName: "debug.tar.gz", endPointGroups: pprofEndpoints}); err != nil {
 		fmt.Fprintln(os.Stderr, "error completing debug command:", err)
 		return 1
@@ -440,6 +468,8 @@ func debugPprof(url string) int {
 func debugMetrics(url string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := debugWrite(debugWriterConfig{serverURL: url, tarballName: "debug.tar.gz", endPointGroups: metricsEndpoints}); err != nil {
 		fmt.Fprintln(os.Stderr, "error completing debug command:", err)
 		return 1
@@ -447,6 +477,8 @@ func debugMetrics(url string) int {
 	return 0
 }
 func debugAll(url string) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := debugWrite(debugWriterConfig{serverURL: url, tarballName: "debug.tar.gz", endPointGroups: allEndpoints}); err != nil {
@@ -466,9 +498,13 @@ type promqlPrinter struct{}
 func (p *promqlPrinter) printValue(v model.Value) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Println(v)
 }
 func (p *promqlPrinter) printSeries(val []model.LabelSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, v := range val {
@@ -476,6 +512,8 @@ func (p *promqlPrinter) printSeries(val []model.LabelSet) {
 	}
 }
 func (p *promqlPrinter) printLabelValues(val model.LabelValues) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, v := range val {
@@ -488,14 +526,20 @@ type jsonPrinter struct{}
 func (j *jsonPrinter) printValue(v model.Value) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	json.NewEncoder(os.Stdout).Encode(v)
 }
 func (j *jsonPrinter) printSeries(v []model.LabelSet) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	json.NewEncoder(os.Stdout).Encode(v)
 }
 func (j *jsonPrinter) printLabelValues(v model.LabelValues) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	json.NewEncoder(os.Stdout).Encode(v)

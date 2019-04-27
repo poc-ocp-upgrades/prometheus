@@ -21,9 +21,13 @@ type fanout struct {
 func NewFanout(logger log.Logger, primary Storage, secondaries ...Storage) Storage {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fanout{logger: logger, primary: primary, secondaries: secondaries}
 }
 func (f *fanout) StartTime() (int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	firstTime, err := f.primary.StartTime()
@@ -42,6 +46,8 @@ func (f *fanout) StartTime() (int64, error) {
 	return firstTime, nil
 }
 func (f *fanout) Querier(ctx context.Context, mint, maxt int64) (Querier, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	queriers := make([]Querier, 0, 1+len(f.secondaries))
@@ -63,6 +69,8 @@ func (f *fanout) Querier(ctx context.Context, mint, maxt int64) (Querier, error)
 func (f *fanout) Appender() (Appender, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	primary, err := f.primary.Appender()
 	if err != nil {
 		return nil, err
@@ -78,6 +86,8 @@ func (f *fanout) Appender() (Appender, error) {
 	return &fanoutAppender{logger: f.logger, primary: primary, secondaries: secondaries}, nil
 }
 func (f *fanout) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := f.primary.Close(); err != nil {
@@ -101,6 +111,8 @@ type fanoutAppender struct {
 func (f *fanoutAppender) Add(l labels.Labels, t int64, v float64) (uint64, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := f.primary.Add(l, t, v)
 	if err != nil {
 		return ref, err
@@ -113,6 +125,8 @@ func (f *fanoutAppender) Add(l labels.Labels, t int64, v float64) (uint64, error
 	return ref, nil
 }
 func (f *fanoutAppender) AddFast(l labels.Labels, ref uint64, t int64, v float64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := f.primary.AddFast(l, ref, t, v); err != nil {
@@ -128,6 +142,8 @@ func (f *fanoutAppender) AddFast(l labels.Labels, ref uint64, t int64, v float64
 func (f *fanoutAppender) Commit() (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = f.primary.Commit()
 	for _, appender := range f.secondaries {
 		if err == nil {
@@ -141,6 +157,8 @@ func (f *fanoutAppender) Commit() (err error) {
 	return
 }
 func (f *fanoutAppender) Rollback() (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = f.primary.Rollback()
@@ -165,6 +183,8 @@ type mergeQuerier struct {
 func NewMergeQuerier(primaryQuerier Querier, queriers []Querier) Querier {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filtered := make([]Querier, 0, len(queriers))
 	for _, querier := range queriers {
 		if querier != NoopQuerier() {
@@ -183,6 +203,8 @@ func NewMergeQuerier(primaryQuerier Querier, queriers []Querier) Querier {
 	}
 }
 func (q *mergeQuerier) Select(params *SelectParams, matchers ...*labels.Matcher) (SeriesSet, Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	seriesSets := make([]SeriesSet, 0, len(q.queriers))
@@ -209,6 +231,8 @@ func (q *mergeQuerier) Select(params *SelectParams, matchers ...*labels.Matcher)
 func (q *mergeQuerier) LabelValues(name string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var results [][]string
 	for _, querier := range q.queriers {
 		values, err := querier.LabelValues(name)
@@ -222,10 +246,14 @@ func (q *mergeQuerier) LabelValues(name string) ([]string, error) {
 func (q *mergeQuerier) IsFailedSet(set SeriesSet) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, isFailedQuerier := q.failedQueriers[q.setQuerierMap[set]]
 	return isFailedQuerier
 }
 func mergeStringSlices(ss [][]string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch len(ss) {
@@ -241,6 +269,8 @@ func mergeStringSlices(ss [][]string) []string {
 	}
 }
 func mergeTwoStringSlices(a, b []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i, j := 0, 0
@@ -266,6 +296,8 @@ func mergeTwoStringSlices(a, b []string) []string {
 func (q *mergeQuerier) LabelNames() ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelNamesMap := make(map[string]struct{})
 	for _, b := range q.queriers {
 		names, err := b.LabelNames()
@@ -284,6 +316,8 @@ func (q *mergeQuerier) LabelNames() ([]string, error) {
 	return labelNames, nil
 }
 func (q *mergeQuerier) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var lastErr error
@@ -306,6 +340,8 @@ type mergeSeriesSet struct {
 func NewMergeSeriesSet(sets []SeriesSet, querier *mergeQuerier) SeriesSet {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(sets) == 1 {
 		return sets[0]
 	}
@@ -321,6 +357,8 @@ func NewMergeSeriesSet(sets []SeriesSet, querier *mergeQuerier) SeriesSet {
 	return &mergeSeriesSet{heap: h, sets: sets, querier: querier}
 }
 func (c *mergeSeriesSet) Next() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -350,6 +388,8 @@ func (c *mergeSeriesSet) Next() bool {
 func (c *mergeSeriesSet) At() Series {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.currentSets) == 1 {
 		return c.currentSets[0].At()
 	}
@@ -360,6 +400,8 @@ func (c *mergeSeriesSet) At() Series {
 	return &mergeSeries{labels: c.currentLabels, series: series}
 }
 func (c *mergeSeriesSet) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, set := range c.sets {
@@ -375,14 +417,20 @@ type seriesSetHeap []SeriesSet
 func (h seriesSetHeap) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(h)
 }
 func (h seriesSetHeap) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h[i], h[j] = h[j], h[i]
 }
 func (h seriesSetHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a, b := h[i].At().Labels(), h[j].At().Labels()
@@ -391,9 +439,13 @@ func (h seriesSetHeap) Less(i, j int) bool {
 func (h *seriesSetHeap) Push(x interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*h = append(*h, x.(SeriesSet))
 }
 func (h *seriesSetHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	old := *h
@@ -411,9 +463,13 @@ type mergeSeries struct {
 func (m *mergeSeries) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.labels
 }
 func (m *mergeSeries) Iterator() SeriesIterator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	iterators := make([]SeriesIterator, 0, len(m.series))
@@ -431,9 +487,13 @@ type mergeIterator struct {
 func newMergeIterator(iterators []SeriesIterator) SeriesIterator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &mergeIterator{iterators: iterators, h: nil}
 }
 func (c *mergeIterator) Seek(t int64) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.h = seriesIteratorHeap{}
@@ -447,12 +507,16 @@ func (c *mergeIterator) Seek(t int64) bool {
 func (c *mergeIterator) At() (t int64, v float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.h) == 0 {
 		panic("mergeIterator.At() called after .Next() returned false.")
 	}
 	return c.h[0].At()
 }
 func (c *mergeIterator) Next() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if c.h == nil {
@@ -482,6 +546,8 @@ func (c *mergeIterator) Next() bool {
 func (c *mergeIterator) Err() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, iter := range c.iterators {
 		if err := iter.Err(); err != nil {
 			return err
@@ -495,14 +561,20 @@ type seriesIteratorHeap []SeriesIterator
 func (h seriesIteratorHeap) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(h)
 }
 func (h seriesIteratorHeap) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h[i], h[j] = h[j], h[i]
 }
 func (h seriesIteratorHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	at, _ := h[i].At()
@@ -512,9 +584,13 @@ func (h seriesIteratorHeap) Less(i, j int) bool {
 func (h *seriesIteratorHeap) Push(x interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*h = append(*h, x.(SeriesIterator))
 }
 func (h *seriesIteratorHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	old := *h

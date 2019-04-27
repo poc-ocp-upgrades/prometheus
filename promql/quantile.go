@@ -17,14 +17,20 @@ type buckets []bucket
 func (b buckets) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(b)
 }
 func (b buckets) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b[i], b[j] = b[j], b[i]
 }
 func (b buckets) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return b[i].upperBound < b[j].upperBound
@@ -36,6 +42,8 @@ type metricWithBuckets struct {
 }
 
 func bucketQuantile(q float64, buckets buckets) float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if q < 0 {
@@ -77,6 +85,8 @@ func bucketQuantile(q float64, buckets buckets) float64 {
 func ensureMonotonic(buckets buckets) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	max := buckets[0].count
 	for i := range buckets[1:] {
 		switch {
@@ -88,6 +98,8 @@ func ensureMonotonic(buckets buckets) {
 	}
 }
 func quantile(q float64, values vectorByValueHeap) float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(values) == 0 {

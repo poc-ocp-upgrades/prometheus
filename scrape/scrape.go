@@ -43,6 +43,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(targetIntervalLength)
 	prometheus.MustRegister(targetReloadIntervalLength)
 	prometheus.MustRegister(targetSyncIntervalLength)
@@ -71,6 +73,8 @@ const maxAheadTime = 10 * time.Minute
 type labelsMutator func(labels.Labels) labels.Labels
 
 func newScrapePool(cfg *config.ScrapeConfig, app Appendable, logger log.Logger) *scrapePool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if logger == nil {
@@ -105,6 +109,8 @@ func newScrapePool(cfg *config.ScrapeConfig, app Appendable, logger log.Logger) 
 func (sp *scrapePool) ActiveTargets() []*Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sp.mtx.Lock()
 	defer sp.mtx.Unlock()
 	var tActive []*Target
@@ -116,11 +122,15 @@ func (sp *scrapePool) ActiveTargets() []*Target {
 func (sp *scrapePool) DroppedTargets() []*Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sp.mtx.Lock()
 	defer sp.mtx.Unlock()
 	return sp.droppedTargets
 }
 func (sp *scrapePool) stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sp.cancel()
@@ -139,6 +149,8 @@ func (sp *scrapePool) stop() {
 	wg.Wait()
 }
 func (sp *scrapePool) reload(cfg *config.ScrapeConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	start := time.Now()
@@ -178,6 +190,8 @@ func (sp *scrapePool) reload(cfg *config.ScrapeConfig) {
 func (sp *scrapePool) Sync(tgs []*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	start := time.Now()
 	var all []*Target
 	sp.mtx.Lock()
@@ -202,6 +216,8 @@ func (sp *scrapePool) Sync(tgs []*targetgroup.Group) {
 	targetScrapePoolSyncsCounter.WithLabelValues(sp.config.JobName).Inc()
 }
 func (sp *scrapePool) sync(targets []*Target) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sp.mtx.Lock()
@@ -245,6 +261,8 @@ func (sp *scrapePool) sync(targets []*Target) {
 func mutateSampleLabels(lset labels.Labels, target *Target, honor bool, rc []*relabel.Config) labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := labels.NewBuilder(lset)
 	if honor {
 		for _, l := range target.Labels() {
@@ -275,6 +293,8 @@ func mutateSampleLabels(lset labels.Labels, target *Target, honor bool, rc []*re
 func mutateReportSampleLabels(lset labels.Labels, target *Target) labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lb := labels.NewBuilder(lset)
 	for _, l := range target.Labels() {
 		lv := lset.Get(l.Name)
@@ -286,6 +306,8 @@ func mutateReportSampleLabels(lset labels.Labels, target *Target) labels.Labels 
 	return lb.Labels()
 }
 func appender(app storage.Appender, limit int) storage.Appender {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app = &timeLimitAppender{Appender: app, maxTime: timestamp.FromTime(time.Now().Add(maxAheadTime))}
@@ -314,6 +336,8 @@ const acceptHeader = `application/openmetrics-text; version=0.0.1,text/plain;ver
 var userAgentHeader = fmt.Sprintf("Prometheus/%s", version.Version)
 
 func (s *targetScraper) scrape(ctx context.Context, w io.Writer) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if s.req == nil {
@@ -405,9 +429,13 @@ type metaEntry struct {
 func newScrapeCache() *scrapeCache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &scrapeCache{series: map[string]*cacheEntry{}, droppedSeries: map[string]*uint64{}, seriesCur: map[uint64]labels.Labels{}, seriesPrev: map[uint64]labels.Labels{}, metadata: map[string]*metaEntry{}}
 }
 func (c *scrapeCache) iterDone() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for s, e := range c.series {
@@ -436,6 +464,8 @@ func (c *scrapeCache) iterDone() {
 func (c *scrapeCache) get(met string) (*cacheEntry, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e, ok := c.series[met]
 	if !ok {
 		return nil, false
@@ -446,6 +476,8 @@ func (c *scrapeCache) get(met string) (*cacheEntry, bool) {
 func (c *scrapeCache) addRef(met string, ref uint64, lset labels.Labels, hash uint64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref == 0 {
 		return
 	}
@@ -454,10 +486,14 @@ func (c *scrapeCache) addRef(met string, ref uint64, lset labels.Labels, hash ui
 func (c *scrapeCache) addDropped(met string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	iter := c.iter
 	c.droppedSeries[met] = &iter
 }
 func (c *scrapeCache) getDropped(met string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	iterp, ok := c.droppedSeries[met]
@@ -469,9 +505,13 @@ func (c *scrapeCache) getDropped(met string) bool {
 func (c *scrapeCache) trackStaleness(hash uint64, lset labels.Labels) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.seriesCur[hash] = lset
 }
 func (c *scrapeCache) forEachStale(f func(labels.Labels) bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for h, lset := range c.seriesPrev {
@@ -485,6 +525,8 @@ func (c *scrapeCache) forEachStale(f func(labels.Labels) bool) {
 func (c *scrapeCache) setType(metric []byte, t textparse.MetricType) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.metaMtx.Lock()
 	e, ok := c.metadata[yoloString(metric)]
 	if !ok {
@@ -496,6 +538,8 @@ func (c *scrapeCache) setType(metric []byte, t textparse.MetricType) {
 	c.metaMtx.Unlock()
 }
 func (c *scrapeCache) setHelp(metric, help []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.metaMtx.Lock()
@@ -513,6 +557,8 @@ func (c *scrapeCache) setHelp(metric, help []byte) {
 func (c *scrapeCache) setUnit(metric, unit []byte) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.metaMtx.Lock()
 	e, ok := c.metadata[yoloString(metric)]
 	if !ok {
@@ -528,6 +574,8 @@ func (c *scrapeCache) setUnit(metric, unit []byte) {
 func (c *scrapeCache) getMetadata(metric string) (MetricMetadata, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.metaMtx.Lock()
 	defer c.metaMtx.Unlock()
 	m, ok := c.metadata[metric]
@@ -539,6 +587,8 @@ func (c *scrapeCache) getMetadata(metric string) (MetricMetadata, bool) {
 func (c *scrapeCache) listMetadata() []MetricMetadata {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.metaMtx.Lock()
 	defer c.metaMtx.Unlock()
 	res := make([]MetricMetadata, 0, len(c.metadata))
@@ -548,6 +598,8 @@ func (c *scrapeCache) listMetadata() []MetricMetadata {
 	return res
 }
 func newScrapeLoop(ctx context.Context, sc scraper, l log.Logger, buffers *pool.Pool, sampleMutator labelsMutator, reportSampleMutator labelsMutator, appender func() storage.Appender, cache *scrapeCache) *scrapeLoop {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l == nil {
@@ -566,6 +618,8 @@ func newScrapeLoop(ctx context.Context, sc scraper, l log.Logger, buffers *pool.
 	return sl
 }
 func (sl *scrapeLoop) run(interval, timeout time.Duration, errc chan<- error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	select {
@@ -639,6 +693,8 @@ mainLoop:
 func (sl *scrapeLoop) endOfRunStaleness(last time.Time, ticker *time.Ticker, interval time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if last.IsZero() {
 		return
 	}
@@ -669,6 +725,8 @@ func (sl *scrapeLoop) endOfRunStaleness(last time.Time, ticker *time.Ticker, int
 func (sl *scrapeLoop) stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sl.cancel()
 	<-sl.stopped
 }
@@ -683,14 +741,20 @@ type samples []sample
 func (s samples) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s samples) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s samples) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d := labels.Compare(s[i].metric, s[j].metric)
@@ -702,6 +766,8 @@ func (s samples) Less(i, j int) bool {
 	return s[i].t < s[j].t
 }
 func (sl *scrapeLoop) append(b []byte, contentType string, ts time.Time) (total, added int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -861,6 +927,8 @@ loop:
 func yoloString(b []byte) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return *((*string)(unsafe.Pointer(&b)))
 }
 
@@ -872,6 +940,8 @@ const (
 )
 
 func (sl *scrapeLoop) report(start time.Time, duration time.Duration, scraped, appended int, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sl.scraper.report(start, duration, err)
@@ -902,6 +972,8 @@ func (sl *scrapeLoop) report(start time.Time, duration time.Duration, scraped, a
 func (sl *scrapeLoop) reportStale(start time.Time) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ts := timestamp.FromTime(start)
 	app := sl.appender()
 	stale := math.Float64frombits(value.StaleNaN)
@@ -924,6 +996,8 @@ func (sl *scrapeLoop) reportStale(start time.Time) error {
 	return app.Commit()
 }
 func (sl *scrapeLoop) addReportSample(app storage.Appender, s string, t int64, v float64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ce, ok := sl.cache.get(s)

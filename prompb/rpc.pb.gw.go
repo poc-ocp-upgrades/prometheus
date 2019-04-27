@@ -25,6 +25,8 @@ var (
 func request_Admin_TSDBSnapshot_0(ctx context.Context, marshaler runtime.Marshaler, client AdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var protoReq TSDBSnapshotRequest
 	var metadata runtime.ServerMetadata
 	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Admin_TSDBSnapshot_0); err != nil {
@@ -36,12 +38,16 @@ func request_Admin_TSDBSnapshot_0(ctx context.Context, marshaler runtime.Marshal
 func request_Admin_TSDBCleanTombstones_0(ctx context.Context, marshaler runtime.Marshaler, client AdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var protoReq TSDBCleanTombstonesRequest
 	var metadata runtime.ServerMetadata
 	msg, err := client.TSDBCleanTombstones(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 func request_Admin_DeleteSeries_0(ctx context.Context, marshaler runtime.Marshaler, client AdminClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var protoReq SeriesDeleteRequest
@@ -57,6 +63,8 @@ func request_Admin_DeleteSeries_0(ctx context.Context, marshaler runtime.Marshal
 	return msg, metadata, err
 }
 func RegisterAdminHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conn, err := grpc.Dial(endpoint, opts...)
@@ -82,9 +90,13 @@ func RegisterAdminHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux
 func RegisterAdminHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return RegisterAdminHandlerClient(ctx, mux, NewAdminClient(conn))
 }
 func RegisterAdminHandlerClient(ctx context.Context, mux *runtime.ServeMux, client AdminClient) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mux.Handle("POST", pattern_Admin_TSDBSnapshot_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

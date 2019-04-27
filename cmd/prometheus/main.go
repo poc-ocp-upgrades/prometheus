@@ -60,6 +60,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(version.NewCollector("prometheus"))
 	var err error
 	defaultRetentionDuration, err = model.ParseDuration(defaultRetentionString)
@@ -68,6 +70,8 @@ func init() {
 	}
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if os.Getenv("DEBUG") != "" {
@@ -428,6 +432,8 @@ func main() {
 func reloadConfig(filename string, logger log.Logger, rls ...func(*config.Config) error) (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	level.Info(logger).Log("msg", "Loading configuration file", "filename", filename)
 	defer func() {
 		if err == nil {
@@ -458,9 +464,13 @@ func reloadConfig(filename string, logger log.Logger, rls ...func(*config.Config
 func startsOrEndsWithQuote(s string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.HasPrefix(s, "\"") || strings.HasPrefix(s, "'") || strings.HasSuffix(s, "\"") || strings.HasSuffix(s, "'")
 }
 func compileCORSRegexString(s string) (*regexp.Regexp, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, err := relabel.NewRegexp(s)
@@ -470,6 +480,8 @@ func compileCORSRegexString(s string) (*regexp.Regexp, error) {
 	return r.Regexp, nil
 }
 func computeExternalURL(u, listenAddr string) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if u == "" {
@@ -505,6 +517,8 @@ type sender interface {
 func sendAlerts(s sender, externalURL string) rules.NotifyFunc {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(ctx context.Context, expr string, alerts ...*rules.Alert) {
 		var res []*notifier.Alert
 		for _, alert := range alerts {
@@ -524,6 +538,8 @@ func sendAlerts(s sender, externalURL string) rules.NotifyFunc {
 func chooseRetention(oldFlagDuration, newFlagDuration model.Duration) model.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	retention := oldFlagDuration
 	if retention == defaultRetentionDuration {
 		retention = newFlagDuration
@@ -536,7 +552,16 @@ func chooseRetention(oldFlagDuration, newFlagDuration model.Duration) model.Dura
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

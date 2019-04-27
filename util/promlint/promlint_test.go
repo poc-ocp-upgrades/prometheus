@@ -10,6 +10,8 @@ import (
 func TestLintNoHelpText(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const msg = "no help text"
 	tests := []struct {
 		name		string
@@ -47,6 +49,8 @@ go_goroutines 24
 	}
 }
 func TestLintMetricUnits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -114,6 +118,8 @@ thermometers_kelvin 0
 func TestLintCounter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		in		string
@@ -157,6 +163,8 @@ x_bytes 10
 	}
 }
 func TestLintHistogramSummaryReserved(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

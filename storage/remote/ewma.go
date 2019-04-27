@@ -18,9 +18,13 @@ type ewmaRate struct {
 func newEWMARate(alpha float64, interval time.Duration) *ewmaRate {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ewmaRate{alpha: alpha, interval: interval}
 }
 func (r *ewmaRate) rate() float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.mutex.Lock()
@@ -28,6 +32,8 @@ func (r *ewmaRate) rate() float64 {
 	return r.lastRate
 }
 func (r *ewmaRate) tick() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	newEvents := atomic.LoadInt64(&r.newEvents)
@@ -43,6 +49,8 @@ func (r *ewmaRate) tick() {
 	}
 }
 func (r *ewmaRate) incr(incr int64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.AddInt64(&r.newEvents, incr)

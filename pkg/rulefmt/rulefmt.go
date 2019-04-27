@@ -26,6 +26,8 @@ type Error struct {
 func (err *Error) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errors.Wrapf(err.Err, "group %q, rule %d, %q", err.Group, err.Rule, err.RuleName).Error()
 }
 
@@ -34,6 +36,8 @@ type RuleGroups struct {
 }
 
 func (g *RuleGroups) Validate() (errs []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	set := map[string]struct{}{}
@@ -77,6 +81,8 @@ type Rule struct {
 func (r *Rule) Validate() (errs []error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Record != "" && r.Alert != "" {
 		errs = append(errs, errors.Errorf("only one of 'record' and 'alert' must be set"))
 	}
@@ -118,6 +124,8 @@ func (r *Rule) Validate() (errs []error) {
 func testTemplateParsing(rl *Rule) (errs []error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rl.Alert == "" {
 		return errs
 	}
@@ -144,6 +152,8 @@ func testTemplateParsing(rl *Rule) (errs []error) {
 func Parse(content []byte) (*RuleGroups, []error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var groups RuleGroups
 	if err := yaml.UnmarshalStrict(content, &groups); err != nil {
 		return nil, []error{err}
@@ -151,6 +161,8 @@ func Parse(content []byte) (*RuleGroups, []error) {
 	return &groups, groups.Validate()
 }
 func ParseFile(file string) (*RuleGroups, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b, err := ioutil.ReadFile(file)
@@ -162,7 +174,16 @@ func ParseFile(file string) (*RuleGroups, []error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

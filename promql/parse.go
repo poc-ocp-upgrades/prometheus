@@ -28,12 +28,16 @@ type ParseErr struct {
 func (e *ParseErr) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e.Line == 0 {
 		return fmt.Sprintf("parse error at char %d: %s", e.Pos, e.Err)
 	}
 	return fmt.Sprintf("parse error at line %d, char %d: %s", e.Line, e.Pos, e.Err)
 }
 func ParseExpr(input string) (Expr, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := newParser(input)
@@ -47,6 +51,8 @@ func ParseExpr(input string) (Expr, error) {
 func ParseMetric(input string) (m labels.Labels, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := newParser(input)
 	defer p.recover(&err)
 	m = p.metric()
@@ -56,6 +62,8 @@ func ParseMetric(input string) (m labels.Labels, err error) {
 	return m, nil
 }
 func ParseMetricSelector(input string) (m []*labels.Matcher, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := newParser(input)
@@ -73,10 +81,14 @@ func ParseMetricSelector(input string) (m []*labels.Matcher, err error) {
 func newParser(input string) *parser {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &parser{lex: lex(input)}
 	return p
 }
 func (p *parser) parseExpr() (expr Expr, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer p.recover(&err)
@@ -103,6 +115,8 @@ type sequenceValue struct {
 func (v sequenceValue) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if v.omitted {
 		return "_"
 	}
@@ -111,11 +125,15 @@ func (v sequenceValue) String() string {
 func parseSeriesDesc(input string) (labels.Labels, []sequenceValue, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := newParser(input)
 	p.lex.seriesDesc = true
 	return p.parseSeriesDesc()
 }
 func (p *parser) parseSeriesDesc() (m labels.Labels, vals []sequenceValue, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer p.recover(&err)
@@ -192,11 +210,15 @@ func (p *parser) parseSeriesDesc() (m labels.Labels, vals []sequenceValue, err e
 func (p *parser) typecheck(node Node) (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer p.recover(&err)
 	p.checkType(node)
 	return nil
 }
 func (p *parser) next() item {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if p.peekCount > 0 {
@@ -216,6 +238,8 @@ func (p *parser) next() item {
 func (p *parser) peek() item {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.peekCount > 0 {
 		return p.token[p.peekCount-1]
 	}
@@ -230,14 +254,20 @@ func (p *parser) peek() item {
 func (p *parser) backup() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.peekCount++
 }
 func (p *parser) errorf(format string, args ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.error(fmt.Errorf(format, args...))
 }
 func (p *parser) error(err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	perr := &ParseErr{Line: p.lex.lineNumber(), Pos: p.lex.linePosition(), Err: err}
@@ -249,6 +279,8 @@ func (p *parser) error(err error) {
 func (p *parser) expect(exp ItemType, context string) item {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	token := p.next()
 	if token.typ != exp {
 		p.errorf("unexpected %s in %s, expected %s", token.desc(), context, exp.desc())
@@ -256,6 +288,8 @@ func (p *parser) expect(exp ItemType, context string) item {
 	return token
 }
 func (p *parser) expectOneOf(exp1, exp2 ItemType, context string) item {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	token := p.next()
@@ -268,6 +302,8 @@ func (p *parser) expectOneOf(exp1, exp2 ItemType, context string) item {
 var errUnexpected = fmt.Errorf("unexpected error")
 
 func (p *parser) recover(errp *error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	e := recover()
@@ -284,6 +320,8 @@ func (p *parser) recover(errp *error) {
 	p.lex.close()
 }
 func (p *parser) expr() Expr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expr := p.unaryExpr()
@@ -346,6 +384,8 @@ func (p *parser) expr() Expr {
 func (p *parser) balance(lhs Expr, op ItemType, rhs Expr, vecMatching *VectorMatching, returnBool bool) *BinaryExpr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if lhsBE, ok := lhs.(*BinaryExpr); ok {
 		precd := lhsBE.Op.precedence() - op.precedence()
 		if (precd < 0) || (precd == 0 && op.isRightAssociative()) {
@@ -362,6 +402,8 @@ func (p *parser) balance(lhs Expr, op ItemType, rhs Expr, vecMatching *VectorMat
 	return &BinaryExpr{Op: op, LHS: lhs, RHS: rhs, VectorMatching: vecMatching, ReturnBool: returnBool}
 }
 func (p *parser) unaryExpr() Expr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch t := p.peek(); t.typ {
@@ -401,6 +443,8 @@ func (p *parser) unaryExpr() Expr {
 	return e
 }
 func (p *parser) subqueryOrRangeSelector(expr Expr, checkRange bool) Expr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := "subquery selector"
@@ -443,6 +487,8 @@ func (p *parser) subqueryOrRangeSelector(expr Expr, checkRange bool) Expr {
 func (p *parser) number(val string) float64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, err := strconv.ParseInt(val, 0, 64)
 	f := float64(n)
 	if err != nil {
@@ -454,6 +500,8 @@ func (p *parser) number(val string) float64 {
 	return f
 }
 func (p *parser) primaryExpr() Expr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch t := p.next(); {
@@ -483,6 +531,8 @@ func (p *parser) primaryExpr() Expr {
 func (p *parser) labels() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const ctx = "grouping opts"
 	p.expect(itemLeftParen, ctx)
 	labels := []string{}
@@ -503,6 +553,8 @@ func (p *parser) labels() []string {
 	return labels
 }
 func (p *parser) aggrExpr() *AggregateExpr {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const ctx = "aggregation"
@@ -546,6 +598,8 @@ func (p *parser) aggrExpr() *AggregateExpr {
 func (p *parser) call(name string) *Call {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const ctx = "function call"
 	fn, exist := getFunction(name)
 	if !exist {
@@ -571,6 +625,8 @@ func (p *parser) call(name string) *Call {
 func (p *parser) labelSet() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	set := []labels.Label{}
 	for _, lm := range p.labelMatchers(itemEQL) {
 		set = append(set, labels.Label{Name: lm.Name, Value: lm.Value})
@@ -578,6 +634,8 @@ func (p *parser) labelSet() labels.Labels {
 	return labels.New(set...)
 }
 func (p *parser) labelMatchers(operators ...ItemType) []*labels.Matcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const ctx = "label matching"
@@ -638,6 +696,8 @@ func (p *parser) labelMatchers(operators ...ItemType) []*labels.Matcher {
 func (p *parser) metric() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := ""
 	var m labels.Labels
 	t := p.peek().typ
@@ -660,6 +720,8 @@ func (p *parser) metric() labels.Labels {
 func (p *parser) offset() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const ctx = "offset"
 	p.next()
 	offi := p.expect(itemDuration, ctx)
@@ -670,6 +732,8 @@ func (p *parser) offset() time.Duration {
 	return offset
 }
 func (p *parser) VectorSelector(name string) *VectorSelector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var matchers []*labels.Matcher
@@ -706,12 +770,16 @@ func (p *parser) VectorSelector(name string) *VectorSelector {
 func (p *parser) expectType(node Node, want ValueType, context string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := p.checkType(node)
 	if t != want {
 		p.errorf("expected type %s in %s, got %s", documentedType(want), context, documentedType(t))
 	}
 }
 func (p *parser) checkType(node Node) (typ ValueType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch n := node.(type) {
@@ -816,6 +884,8 @@ func (p *parser) checkType(node Node) (typ ValueType) {
 func (p *parser) unquoteString(s string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	unquoted, err := strutil.Unquote(s)
 	if err != nil {
 		p.errorf("error unquoting string %q: %s", s, err)
@@ -823,6 +893,8 @@ func (p *parser) unquoteString(s string) string {
 	return unquoted
 }
 func parseDuration(ds string) (time.Duration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dur, err := model.ParseDuration(ds)

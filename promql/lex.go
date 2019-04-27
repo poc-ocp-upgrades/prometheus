@@ -16,6 +16,8 @@ type item struct {
 func (i item) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case i.typ == itemEOF:
 		return "EOF"
@@ -37,9 +39,13 @@ func (i item) String() string {
 func (i ItemType) isOperator() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i > operatorsStart && i < operatorsEnd
 }
 func (i ItemType) isAggregator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return i > aggregatorsStart && i < aggregatorsEnd
@@ -47,14 +53,20 @@ func (i ItemType) isAggregator() bool {
 func (i ItemType) isAggregatorWithParam() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i == itemTopK || i == itemBottomK || i == itemCountValues || i == itemQuantile
 }
 func (i ItemType) isKeyword() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i > keywordsStart && i < keywordsEnd
 }
 func (i ItemType) isComparisonOperator() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch i {
@@ -67,6 +79,8 @@ func (i ItemType) isComparisonOperator() bool {
 func (i ItemType) isSetOperator() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch i {
 	case itemLAND, itemLOR, itemLUnless:
 		return true
@@ -77,6 +91,8 @@ func (i ItemType) isSetOperator() bool {
 const LowestPrec = 0
 
 func (i ItemType) precedence() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch i {
@@ -97,6 +113,8 @@ func (i ItemType) precedence() int {
 	}
 }
 func (i ItemType) isRightAssociative() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch i {
@@ -181,6 +199,8 @@ var itemTypeStr = map[ItemType]string{itemLeftParen: "(", itemRightParen: ")", i
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for s, ty := range key {
 		itemTypeStr[ty] = s
 	}
@@ -190,12 +210,16 @@ func init() {
 func (i ItemType) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s, ok := itemTypeStr[i]; ok {
 		return s
 	}
 	return fmt.Sprintf("<item %d>", i)
 }
 func (i item) desc() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, ok := itemTypeStr[i.typ]; ok {
@@ -207,6 +231,8 @@ func (i item) desc() string {
 	return fmt.Sprintf("%s %s", i.typ.desc(), i)
 }
 func (i ItemType) desc() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch i {
@@ -253,6 +279,8 @@ type lexer struct {
 func (l *lexer) next() rune {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if int(l.pos) >= len(l.input) {
 		l.width = 0
 		return eof
@@ -265,6 +293,8 @@ func (l *lexer) next() rune {
 func (l *lexer) peek() rune {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := l.next()
 	l.backup()
 	return r
@@ -272,9 +302,13 @@ func (l *lexer) peek() rune {
 func (l *lexer) backup() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.pos -= l.width
 }
 func (l *lexer) emit(t ItemType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.items <- item{t, l.start, l.input[l.start:l.pos]}
@@ -283,9 +317,13 @@ func (l *lexer) emit(t ItemType) {
 func (l *lexer) ignore() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.start = l.pos
 }
 func (l *lexer) accept(valid string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if strings.ContainsRune(valid, l.next()) {
@@ -297,6 +335,8 @@ func (l *lexer) accept(valid string) bool {
 func (l *lexer) acceptRun(valid string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for strings.ContainsRune(valid, l.next()) {
 	}
 	l.backup()
@@ -304,9 +344,13 @@ func (l *lexer) acceptRun(valid string) {
 func (l *lexer) lineNumber() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 1 + strings.Count(l.input[:l.lastPos], "\n")
 }
 func (l *lexer) linePosition() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	lb := strings.LastIndex(l.input[:l.lastPos], "\n")
@@ -318,10 +362,14 @@ func (l *lexer) linePosition() int {
 func (l *lexer) errorf(format string, args ...interface{}) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.items <- item{itemError, l.start, fmt.Sprintf(format, args...)}
 	return nil
 }
 func (l *lexer) nextItem() item {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	item := <-l.items
@@ -331,11 +379,15 @@ func (l *lexer) nextItem() item {
 func lex(input string) *lexer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := &lexer{input: input, items: make(chan item)}
 	go l.run()
 	return l
 }
 func (l *lexer) run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for l.state = lexStatements; l.state != nil; {
@@ -346,6 +398,8 @@ func (l *lexer) run() {
 func (l *lexer) close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for range l.items {
 	}
 }
@@ -353,6 +407,8 @@ func (l *lexer) close() {
 const lineComment = "#"
 
 func lexStatements(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l.braceOpen {
@@ -471,6 +527,8 @@ func lexStatements(l *lexer) stateFn {
 func lexInsideBraces(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasPrefix(l.input[l.pos:], lineComment) {
 		return lexLineComment
 	}
@@ -523,6 +581,8 @@ func lexInsideBraces(l *lexer) stateFn {
 func lexValueSequence(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := l.next(); {
 	case r == eof:
 		return lexStatements
@@ -549,6 +609,8 @@ func lexValueSequence(l *lexer) stateFn {
 	return lexValueSequence
 }
 func lexEscape(l *lexer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var n int
@@ -593,6 +655,8 @@ func lexEscape(l *lexer) {
 func digitVal(ch rune) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case '0' <= ch && ch <= '9':
 		return int(ch - '0')
@@ -604,6 +668,8 @@ func digitVal(ch rune) int {
 	return 16
 }
 func lexString(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 Loop:
@@ -625,6 +691,8 @@ Loop:
 func lexRawString(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 Loop:
 	for {
 		switch l.next() {
@@ -642,6 +710,8 @@ Loop:
 func lexSpace(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for isSpace(l.peek()) {
 		l.next()
 	}
@@ -649,6 +719,8 @@ func lexSpace(l *lexer) stateFn {
 	return lexStatements
 }
 func lexLineComment(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.pos += Pos(len(lineComment))
@@ -660,6 +732,8 @@ func lexLineComment(l *lexer) stateFn {
 	return lexStatements
 }
 func lexDuration(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l.scanNumber() {
@@ -678,6 +752,8 @@ func lexDuration(l *lexer) stateFn {
 func lexNumber(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !l.scanNumber() {
 		return l.errorf("bad number syntax: %q", l.input[l.start:l.pos])
 	}
@@ -685,6 +761,8 @@ func lexNumber(l *lexer) stateFn {
 	return lexStatements
 }
 func lexNumberOrDuration(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if l.scanNumber() {
@@ -702,6 +780,8 @@ func lexNumberOrDuration(l *lexer) stateFn {
 	return l.errorf("bad number or duration syntax: %q", l.input[l.start:l.pos])
 }
 func (l *lexer) scanNumber() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	digits := "0123456789"
@@ -724,6 +804,8 @@ func (l *lexer) scanNumber() bool {
 func lexIdentifier(l *lexer) stateFn {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for isAlphaNumeric(l.next()) {
 	}
 	l.backup()
@@ -731,6 +813,8 @@ func lexIdentifier(l *lexer) stateFn {
 	return lexStatements
 }
 func lexKeywordOrIdentifier(l *lexer) stateFn {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 Loop:
@@ -758,9 +842,13 @@ Loop:
 func isSpace(r rune) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r == ' ' || r == '\t' || r == '\n' || r == '\r'
 }
 func isEndOfLine(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r == '\r' || r == '\n'
@@ -768,9 +856,13 @@ func isEndOfLine(r rune) bool {
 func isAlphaNumeric(r rune) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return isAlpha(r) || isDigit(r)
 }
 func isDigit(r rune) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return '0' <= r && r <= '9'
@@ -778,9 +870,13 @@ func isDigit(r rune) bool {
 func isAlpha(r rune) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r == '_' || ('a' <= r && r <= 'z') || ('A' <= r && r <= 'Z')
 }
 func isLabel(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(s) == 0 || !isAlpha(rune(s[0])) {

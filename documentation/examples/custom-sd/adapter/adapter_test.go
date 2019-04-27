@@ -10,6 +10,8 @@ import (
 func TestGenerateTargetGroups(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		title			string
 		targetGroup		map[string][]*targetgroup.Group

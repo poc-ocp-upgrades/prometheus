@@ -9,6 +9,8 @@ import (
 func TestMapFromVMWithEmptyTags(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	id := "test"
 	name := "name"
 	vmType := "type"
@@ -23,6 +25,8 @@ func TestMapFromVMWithEmptyTags(t *testing.T) {
 	}
 }
 func TestMapFromVMWithTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	id := "test"
@@ -42,6 +46,8 @@ func TestMapFromVMWithTags(t *testing.T) {
 func TestMapFromVMScaleSetVMWithEmptyTags(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	id := "test"
 	name := "name"
 	vmType := "type"
@@ -57,6 +63,8 @@ func TestMapFromVMScaleSetVMWithEmptyTags(t *testing.T) {
 	}
 }
 func TestMapFromVMScaleSetVMWithTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	id := "test"

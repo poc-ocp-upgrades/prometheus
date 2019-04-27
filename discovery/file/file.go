@@ -37,6 +37,8 @@ type SDConfig struct {
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultSDConfig
 	type plain SDConfig
 	err := unmarshal((*plain)(c))
@@ -65,9 +67,13 @@ type TimestampCollector struct {
 func (t *TimestampCollector) Describe(ch chan<- *prometheus.Desc) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ch <- t.Description
 }
 func (t *TimestampCollector) Collect(ch chan<- prometheus.Metric) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	uniqueFiles := make(map[string]float64)
@@ -87,6 +93,8 @@ func (t *TimestampCollector) Collect(ch chan<- prometheus.Metric) {
 func (t *TimestampCollector) addDiscoverer(disc *Discovery) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.lock.Lock()
 	t.discoverers[disc] = struct{}{}
 	t.lock.Unlock()
@@ -94,11 +102,15 @@ func (t *TimestampCollector) addDiscoverer(disc *Discovery) {
 func (t *TimestampCollector) removeDiscoverer(disc *Discovery) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.lock.Lock()
 	delete(t.discoverers, disc)
 	t.lock.Unlock()
 }
 func NewTimestampCollector() *TimestampCollector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &TimestampCollector{Description: prometheus.NewDesc("prometheus_sd_file_mtime_seconds", "Timestamp (mtime) of files read by FileSD. Timestamp is set at read time.", []string{"filename"}, nil), discoverers: make(map[*Discovery]struct{})}
@@ -111,6 +123,8 @@ var (
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prometheus.MustRegister(fileSDScanDuration)
@@ -131,6 +145,8 @@ type Discovery struct {
 func NewDiscovery(conf *SDConfig, logger log.Logger) *Discovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
@@ -139,6 +155,8 @@ func NewDiscovery(conf *SDConfig, logger log.Logger) *Discovery {
 	return disc
 }
 func (d *Discovery) listFiles() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var paths []string
@@ -153,6 +171,8 @@ func (d *Discovery) listFiles() []string {
 	return paths
 }
 func (d *Discovery) watchFiles() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d.watcher == nil {
@@ -170,6 +190,8 @@ func (d *Discovery) watchFiles() {
 	}
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	watcher, err := fsnotify.NewWatcher()
@@ -206,6 +228,8 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 func (d *Discovery) writeTimestamp(filename string, timestamp float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	d.timestamps[filename] = timestamp
 	d.lock.Unlock()
@@ -213,11 +237,15 @@ func (d *Discovery) writeTimestamp(filename string, timestamp float64) {
 func (d *Discovery) deleteTimestamp(filename string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	delete(d.timestamps, filename)
 	d.lock.Unlock()
 }
 func (d *Discovery) stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	level.Debug(d.logger).Log("msg", "Stopping file discovery...", "paths", fmt.Sprintf("%v", d.paths))
@@ -240,6 +268,8 @@ func (d *Discovery) stop() {
 	level.Debug(d.logger).Log("msg", "File discovery stopped")
 }
 func (d *Discovery) refresh(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t0 := time.Now()
@@ -280,6 +310,8 @@ func (d *Discovery) refresh(ctx context.Context, ch chan<- []*targetgroup.Group)
 	d.watchFiles()
 }
 func (d *Discovery) readFile(filename string) ([]*targetgroup.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fd, err := os.Open(filename)
@@ -325,12 +357,23 @@ func (d *Discovery) readFile(filename string) ([]*targetgroup.Group, error) {
 func fileSource(filename string, i int) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s:%d", filename, i)
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

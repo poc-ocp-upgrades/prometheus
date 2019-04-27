@@ -18,6 +18,8 @@ type Appendable interface {
 func NewManager(logger log.Logger, app Appendable) *Manager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
@@ -38,6 +40,8 @@ type Manager struct {
 func (m *Manager) Run(tsets <-chan map[string][]*targetgroup.Group) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go m.reloader()
 	for {
 		select {
@@ -53,6 +57,8 @@ func (m *Manager) Run(tsets <-chan map[string][]*targetgroup.Group) error {
 	}
 }
 func (m *Manager) reloader() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(5 * time.Second)
@@ -72,6 +78,8 @@ func (m *Manager) reloader() {
 	}
 }
 func (m *Manager) reload() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
@@ -102,6 +110,8 @@ func (m *Manager) reload() {
 func (m *Manager) Stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
 	defer m.mtxScrape.Unlock()
 	for _, sp := range m.scrapePools {
@@ -112,11 +122,15 @@ func (m *Manager) Stop() {
 func (m *Manager) updateTsets(tsets map[string][]*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
 	m.targetSets = tsets
 	m.mtxScrape.Unlock()
 }
 func (m *Manager) ApplyConfig(cfg *config.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
@@ -139,6 +153,8 @@ func (m *Manager) ApplyConfig(cfg *config.Config) error {
 func (m *Manager) TargetsAll() map[string][]*Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
 	defer m.mtxScrape.Unlock()
 	targets := make(map[string][]*Target, len(m.scrapePools))
@@ -150,6 +166,8 @@ func (m *Manager) TargetsAll() map[string][]*Target {
 func (m *Manager) TargetsActive() map[string][]*Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtxScrape.Lock()
 	defer m.mtxScrape.Unlock()
 	targets := make(map[string][]*Target, len(m.scrapePools))
@@ -159,6 +177,8 @@ func (m *Manager) TargetsActive() map[string][]*Target {
 	return targets
 }
 func (m *Manager) TargetsDropped() map[string][]*Target {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtxScrape.Lock()

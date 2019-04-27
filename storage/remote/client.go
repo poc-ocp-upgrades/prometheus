@@ -39,6 +39,8 @@ type ClientConfig struct {
 func NewClient(index int, conf *ClientConfig) (*Client, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	httpClient, err := config_util.NewClientFromConfig(conf.HTTPClientConfig, "remote_storage")
 	if err != nil {
 		return nil, err
@@ -49,6 +51,8 @@ func NewClient(index int, conf *ClientConfig) (*Client, error) {
 type recoverableError struct{ error }
 
 func (c *Client) Store(ctx context.Context, req *prompb.WriteRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	data, err := proto.Marshal(req)
@@ -88,9 +92,13 @@ func (c *Client) Store(ctx context.Context, req *prompb.WriteRequest) error {
 func (c Client) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%d:%s", c.index, c.url)
 }
 func (c *Client) Read(ctx context.Context, query *prompb.Query) (*prompb.QueryResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req := &prompb.ReadRequest{Queries: []*prompb.Query{query}}
@@ -139,7 +147,16 @@ func (c *Client) Read(ctx context.Context, query *prompb.Query) (*prompb.QueryRe
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

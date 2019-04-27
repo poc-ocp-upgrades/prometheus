@@ -12,9 +12,13 @@ import (
 func Tree(node Node) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tree(node, "")
 }
 func tree(node Node, level string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if node == nil {
@@ -52,9 +56,13 @@ func tree(node Node, level string) string {
 func (node *EvalStmt) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "EVAL " + node.Expr.String()
 }
 func (es Expressions) String() (s string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(es) == 0 {
@@ -67,6 +75,8 @@ func (es Expressions) String() (s string) {
 	return s[:len(s)-2]
 }
 func (node *AggregateExpr) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	aggrString := node.Op.String()
@@ -85,6 +95,8 @@ func (node *AggregateExpr) String() string {
 	return aggrString
 }
 func (node *BinaryExpr) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	returnBool := ""
@@ -114,9 +126,13 @@ func (node *BinaryExpr) String() string {
 func (node *Call) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s(%s)", node.Func.Name, node.Args)
 }
 func (node *MatrixSelector) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vecSelector := &VectorSelector{Name: node.Name, LabelMatchers: node.LabelMatchers}
@@ -129,6 +145,8 @@ func (node *MatrixSelector) String() string {
 func (node *SubqueryExpr) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	step := ""
 	if node.Step != 0 {
 		step = model.Duration(node.Step).String()
@@ -138,9 +156,13 @@ func (node *SubqueryExpr) String() string {
 func (node *NumberLiteral) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprint(node.Val)
 }
 func (node *ParenExpr) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fmt.Sprintf("(%s)", node.Expr)
@@ -148,14 +170,20 @@ func (node *ParenExpr) String() string {
 func (node *StringLiteral) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%q", node.Val)
 }
 func (node *UnaryExpr) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s%s", node.Op, node.Expr)
 }
 func (node *VectorSelector) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	labelStrings := make([]string, 0, len(node.LabelMatchers)-1)

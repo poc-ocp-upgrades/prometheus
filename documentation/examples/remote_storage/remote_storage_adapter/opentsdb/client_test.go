@@ -15,6 +15,8 @@ var (
 func TestTagsFromMetric(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expected := map[string]TagValue{"testlabel": TagValue("test:value"), "many_chars": TagValue("abc!ABC:012-3!45ö67~89./")}
 	actual := tagsFromMetric(metric)
 	if !reflect.DeepEqual(actual, expected) {
@@ -22,6 +24,8 @@ func TestTagsFromMetric(t *testing.T) {
 	}
 }
 func TestMarshalStoreSamplesRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	request := StoreSamplesRequest{Metric: TagValue("test:metric"), Timestamp: 4711, Value: 3.1415, Tags: tagsFromMetric(metric)}

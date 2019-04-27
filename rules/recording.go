@@ -28,9 +28,13 @@ type RecordingRule struct {
 func NewRecordingRule(name string, vector promql.Expr, lset labels.Labels) *RecordingRule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RecordingRule{name: name, vector: vector, health: HealthUnknown, labels: lset}
 }
 func (rule *RecordingRule) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return rule.name
@@ -38,14 +42,20 @@ func (rule *RecordingRule) Name() string {
 func (rule *RecordingRule) Query() promql.Expr {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.vector
 }
 func (rule *RecordingRule) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rule.labels
 }
 func (rule *RecordingRule) Eval(ctx context.Context, ts time.Time, query QueryFunc, _ *url.URL) (promql.Vector, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vector, err := query(ctx, rule.vector.String(), ts)
@@ -74,6 +84,8 @@ func (rule *RecordingRule) Eval(ctx context.Context, ts time.Time, query QueryFu
 func (rule *RecordingRule) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := rulefmt.Rule{Record: rule.name, Expr: rule.vector.String(), Labels: rule.labels.Map()}
 	byt, err := yaml.Marshal(r)
 	if err != nil {
@@ -84,11 +96,15 @@ func (rule *RecordingRule) String() string {
 func (rule *RecordingRule) SetEvaluationDuration(dur time.Duration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule.mtx.Lock()
 	defer rule.mtx.Unlock()
 	rule.evaluationDuration = dur
 }
 func (rule *RecordingRule) SetLastError(err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rule.mtx.Lock()
@@ -98,11 +114,15 @@ func (rule *RecordingRule) SetLastError(err error) {
 func (rule *RecordingRule) LastError() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule.mtx.Lock()
 	defer rule.mtx.Unlock()
 	return rule.lastError
 }
 func (rule *RecordingRule) SetHealth(health RuleHealth) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rule.mtx.Lock()
@@ -112,11 +132,15 @@ func (rule *RecordingRule) SetHealth(health RuleHealth) {
 func (rule *RecordingRule) Health() RuleHealth {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule.mtx.Lock()
 	defer rule.mtx.Unlock()
 	return rule.health
 }
 func (rule *RecordingRule) GetEvaluationDuration() time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rule.mtx.Lock()
@@ -126,6 +150,8 @@ func (rule *RecordingRule) GetEvaluationDuration() time.Duration {
 func (rule *RecordingRule) SetEvaluationTimestamp(ts time.Time) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule.mtx.Lock()
 	defer rule.mtx.Unlock()
 	rule.evaluationTimestamp = ts
@@ -133,11 +159,15 @@ func (rule *RecordingRule) SetEvaluationTimestamp(ts time.Time) {
 func (rule *RecordingRule) GetEvaluationTimestamp() time.Time {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rule.mtx.Lock()
 	defer rule.mtx.Unlock()
 	return rule.evaluationTimestamp
 }
 func (rule *RecordingRule) HTMLSnippet(pathPrefix string) template.HTML {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ruleExpr := rule.vector.String()

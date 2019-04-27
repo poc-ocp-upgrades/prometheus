@@ -13,9 +13,13 @@ import (
 func makeOptionalBool(v bool) *bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v
 }
 func makeMultiPortPods() *v1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "testpod", Namespace: "default", Labels: map[string]string{"testlabel": "testvalue"}, Annotations: map[string]string{"testannotation": "testannotationvalue"}, UID: types.UID("abc123"), OwnerReferences: []metav1.OwnerReference{{Kind: "testcontrollerkind", Name: "testcontrollername", Controller: makeOptionalBool(true)}}}, Spec: v1.PodSpec{NodeName: "testnode", Containers: []v1.Container{{Name: "testcontainer0", Ports: []v1.ContainerPort{{Name: "testport0", Protocol: v1.ProtocolTCP, ContainerPort: int32(9000)}, {Name: "testport1", Protocol: v1.ProtocolUDP, ContainerPort: int32(9001)}}}, {Name: "testcontainer1"}}}, Status: v1.PodStatus{PodIP: "1.2.3.4", HostIP: "2.3.4.5", Phase: "Running", Conditions: []v1.PodCondition{{Type: v1.PodReady, Status: v1.ConditionTrue}}}}
@@ -23,15 +27,21 @@ func makeMultiPortPods() *v1.Pod {
 func makePods() *v1.Pod {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "testpod", Namespace: "default", UID: types.UID("abc123")}, Spec: v1.PodSpec{NodeName: "testnode", Containers: []v1.Container{{Name: "testcontainer", Ports: []v1.ContainerPort{{Name: "testport", Protocol: v1.ProtocolTCP, ContainerPort: int32(9000)}}}}}, Status: v1.PodStatus{PodIP: "1.2.3.4", HostIP: "2.3.4.5", Phase: "Running", Conditions: []v1.PodCondition{{Type: v1.PodReady, Status: v1.ConditionTrue}}}}
 }
 func expectedPodTargetGroups(ns string) map[string]*targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	key := fmt.Sprintf("pod/%s/testpod", ns)
 	return map[string]*targetgroup.Group{key: {Targets: []model.LabelSet{{"__address__": "1.2.3.4:9000", "__meta_kubernetes_pod_container_name": "testcontainer", "__meta_kubernetes_pod_container_port_name": "testport", "__meta_kubernetes_pod_container_port_number": "9000", "__meta_kubernetes_pod_container_port_protocol": "TCP"}}, Labels: model.LabelSet{"__meta_kubernetes_pod_name": "testpod", "__meta_kubernetes_namespace": lv(ns), "__meta_kubernetes_pod_node_name": "testnode", "__meta_kubernetes_pod_ip": "1.2.3.4", "__meta_kubernetes_pod_host_ip": "2.3.4.5", "__meta_kubernetes_pod_ready": "true", "__meta_kubernetes_pod_phase": "Running", "__meta_kubernetes_pod_uid": "abc123"}, Source: key}}
 }
 func TestPodDiscoveryBeforeRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RolePod, NamespaceDiscovery{})
@@ -44,6 +54,8 @@ func TestPodDiscoveryBeforeRun(t *testing.T) {
 func TestPodDiscoveryAdd(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RolePod, NamespaceDiscovery{})
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
 		obj := makePods()
@@ -52,6 +64,8 @@ func TestPodDiscoveryAdd(t *testing.T) {
 	}, expectedMaxItems: 1, expectedRes: expectedPodTargetGroups("default")}.Run(t)
 }
 func TestPodDiscoveryDelete(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	obj := makePods()
@@ -65,6 +79,8 @@ func TestPodDiscoveryDelete(t *testing.T) {
 func TestPodDiscoveryUpdate(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj := &v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "testpod", Namespace: "default", UID: "xyz321"}, Spec: v1.PodSpec{NodeName: "testnode", Containers: []v1.Container{{Name: "testcontainer", Ports: []v1.ContainerPort{{Name: "testport", Protocol: v1.ProtocolTCP, ContainerPort: int32(9000)}}}}}, Status: v1.PodStatus{PodIP: "1.2.3.4", HostIP: "2.3.4.5"}}
 	n, c, w := makeDiscovery(RolePod, NamespaceDiscovery{}, obj)
 	k8sDiscoveryTest{discovery: n, afterStart: func() {
@@ -74,6 +90,8 @@ func TestPodDiscoveryUpdate(t *testing.T) {
 	}, expectedMaxItems: 2, expectedRes: expectedPodTargetGroups("default")}.Run(t)
 }
 func TestPodDiscoveryUpdateEmptyPodIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RolePod, NamespaceDiscovery{})
@@ -89,6 +107,8 @@ func TestPodDiscoveryUpdateEmptyPodIP(t *testing.T) {
 	}, expectedMaxItems: 2, expectedRes: map[string]*targetgroup.Group{"pod/default/testpod": {Source: "pod/default/testpod"}}}.Run(t)
 }
 func TestPodDiscoveryNamespaces(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, c, w := makeDiscovery(RolePod, NamespaceDiscovery{Names: []string{"ns1", "ns2"}})

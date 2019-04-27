@@ -11,9 +11,13 @@ type OpenstackSDHypervisorTestSuite struct{ Mock *SDMock }
 func (s *OpenstackSDHypervisorTestSuite) TearDownSuite() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.Mock.ShutdownServer()
 }
 func (s *OpenstackSDHypervisorTestSuite) SetupTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.Mock = NewSDMock(t)
@@ -25,10 +29,14 @@ func (s *OpenstackSDHypervisorTestSuite) SetupTest(t *testing.T) {
 func (s *OpenstackSDHypervisorTestSuite) openstackAuthSuccess() (Discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf := SDConfig{IdentityEndpoint: s.Mock.Endpoint(), Password: "test", Username: "test", DomainName: "12345", Region: "RegionOne", Role: "hypervisor"}
 	return NewDiscovery(&conf, nil)
 }
 func TestOpenstackSDHypervisorRefresh(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mock := &OpenstackSDHypervisorTestSuite{}

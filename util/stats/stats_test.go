@@ -12,6 +12,8 @@ import (
 func TestTimerGroupNewTimer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tg := NewTimerGroup()
 	timer := tg.GetTimer(ExecTotalTime)
 	if duration := timer.Duration(); duration != 0 {
@@ -29,6 +31,8 @@ func TestTimerGroupNewTimer(t *testing.T) {
 	}
 }
 func TestQueryStatsWithTimers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	qt := NewQueryTimers()
@@ -52,6 +56,8 @@ func TestQueryStatsWithTimers(t *testing.T) {
 func TestQueryStatsWithSpanTimers(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	qt := NewQueryTimers()
 	ctx := &testutil.MockContext{DoneCh: make(chan struct{})}
 	qst, _ := qt.GetSpanTimer(ctx, ExecQueueTime, prometheus.NewSummary(prometheus.SummaryOpts{}))
@@ -71,6 +77,8 @@ func TestQueryStatsWithSpanTimers(t *testing.T) {
 	}
 }
 func TestTimerGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg := NewTimerGroup()

@@ -12,9 +12,13 @@ type OpenstackSDInstanceTestSuite struct{ Mock *SDMock }
 func (s *OpenstackSDInstanceTestSuite) TearDownSuite() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.Mock.ShutdownServer()
 }
 func (s *OpenstackSDInstanceTestSuite) SetupTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.Mock = NewSDMock(t)
@@ -27,10 +31,14 @@ func (s *OpenstackSDInstanceTestSuite) SetupTest(t *testing.T) {
 func (s *OpenstackSDInstanceTestSuite) openstackAuthSuccess() (Discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf := SDConfig{IdentityEndpoint: s.Mock.Endpoint(), Password: "test", Username: "test", DomainName: "12345", Region: "RegionOne", Role: "instance", AllTenants: true}
 	return NewDiscovery(&conf, nil)
 }
 func TestOpenstackSDInstanceRefresh(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	mock := &OpenstackSDInstanceTestSuite{}

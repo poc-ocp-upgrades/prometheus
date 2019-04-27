@@ -42,9 +42,13 @@ type testTargetRetriever struct{}
 func (t testTargetRetriever) TargetsActive() map[string][]*scrape.Target {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string][]*scrape.Target{"test": {scrape.NewTarget(labels.FromMap(map[string]string{model.SchemeLabel: "http", model.AddressLabel: "example.com:8080", model.MetricsPathLabel: "/metrics", model.JobLabel: "test"}), nil, url.Values{})}, "blackbox": {scrape.NewTarget(labels.FromMap(map[string]string{model.SchemeLabel: "http", model.AddressLabel: "localhost:9115", model.MetricsPathLabel: "/probe", model.JobLabel: "blackbox"}), nil, url.Values{"target": []string{"example.com"}})}}
 }
 func (t testTargetRetriever) TargetsDropped() map[string][]*scrape.Target {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return map[string][]*scrape.Target{"blackbox": {scrape.NewTarget(nil, labels.FromMap(map[string]string{model.AddressLabel: "http://dropped.example.com:9115", model.MetricsPathLabel: "/probe", model.SchemeLabel: "http", model.JobLabel: "blackbox"}), url.Values{})}}
@@ -55,9 +59,13 @@ type testAlertmanagerRetriever struct{}
 func (t testAlertmanagerRetriever) Alertmanagers() []*url.URL {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*url.URL{{Scheme: "http", Host: "alertmanager.example.com:8080", Path: "/api/v1/alerts"}}
 }
 func (t testAlertmanagerRetriever) DroppedAlertmanagers() []*url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return []*url.URL{{Scheme: "http", Host: "dropped.alertmanager.example.com:8080", Path: "/api/v1/alerts"}}
@@ -66,6 +74,8 @@ func (t testAlertmanagerRetriever) DroppedAlertmanagers() []*url.URL {
 type rulesRetrieverMock struct{ testing *testing.T }
 
 func (m rulesRetrieverMock) AlertingRules() []*rules.AlertingRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expr1, err := promql.ParseExpr(`absent(test_metric3) != 1`)
@@ -84,6 +94,8 @@ func (m rulesRetrieverMock) AlertingRules() []*rules.AlertingRule {
 	return r
 }
 func (m rulesRetrieverMock) RuleGroups() []*rules.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var ar rulesRetrieverMock
@@ -111,6 +123,8 @@ var samplePrometheusCfg = config.Config{GlobalConfig: config.GlobalConfig{}, Ale
 var sampleFlagMap = map[string]string{"flag1": "value1", "flag2": "value2"}
 
 func TestEndpoints(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
@@ -181,6 +195,8 @@ func TestEndpoints(t *testing.T) {
 func TestLabelNames(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
 		load 1m
 			test_metric1{foo1="bar", baz="abc"} 0+100x100
@@ -210,6 +226,8 @@ func TestLabelNames(t *testing.T) {
 	}
 }
 func setupRemote(s storage.Storage) *httptest.Server {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -250,6 +268,8 @@ func setupRemote(s storage.Storage) *httptest.Server {
 	return httptest.NewServer(handler)
 }
 func testEndpoints(t *testing.T, api *API, testLabelAPI bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	start := time.Unix(0, 0)
@@ -299,6 +319,8 @@ func testEndpoints(t *testing.T, api *API, testLabelAPI bool) {
 func assertAPIError(t *testing.T, got *apiError, exp errorType) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	if got != nil {
 		if exp == errorNone {
@@ -316,6 +338,8 @@ func assertAPIError(t *testing.T, got *apiError, exp errorType) {
 func assertAPIResponse(t *testing.T, got interface{}, exp interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !reflect.DeepEqual(exp, got) {
 		respJSON, err := json.Marshal(got)
 		if err != nil {
@@ -329,6 +353,8 @@ func assertAPIResponse(t *testing.T, got interface{}, exp interface{}) {
 	}
 }
 func TestReadEndpoint(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
@@ -403,14 +429,20 @@ type fakeDB struct {
 func (f *fakeDB) CleanTombstones() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.err
 }
 func (f *fakeDB) Delete(mint, maxt int64, ms ...tsdbLabels.Matcher) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.err
 }
 func (f *fakeDB) Dir() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dir, _ := ioutil.TempDir("", "fakeDB")
@@ -422,9 +454,13 @@ func (f *fakeDB) Dir() string {
 func (f *fakeDB) Snapshot(dir string, withHead bool) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.err
 }
 func TestAdminEndpoints(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tsdb, tsdbWithError := &fakeDB{}, &fakeDB{err: fmt.Errorf("some error")}
@@ -473,6 +509,8 @@ func TestAdminEndpoints(t *testing.T) {
 func TestRespondSuccess(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		api := API{}
 		api.respond(w, "test", nil)
@@ -503,6 +541,8 @@ func TestRespondSuccess(t *testing.T) {
 	}
 }
 func TestRespondError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -537,6 +577,8 @@ func TestRespondError(t *testing.T) {
 func TestParseTime(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ts, err := time.Parse(time.RFC3339Nano, "2015-06-03T13:21:58.555Z")
 	if err != nil {
 		panic(err)
@@ -564,6 +606,8 @@ func TestParseTime(t *testing.T) {
 func TestParseDuration(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		input	string
 		fail	bool
@@ -587,6 +631,8 @@ func TestParseDuration(t *testing.T) {
 func TestOptionsMethod(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := route.New()
 	api := &API{ready: func(f http.HandlerFunc) http.HandlerFunc {
 		return f
@@ -608,6 +654,8 @@ func TestOptionsMethod(t *testing.T) {
 	}
 }
 func TestRespond(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cases := []struct {
@@ -638,6 +686,8 @@ func TestRespond(t *testing.T) {
 var testResponseWriter = httptest.ResponseRecorder{}
 
 func BenchmarkRespond(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b.ReportAllocs()

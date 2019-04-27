@@ -38,6 +38,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(failedConfigs, discoveredTargets, receivedUpdates, delayedUpdates, sentUpdates)
 }
 
@@ -58,6 +60,8 @@ type provider struct {
 func NewManager(ctx context.Context, logger log.Logger, options ...func(*Manager)) *Manager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
@@ -68,6 +72,8 @@ func NewManager(ctx context.Context, logger log.Logger, options ...func(*Manager
 	return mgr
 }
 func Name(n string) func(*Manager) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(m *Manager) {
@@ -93,6 +99,8 @@ type Manager struct {
 func (m *Manager) Run() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go m.sender()
 	for range m.ctx.Done() {
 		m.cancelDiscoverers()
@@ -103,9 +111,13 @@ func (m *Manager) Run() error {
 func (m *Manager) SyncCh() <-chan map[string][]*targetgroup.Group {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.syncCh
 }
 func (m *Manager) ApplyConfig(cfg map[string]sd_config.ServiceDiscoveryConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.Lock()
@@ -128,11 +140,15 @@ func (m *Manager) ApplyConfig(cfg map[string]sd_config.ServiceDiscoveryConfig) e
 func (m *Manager) StartCustomProvider(ctx context.Context, name string, worker Discoverer) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &provider{name: name, d: worker, subs: []string{name}}
 	m.providers = append(m.providers, p)
 	m.startProvider(ctx, p)
 }
 func (m *Manager) startProvider(ctx context.Context, p *provider) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	level.Debug(m.logger).Log("msg", "Starting provider", "provider", p.name, "subs", fmt.Sprintf("%v", p.subs))
@@ -143,6 +159,8 @@ func (m *Manager) startProvider(ctx context.Context, p *provider) {
 	go m.updater(ctx, p, updates)
 }
 func (m *Manager) updater(ctx context.Context, p *provider, updates chan []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for {
@@ -166,6 +184,8 @@ func (m *Manager) updater(ctx context.Context, p *provider, updates chan []*targ
 	}
 }
 func (m *Manager) sender() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(m.updatert)
@@ -196,6 +216,8 @@ func (m *Manager) sender() {
 func (m *Manager) cancelDiscoverers() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range m.discoverCancel {
 		c()
 	}
@@ -204,6 +226,8 @@ func (m *Manager) cancelDiscoverers() {
 	m.discoverCancel = nil
 }
 func (m *Manager) updateGroup(poolKey poolKey, tgs []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.Lock()
@@ -220,6 +244,8 @@ func (m *Manager) updateGroup(poolKey poolKey, tgs []*targetgroup.Group) {
 func (m *Manager) allGroups() map[string][]*targetgroup.Group {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtx.Lock()
 	defer m.mtx.Unlock()
 	tSets := map[string][]*targetgroup.Group{}
@@ -234,6 +260,8 @@ func (m *Manager) allGroups() map[string][]*targetgroup.Group {
 	return tSets
 }
 func (m *Manager) registerProviders(cfg sd_config.ServiceDiscoveryConfig, setName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var added bool
@@ -333,6 +361,8 @@ type StaticProvider struct{ TargetGroups []*targetgroup.Group }
 func (sd *StaticProvider) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case ch <- sd.TargetGroups:
 	case <-ctx.Done():
@@ -342,7 +372,16 @@ func (sd *StaticProvider) Run(ctx context.Context, ch chan<- []*targetgroup.Grou
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

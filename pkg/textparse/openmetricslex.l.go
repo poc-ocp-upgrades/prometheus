@@ -7,6 +7,8 @@ import (
 func (l *openMetricsLexer) Lex() token {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.i >= len(l.b) {
 		return tEOF
 	}

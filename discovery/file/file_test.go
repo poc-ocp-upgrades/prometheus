@@ -16,6 +16,8 @@ const testDir = "fixtures"
 func TestFileSD(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer os.Remove(filepath.Join(testDir, "_test_valid.yml"))
 	defer os.Remove(filepath.Join(testDir, "_test_valid.json"))
 	defer os.Remove(filepath.Join(testDir, "_test_invalid_nil.json"))
@@ -26,6 +28,8 @@ func TestFileSD(t *testing.T) {
 	testFileSD(t, "invalid_nil", ".yml", false)
 }
 func testFileSD(t *testing.T, prefix, ext string, expect bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var conf SDConfig

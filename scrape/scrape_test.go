@@ -32,6 +32,8 @@ import (
 func TestNewScrapePool(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		app	= &nopAppendable{}
 		cfg	= &config.ScrapeConfig{}
@@ -48,6 +50,8 @@ func TestNewScrapePool(t *testing.T) {
 	}
 }
 func TestDroppedTargetsList(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -70,6 +74,8 @@ func TestDroppedTargetsList(t *testing.T) {
 func TestDiscoveredLabelsUpdate(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sp := &scrapePool{}
 	sp.config = &config.ScrapeConfig{ScrapeInterval: model.Duration(1), ScrapeTimeout: model.Duration(1)}
 	sp.activeTargets = make(map[uint64]*Target)
@@ -88,14 +94,20 @@ type testLoop struct {
 func (l *testLoop) run(interval, timeout time.Duration, errc chan<- error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.startFunc(interval, timeout, errc)
 }
 func (l *testLoop) stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.stopFunc()
 }
 func TestScrapePoolStop(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sp := &scrapePool{activeTargets: map[uint64]*Target{}, loops: map[uint64]loop{}, cancel: func() {
@@ -142,6 +154,8 @@ func TestScrapePoolStop(t *testing.T) {
 	}
 }
 func TestScrapePoolReload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var mtx sync.Mutex
@@ -211,6 +225,8 @@ func TestScrapePoolReload(t *testing.T) {
 func TestScrapePoolAppender(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &config.ScrapeConfig{}
 	app := &nopAppendable{}
 	sp := newScrapePool(cfg, app, nil)
@@ -248,6 +264,8 @@ func TestScrapePoolAppender(t *testing.T) {
 func TestScrapePoolRaces(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	interval, _ := model.ParseDuration("500ms")
 	timeout, _ := model.ParseDuration("1s")
 	newConfig := func() *config.ScrapeConfig {
@@ -272,6 +290,8 @@ func TestScrapePoolRaces(t *testing.T) {
 	sp.stop()
 }
 func TestScrapeLoopStopBeforeRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	scraper := &testScraper{}
@@ -309,9 +329,13 @@ func TestScrapeLoopStopBeforeRun(t *testing.T) {
 func nopMutator(l labels.Labels) labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l
 }
 func TestScrapeLoopStop(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -360,6 +384,8 @@ func TestScrapeLoopStop(t *testing.T) {
 	}
 }
 func TestScrapeLoopRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -424,6 +450,8 @@ func TestScrapeLoopRun(t *testing.T) {
 func TestScrapeLoopMetadata(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		signal	= make(chan struct{})
 		scraper	= &testScraper{}
@@ -461,6 +489,8 @@ test_metric 1
 	testutil.Equals(t, "", md.Unit)
 }
 func TestScrapeLoopRunCreatesStaleMarkersOnFailedScrape(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	appender := &collectResultAppender{}
@@ -505,6 +535,8 @@ func TestScrapeLoopRunCreatesStaleMarkersOnFailedScrape(t *testing.T) {
 	}
 }
 func TestScrapeLoopRunCreatesStaleMarkersOnParseFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	appender := &collectResultAppender{}
@@ -554,6 +586,8 @@ func TestScrapeLoopRunCreatesStaleMarkersOnParseFailure(t *testing.T) {
 func TestScrapeLoopAppend(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		title		string
 		honorLabels	bool
@@ -586,6 +620,8 @@ func TestScrapeLoopAppend(t *testing.T) {
 	}
 }
 func TestScrapeLoopAppendSampleLimit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resApp := &collectResultAppender{}
@@ -621,6 +657,8 @@ func TestScrapeLoopAppendSampleLimit(t *testing.T) {
 func TestScrapeLoop_ChangingMetricString(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := testutil.NewStorage(t)
 	defer s.Close()
 	app, err := s.Appender()
@@ -646,6 +684,8 @@ func TestScrapeLoop_ChangingMetricString(t *testing.T) {
 	}
 }
 func TestScrapeLoopAppendStaleness(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app := &collectResultAppender{}
@@ -674,6 +714,8 @@ func TestScrapeLoopAppendStaleness(t *testing.T) {
 func TestScrapeLoopAppendNoStalenessIfTimestamp(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	app := &collectResultAppender{}
 	sl := newScrapeLoop(context.Background(), nil, nil, nil, nopMutator, nopMutator, func() storage.Appender {
 		return app
@@ -695,6 +737,8 @@ func TestScrapeLoopAppendNoStalenessIfTimestamp(t *testing.T) {
 func TestScrapeLoopRunReportsTargetDownOnScrapeError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		scraper		= &testScraper{}
 		appender	= &collectResultAppender{}
@@ -714,6 +758,8 @@ func TestScrapeLoopRunReportsTargetDownOnScrapeError(t *testing.T) {
 	}
 }
 func TestScrapeLoopRunReportsTargetDownOnInvalidUTF8(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -741,6 +787,8 @@ type errorAppender struct{ collectResultAppender }
 func (app *errorAppender) Add(lset labels.Labels, t int64, v float64) (uint64, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch lset.Get(model.MetricNameLabel) {
 	case "out_of_order":
 		return 0, storage.ErrOutOfOrderSample
@@ -755,9 +803,13 @@ func (app *errorAppender) Add(lset labels.Labels, t int64, v float64) (uint64, e
 func (app *errorAppender) AddFast(lset labels.Labels, ref uint64, t int64, v float64) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return app.collectResultAppender.AddFast(lset, ref, t, v)
 }
 func TestScrapeLoopAppendGracefullyIfAmendOrOutOfOrderOrOutOfBounds(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app := &errorAppender{}
@@ -775,6 +827,8 @@ func TestScrapeLoopAppendGracefullyIfAmendOrOutOfOrderOrOutOfBounds(t *testing.T
 	}
 }
 func TestScrapeLoopOutOfBoundsTimeError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app := &collectResultAppender{}
@@ -795,6 +849,8 @@ func TestScrapeLoopOutOfBoundsTimeError(t *testing.T) {
 	}
 }
 func TestTargetScraperScrapeOK(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const (
@@ -828,6 +884,8 @@ func TestTargetScraperScrapeOK(t *testing.T) {
 	require.Equal(t, "metric_a 1\nmetric_b 2\n", buf.String())
 }
 func TestTargetScrapeScrapeCancel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	block := make(chan struct{})
@@ -868,6 +926,8 @@ func TestTargetScrapeScrapeCancel(t *testing.T) {
 func TestTargetScrapeScrapeNotFound(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	}))
@@ -894,9 +954,13 @@ type testScraper struct {
 func (ts *testScraper) offset(interval time.Duration) time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ts.offsetDur
 }
 func (ts *testScraper) report(start time.Time, duration time.Duration, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ts.lastStart = start
@@ -904,6 +968,8 @@ func (ts *testScraper) report(start time.Time, duration time.Duration, err error
 	ts.lastError = err
 }
 func (ts *testScraper) scrape(ctx context.Context, w io.Writer) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if ts.scrapeFunc != nil {

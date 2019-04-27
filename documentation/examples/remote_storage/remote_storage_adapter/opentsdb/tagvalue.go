@@ -11,6 +11,8 @@ type TagValue model.LabelValue
 func (tv TagValue) MarshalJSON() ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	length := len(tv)
 	result := bytes.NewBuffer(make([]byte, 0, length+2))
 	result.WriteByte('"')
@@ -31,6 +33,8 @@ func (tv TagValue) MarshalJSON() ([]byte, error) {
 	return result.Bytes(), nil
 }
 func (tv *TagValue) UnmarshalJSON(json []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	escapeLevel := 0

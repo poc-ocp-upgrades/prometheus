@@ -14,6 +14,8 @@ var stringtests = []struct {
 func TestTagValueMarshaling(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, tt := range stringtests {
 		json, err := json.Marshal(tt.tv)
 		if err != nil {
@@ -26,6 +28,8 @@ func TestTagValueMarshaling(t *testing.T) {
 	}
 }
 func TestTagValueUnMarshaling(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i, tt := range stringtests {

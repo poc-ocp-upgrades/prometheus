@@ -11,6 +11,8 @@ import (
 func TestValidateLabelsAndMetricName(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input		labels.Labels
 		expectedErr	string
@@ -28,6 +30,8 @@ func TestValidateLabelsAndMetricName(t *testing.T) {
 	}
 }
 func TestConcreteSeriesSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	series1 := &concreteSeries{labels: labels.FromStrings("foo", "bar"), samples: []prompb.Sample{{Value: 1, Timestamp: 2}}}
@@ -50,6 +54,8 @@ func TestConcreteSeriesSet(t *testing.T) {
 	}
 }
 func TestConcreteSeriesClonesLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	lbls := labels.Labels{labels.Label{Name: "a", Value: "b"}, labels.Label{Name: "c", Value: "d"}}

@@ -18,6 +18,8 @@ var (
 func setup() func() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mux = http.NewServeMux()
 	server = httptest.NewServer(mux)
 	return func() {
@@ -27,6 +29,8 @@ func setup() func() {
 func getCompressionHandlerFunc() CompressionHandler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hf := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Hello World!"))
@@ -34,6 +38,8 @@ func getCompressionHandlerFunc() CompressionHandler {
 	return CompressionHandler{Handler: http.HandlerFunc(hf)}
 }
 func TestCompressionHandler_PlainText(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tearDown := setup()
@@ -57,6 +63,8 @@ func TestCompressionHandler_PlainText(t *testing.T) {
 	}
 }
 func TestCompressionHandler_Gzip(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tearDown := setup()
@@ -91,6 +99,8 @@ func TestCompressionHandler_Gzip(t *testing.T) {
 	}
 }
 func TestCompressionHandler_Deflate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tearDown := setup()

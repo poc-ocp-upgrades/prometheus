@@ -19,6 +19,8 @@ import (
 func TestAlertingRule(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
 		load 5m
 			http_requests{job="app-server", instance="0", group="canary", severity="overwrite-me"}	75 85  95 105 105  95  85
@@ -65,6 +67,8 @@ func TestAlertingRule(t *testing.T) {
 	}
 }
 func TestForStateAddSamples(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
@@ -126,11 +130,15 @@ func TestForStateAddSamples(t *testing.T) {
 func sortAlerts(items []*Alert) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sort.Slice(items, func(i, j int) bool {
 		return labels.Compare(items[i].Labels, items[j].Labels) <= 0
 	})
 }
 func TestForStateRestore(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `
@@ -222,6 +230,8 @@ func TestForStateRestore(t *testing.T) {
 func TestStaleness(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := testutil.NewStorage(t)
 	defer storage.Close()
 	engineOpts := promql.EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 10 * time.Second}
@@ -261,6 +271,8 @@ func TestStaleness(t *testing.T) {
 func readSeriesSet(ss storage.SeriesSet) (map[string][]promql.Point, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := map[string][]promql.Point{}
 	for ss.Next() {
 		series := ss.At()
@@ -278,6 +290,8 @@ func readSeriesSet(ss storage.SeriesSet) (map[string][]promql.Point, error) {
 func TestCopyState(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldGroup := &Group{rules: []Rule{NewAlertingRule("alert", nil, 0, nil, nil, true, nil), NewRecordingRule("rule1", nil, nil), NewRecordingRule("rule2", nil, nil), NewRecordingRule("rule3", nil, nil), NewRecordingRule("rule3", nil, nil)}, seriesInPreviousEval: []map[string]labels.Labels{{"a": nil}, {"r1": nil}, {"r2": nil}, {"r3a": nil}, {"r3b": nil}}, evaluationDuration: time.Second}
 	oldGroup.rules[0].(*AlertingRule).active[42] = nil
 	newGroup := &Group{rules: []Rule{NewRecordingRule("rule3", nil, nil), NewRecordingRule("rule3", nil, nil), NewRecordingRule("rule3", nil, nil), NewAlertingRule("alert", nil, 0, nil, nil, true, nil), NewRecordingRule("rule1", nil, nil), NewRecordingRule("rule4", nil, nil)}, seriesInPreviousEval: make([]map[string]labels.Labels, 6)}
@@ -288,6 +302,8 @@ func TestCopyState(t *testing.T) {
 	testutil.Equals(t, oldGroup.evaluationDuration, newGroup.evaluationDuration)
 }
 func TestUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	files := []string{"fixtures/rules.yaml"}
@@ -314,6 +330,8 @@ func TestUpdate(t *testing.T) {
 	}
 }
 func TestNotify(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	storage := testutil.NewStorage(t)

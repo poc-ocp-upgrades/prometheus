@@ -21,6 +21,8 @@ var tests = []struct {
 func TestLexer(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, typ := range tests {
 		t.Run(typ.name, func(t *testing.T) {
 			for i, test := range typ.tests {
@@ -56,6 +58,8 @@ func TestLexer(t *testing.T) {
 	}
 }
 func expectedList(exp []item) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := ""

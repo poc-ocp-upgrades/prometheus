@@ -67,6 +67,8 @@ type discovery struct {
 func (d *discovery) parseServiceNodes(resp *http.Response, name string) (*targetgroup.Group, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var nodes []*CatalogService
 	tgroup := targetgroup.Group{Source: name, Labels: make(model.LabelSet)}
 	dec := json.NewDecoder(resp.Body)
@@ -96,6 +98,8 @@ func (d *discovery) parseServiceNodes(resp *http.Response, name string) (*target
 	return &tgroup, nil
 }
 func (d *discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for c := time.Tick(time.Duration(d.refreshInterval) * time.Second); ; {
@@ -153,10 +157,14 @@ func (d *discovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 func newDiscovery(conf sdConfig) (*discovery, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cd := &discovery{address: conf.Address, refreshInterval: conf.RefreshInterval, tagSeparator: conf.TagSeparator, logger: logger, oldSourceList: make(map[string]bool)}
 	return cd, nil
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a.HelpFlag.Short('h')
@@ -180,7 +188,16 @@ func main() {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

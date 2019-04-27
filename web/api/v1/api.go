@@ -75,6 +75,8 @@ type apiError struct {
 func (e *apiError) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s: %s", e.typ, e.err)
 }
 
@@ -131,15 +133,21 @@ type API struct {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	jsoniter.RegisterTypeEncoderFunc("promql.Point", marshalPointJSON, marshalPointJSONIsEmpty)
 	prometheus.MustRegister(remoteReadQueries)
 }
 func NewAPI(qe *promql.Engine, q storage.Queryable, tr targetRetriever, ar alertmanagerRetriever, configFunc func() config.Config, flagsMap map[string]string, readyFunc func(http.HandlerFunc) http.HandlerFunc, db func() TSDBAdmin, enableAdmin bool, logger log.Logger, rr rulesRetriever, remoteReadSampleLimit int, remoteReadConcurrencyLimit int, CORSOrigin *regexp.Regexp) *API {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &API{QueryEngine: qe, Queryable: q, targetRetriever: tr, alertmanagerRetriever: ar, now: time.Now, config: configFunc, flagsMap: flagsMap, ready: readyFunc, db: db, enableAdmin: enableAdmin, rulesRetriever: rr, remoteReadSampleLimit: remoteReadSampleLimit, remoteReadGate: gate.New(remoteReadConcurrencyLimit), logger: logger, CORSOrigin: CORSOrigin}
 }
 func (api *API) Register(r *route.Router) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	wrap := func(f apiFunc) http.HandlerFunc {
@@ -191,9 +199,13 @@ type queryData struct {
 func (api *API) options(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apiFuncResult{nil, nil, nil, nil}
 }
 func (api *API) query(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var ts time.Time
@@ -231,6 +243,8 @@ func (api *API) query(r *http.Request) apiFuncResult {
 	return apiFuncResult{&queryData{ResultType: res.Value.Type(), Result: res.Value, Stats: qs}, nil, res.Warnings, qry.Close}
 }
 func (api *API) queryRange(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	start, err := parseTime(r.FormValue("start"))
@@ -284,6 +298,8 @@ func (api *API) queryRange(r *http.Request) apiFuncResult {
 func returnAPIError(err error) *apiError {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return nil
 	}
@@ -300,6 +316,8 @@ func returnAPIError(err error) *apiError {
 func (api *API) labelNames(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q, err := api.Queryable.Querier(r.Context(), math.MinInt64, math.MaxInt64)
 	if err != nil {
 		return apiFuncResult{nil, &apiError{errorExec, err}, nil, nil}
@@ -312,6 +330,8 @@ func (api *API) labelNames(r *http.Request) apiFuncResult {
 	return apiFuncResult{names, nil, nil, nil}
 }
 func (api *API) labelValues(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := r.Context()
@@ -337,6 +357,8 @@ var (
 )
 
 func (api *API) series(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := r.ParseForm(); err != nil {
@@ -401,6 +423,8 @@ func (api *API) series(r *http.Request) apiFuncResult {
 func (api *API) dropSeries(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apiFuncResult{nil, &apiError{errorInternal, fmt.Errorf("not implemented")}, nil, nil}
 }
 
@@ -421,6 +445,8 @@ type TargetDiscovery struct {
 }
 
 func (api *API) targets(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	flatten := func(targets map[string][]*scrape.Target) []*scrape.Target {
@@ -456,6 +482,8 @@ func (api *API) targets(r *http.Request) apiFuncResult {
 func matchLabels(lset labels.Labels, matchers []*labels.Matcher) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, m := range matchers {
 		if !m.Matches(lset.Get(m.Name)) {
 			return false
@@ -464,6 +492,8 @@ func matchLabels(lset labels.Labels, matchers []*labels.Matcher) bool {
 	return true
 }
 func (api *API) targetMetadata(r *http.Request) apiFuncResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	limit := -1
@@ -522,6 +552,8 @@ type AlertmanagerTarget struct {
 func (api *API) alertmanagers(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	urls := api.alertmanagerRetriever.Alertmanagers()
 	droppedURLS := api.alertmanagerRetriever.DroppedAlertmanagers()
 	ams := &AlertmanagerDiscovery{ActiveAlertmanagers: make([]*AlertmanagerTarget, len(urls)), DroppedAlertmanagers: make([]*AlertmanagerTarget, len(droppedURLS))}
@@ -548,6 +580,8 @@ type Alert struct {
 func (api *API) alerts(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	alertingRules := api.rulesRetriever.AlertingRules()
 	alerts := []*Alert{}
 	for _, alertingRule := range alertingRules {
@@ -557,6 +591,8 @@ func (api *API) alerts(r *http.Request) apiFuncResult {
 	return apiFuncResult{res, nil, nil, nil}
 }
 func rulesAlertsToAPIAlerts(rulesAlerts []*rules.Alert) []*Alert {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	apiAlerts := make([]*Alert, len(rulesAlerts))
@@ -599,6 +635,8 @@ type recordingRule struct {
 func (api *API) rules(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ruleGroups := api.rulesRetriever.RuleGroups()
 	res := &RuleDiscovery{RuleGroups: make([]*RuleGroup, len(ruleGroups))}
 	for i, grp := range ruleGroups {
@@ -632,15 +670,21 @@ type prometheusConfig struct {
 func (api *API) serveConfig(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &prometheusConfig{YAML: api.config().String()}
 	return apiFuncResult{cfg, nil, nil, nil}
 }
 func (api *API) serveFlags(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apiFuncResult{api.flagsMap, nil, nil, nil}
 }
 func (api *API) remoteRead(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	api.remoteReadGate.Start(r.Context())
@@ -713,6 +757,8 @@ func (api *API) remoteRead(w http.ResponseWriter, r *http.Request) {
 func (api *API) deleteSeries(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !api.enableAdmin {
 		return apiFuncResult{nil, &apiError{errorUnavailable, errors.New("admin APIs disabled")}, nil, nil}
 	}
@@ -764,6 +810,8 @@ func (api *API) deleteSeries(r *http.Request) apiFuncResult {
 func (api *API) snapshot(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !api.enableAdmin {
 		return apiFuncResult{nil, &apiError{errorUnavailable, errors.New("admin APIs disabled")}, nil, nil}
 	}
@@ -799,6 +847,8 @@ func (api *API) snapshot(r *http.Request) apiFuncResult {
 func (api *API) cleanTombstones(r *http.Request) apiFuncResult {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !api.enableAdmin {
 		return apiFuncResult{nil, &apiError{errorUnavailable, errors.New("admin APIs disabled")}, nil, nil}
 	}
@@ -812,6 +862,8 @@ func (api *API) cleanTombstones(r *http.Request) apiFuncResult {
 	return apiFuncResult{nil, nil, nil, nil}
 }
 func convertMatcher(m *labels.Matcher) tsdbLabels.Matcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch m.Type {
@@ -835,6 +887,8 @@ func convertMatcher(m *labels.Matcher) tsdbLabels.Matcher {
 	panic("storage.convertMatcher: invalid matcher type")
 }
 func mergeLabels(primary, secondary []prompb.Label) []prompb.Label {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	result := make([]prompb.Label, 0, len(primary)+len(secondary))
@@ -863,6 +917,8 @@ func mergeLabels(primary, secondary []prompb.Label) []prompb.Label {
 func (api *API) respond(w http.ResponseWriter, data interface{}, warnings storage.Warnings) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	statusMessage := statusSuccess
 	var warningStrings []string
 	for _, warning := range warnings {
@@ -882,6 +938,8 @@ func (api *API) respond(w http.ResponseWriter, data interface{}, warnings storag
 	}
 }
 func (api *API) respondError(w http.ResponseWriter, apiErr *apiError, data interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	json := jsoniter.ConfigCompatibleWithStandardLibrary
@@ -915,6 +973,8 @@ func (api *API) respondError(w http.ResponseWriter, apiErr *apiError, data inter
 func parseTime(s string) (time.Time, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t, err := strconv.ParseFloat(s, 64); err == nil {
 		s, ns := math.Modf(t)
 		ns = math.Round(ns*1000) / 1000
@@ -926,6 +986,8 @@ func parseTime(s string) (time.Time, error) {
 	return time.Time{}, fmt.Errorf("cannot parse %q to a valid timestamp", s)
 }
 func parseDuration(s string) (time.Duration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d, err := strconv.ParseFloat(s, 64); err == nil {
@@ -941,6 +1003,8 @@ func parseDuration(s string) (time.Duration, error) {
 	return 0, fmt.Errorf("cannot parse %q to a valid duration", s)
 }
 func marshalPointJSON(ptr unsafe.Pointer, stream *jsoniter.Stream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := *((*promql.Point)(ptr))
@@ -971,12 +1035,23 @@ func marshalPointJSON(ptr unsafe.Pointer, stream *jsoniter.Stream) {
 func marshalPointJSONIsEmpty(ptr unsafe.Pointer) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

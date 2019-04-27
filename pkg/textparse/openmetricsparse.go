@@ -24,14 +24,20 @@ type openMetricsLexer struct {
 func (l *openMetricsLexer) buf() []byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.b[l.start:l.i]
 }
 func (l *openMetricsLexer) cur() byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.b[l.i]
 }
 func (l *openMetricsLexer) next() byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.i++
@@ -49,6 +55,8 @@ func (l *openMetricsLexer) next() byte {
 	return l.b[l.i]
 }
 func (l *openMetricsLexer) Error(es string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l.err = errors.New(es)
@@ -69,9 +77,13 @@ type OpenMetricsParser struct {
 func NewOpenMetricsParser(b []byte) Parser {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &OpenMetricsParser{l: &openMetricsLexer{b: b}}
 }
 func (p *OpenMetricsParser) Series() ([]byte, *int64, float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if p.hasTS {
@@ -80,6 +92,8 @@ func (p *OpenMetricsParser) Series() ([]byte, *int64, float64) {
 	return p.series, nil, p.val
 }
 func (p *OpenMetricsParser) Help() ([]byte, []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m := p.l.b[p.offsets[0]:p.offsets[1]]
@@ -91,9 +105,13 @@ func (p *OpenMetricsParser) Help() ([]byte, []byte) {
 func (p *OpenMetricsParser) Type() ([]byte, MetricType) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.l.b[p.offsets[0]:p.offsets[1]], p.mtype
 }
 func (p *OpenMetricsParser) Unit() ([]byte, []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return p.l.b[p.offsets[0]:p.offsets[1]], p.text
@@ -101,9 +119,13 @@ func (p *OpenMetricsParser) Unit() ([]byte, []byte) {
 func (p *OpenMetricsParser) Comment() []byte {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.text
 }
 func (p *OpenMetricsParser) Metric(l *labels.Labels) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := string(p.series)
@@ -125,10 +147,14 @@ func (p *OpenMetricsParser) Metric(l *labels.Labels) string {
 func (p *OpenMetricsParser) nextToken() token {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tok := p.l.Lex()
 	return tok
 }
 func (p *OpenMetricsParser) Next() (Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -245,6 +271,8 @@ func (p *OpenMetricsParser) Next() (Entry, error) {
 	return EntryInvalid, err
 }
 func (p *OpenMetricsParser) parseLVals() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	first := true

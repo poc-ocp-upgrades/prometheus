@@ -16,6 +16,8 @@ import (
 func TestConfiguredService(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf := &SDConfig{Services: []string{"configuredServiceName"}}
 	consulDiscovery, err := NewDiscovery(conf, nil)
 	if err != nil {
@@ -29,6 +31,8 @@ func TestConfiguredService(t *testing.T) {
 	}
 }
 func TestConfiguredServiceWithTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conf := &SDConfig{Services: []string{"configuredServiceName"}, ServiceTag: "http"}
@@ -50,6 +54,8 @@ func TestConfiguredServiceWithTag(t *testing.T) {
 	}
 }
 func TestNonConfiguredService(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	conf := &SDConfig{}
@@ -83,6 +89,8 @@ const (
 )
 
 func newServer(t *testing.T) (*httptest.Server, *SDConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stub := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -120,12 +128,16 @@ func newServer(t *testing.T) (*httptest.Server, *SDConfig) {
 func newDiscovery(t *testing.T, config *SDConfig) *Discovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logger := log.NewNopLogger()
 	d, err := NewDiscovery(config, logger)
 	testutil.Ok(t, err)
 	return d
 }
 func checkOneTarget(t *testing.T, tg []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	testutil.Equals(t, 1, len(tg))
@@ -137,6 +149,8 @@ func checkOneTarget(t *testing.T, tg []*targetgroup.Group) {
 	}
 }
 func TestAllServices(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stub, config := newServer(t)
@@ -152,6 +166,8 @@ func TestAllServices(t *testing.T) {
 func TestOneService(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stub, config := newServer(t)
 	defer stub.Close()
 	config.Services = []string{"test"}
@@ -163,6 +179,8 @@ func TestOneService(t *testing.T) {
 	cancel()
 }
 func TestAllOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stub, config := newServer(t)

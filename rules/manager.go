@@ -51,6 +51,8 @@ type Metrics struct {
 func NewGroupMetrics(reg prometheus.Registerer) *Metrics {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := &Metrics{evalDuration: prometheus.NewSummary(prometheus.SummaryOpts{Namespace: namespace, Name: "rule_evaluation_duration_seconds", Help: "The duration for a rule to execute."}), evalFailures: prometheus.NewCounter(prometheus.CounterOpts{Namespace: namespace, Name: "rule_evaluation_failures_total", Help: "The total number of rule evaluation failures."}), evalTotal: prometheus.NewCounter(prometheus.CounterOpts{Namespace: namespace, Name: "rule_evaluations_total", Help: "The total number of rule evaluations."}), iterationDuration: prometheus.NewSummary(prometheus.SummaryOpts{Namespace: namespace, Name: "rule_group_duration_seconds", Help: "The duration of rule group evaluations.", Objectives: map[float64]float64{0.01: 0.001, 0.05: 0.005, 0.5: 0.05, 0.90: 0.01, 0.99: 0.001}}), iterationsMissed: prometheus.NewCounter(prometheus.CounterOpts{Namespace: namespace, Name: "rule_group_iterations_missed_total", Help: "The total number of rule group evaluations missed due to slow rule group evaluation."}), iterationsScheduled: prometheus.NewCounter(prometheus.CounterOpts{Namespace: namespace, Name: "rule_group_iterations_total", Help: "The total number of scheduled rule group evaluations, whether executed or missed."}), groupLastEvalTime: prometheus.NewGaugeVec(prometheus.GaugeOpts{Namespace: namespace, Name: "rule_group_last_evaluation_timestamp_seconds", Help: "The timestamp of the last rule group evaluation in seconds."}, []string{"rule_group"}), groupLastDuration: prometheus.NewGaugeVec(prometheus.GaugeOpts{Namespace: namespace, Name: "rule_group_last_duration_seconds", Help: "The duration of the last rule group evaluation."}, []string{"rule_group"}), groupRules: prometheus.NewGaugeVec(prometheus.GaugeOpts{Namespace: namespace, Name: "rule_group_rules", Help: "The number of rules."}, []string{"rule_group"})}
 	if reg != nil {
 		reg.MustRegister(m.evalDuration, m.evalFailures, m.evalTotal, m.iterationDuration, m.iterationsMissed, m.iterationsScheduled, m.groupLastEvalTime, m.groupLastDuration, m.groupRules)
@@ -61,6 +63,8 @@ func NewGroupMetrics(reg prometheus.Registerer) *Metrics {
 type QueryFunc func(ctx context.Context, q string, t time.Time) (promql.Vector, error)
 
 func EngineQueryFunc(engine *promql.Engine, q storage.Queryable) QueryFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func(ctx context.Context, qs string, t time.Time) (promql.Vector, error) {
@@ -117,6 +121,8 @@ type Group struct {
 func NewGroup(name, file string, interval time.Duration, rules []Rule, shouldRestore bool, opts *ManagerOptions) *Group {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metrics := opts.Metrics
 	if metrics == nil {
 		metrics = NewGroupMetrics(opts.Registerer)
@@ -129,9 +135,13 @@ func NewGroup(name, file string, interval time.Duration, rules []Rule, shouldRes
 func (g *Group) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return g.name
 }
 func (g *Group) File() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return g.file
@@ -139,14 +149,20 @@ func (g *Group) File() string {
 func (g *Group) Rules() []Rule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return g.rules
 }
 func (g *Group) Interval() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return g.interval
 }
 func (g *Group) run(ctx context.Context) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer close(g.terminated)
@@ -207,10 +223,14 @@ func (g *Group) run(ctx context.Context) {
 func (g *Group) stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(g.done)
 	<-g.terminated
 }
 func (g *Group) hash() uint64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := labels.New(labels.Label{"name", g.name}, labels.Label{"file", g.file})
@@ -219,11 +239,15 @@ func (g *Group) hash() uint64 {
 func (g *Group) GetEvaluationDuration() time.Duration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
 	return g.evaluationDuration
 }
 func (g *Group) setEvaluationDuration(dur time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g.metrics.groupLastDuration.WithLabelValues(groupKey(g.file, g.name)).Set(dur.Seconds())
@@ -234,11 +258,15 @@ func (g *Group) setEvaluationDuration(dur time.Duration) {
 func (g *Group) GetEvaluationTimestamp() time.Time {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
 	return g.evaluationTimestamp
 }
 func (g *Group) setEvaluationTimestamp(ts time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g.metrics.groupLastEvalTime.WithLabelValues(groupKey(g.file, g.name)).Set(float64(ts.UnixNano()) / 1e9)
@@ -247,6 +275,8 @@ func (g *Group) setEvaluationTimestamp(ts time.Time) {
 	g.evaluationTimestamp = ts
 }
 func (g *Group) evalTimestamp() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -258,6 +288,8 @@ func (g *Group) evalTimestamp() time.Time {
 	return time.Unix(0, base+offset)
 }
 func (g *Group) CopyState(from *Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	g.evaluationDuration = from.evaluationDuration
@@ -288,6 +320,8 @@ func (g *Group) CopyState(from *Group) {
 	}
 }
 func (g *Group) Eval(ctx context.Context, ts time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for i, rule := range g.rules {
@@ -370,6 +404,8 @@ func (g *Group) Eval(ctx context.Context, ts time.Time) {
 	}
 }
 func (g *Group) RestoreForState(ts time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	maxtMS := int64(model.TimeFromUnixNano(ts.UnixNano()))
@@ -483,6 +519,8 @@ type ManagerOptions struct {
 func NewManager(o *ManagerOptions) *Manager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Metrics == nil {
 		o.Metrics = NewGroupMetrics(o.Registerer)
 	}
@@ -496,9 +534,13 @@ func NewManager(o *ManagerOptions) *Manager {
 func (m *Manager) Run() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(m.block)
 }
 func (m *Manager) Stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.Lock()
@@ -510,6 +552,8 @@ func (m *Manager) Stop() {
 	level.Info(m.logger).Log("msg", "Rule manager stopped")
 }
 func (m *Manager) Update(interval time.Duration, files []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.Lock()
@@ -550,6 +594,8 @@ func (m *Manager) Update(interval time.Duration, files []string) error {
 func (m *Manager) LoadGroups(interval time.Duration, filenames ...string) (map[string]*Group, []error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	groups := make(map[string]*Group)
 	shouldRestore := !m.restored
 	for _, fn := range filenames {
@@ -582,9 +628,13 @@ func (m *Manager) LoadGroups(interval time.Duration, filenames ...string) (map[s
 func groupKey(name, file string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return name + ";" + file
 }
 func (m *Manager) RuleGroups() []*Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.RLock()
@@ -601,6 +651,8 @@ func (m *Manager) RuleGroups() []*Group {
 func (m *Manager) Rules() []Rule {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mtx.RLock()
 	defer m.mtx.RUnlock()
 	var rules []Rule
@@ -610,6 +662,8 @@ func (m *Manager) Rules() []Rule {
 	return rules
 }
 func (m *Manager) AlertingRules() []*AlertingRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mtx.RLock()
@@ -625,9 +679,13 @@ func (m *Manager) AlertingRules() []*AlertingRule {
 func (m *Manager) Describe(ch chan<- *prometheus.Desc) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ch <- groupInterval
 }
 func (m *Manager) Collect(ch chan<- prometheus.Metric) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, g := range m.RuleGroups() {

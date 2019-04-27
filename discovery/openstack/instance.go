@@ -42,12 +42,16 @@ type InstanceDiscovery struct {
 func NewInstanceDiscovery(provider *gophercloud.ProviderClient, opts *gophercloud.AuthOptions, interval time.Duration, port int, region string, allTenants bool, l log.Logger) *InstanceDiscovery {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
 	return &InstanceDiscovery{provider: provider, authOpts: opts, region: region, interval: interval, port: port, allTenants: allTenants, logger: l}
 }
 func (i *InstanceDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg, err := i.refresh()
@@ -87,6 +91,8 @@ type floatingIPKey struct {
 }
 
 func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error

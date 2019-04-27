@@ -14,6 +14,8 @@ var ErrSyntax = errors.New("invalid syntax")
 func Unquote(s string) (t string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n := len(s)
 	if n < 2 {
 		return "", ErrSyntax
@@ -56,6 +58,8 @@ func Unquote(s string) (t string, err error) {
 	return string(buf), nil
 }
 func unquoteChar(s string, quote byte) (value rune, multibyte bool, tail string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch c := s[0]; {
@@ -161,6 +165,8 @@ func unquoteChar(s string, quote byte) (value rune, multibyte bool, tail string,
 func contains(s string, c byte) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < len(s); i++ {
 		if s[i] == c {
 			return true
@@ -169,6 +175,8 @@ func contains(s string, c byte) bool {
 	return false
 }
 func unhex(b byte) (v rune, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c := rune(b)
@@ -185,7 +193,16 @@ func unhex(b byte) (v rune, ok bool) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

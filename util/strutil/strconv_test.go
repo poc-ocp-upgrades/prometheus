@@ -15,6 +15,8 @@ var linkTests = []linkTest{{"sum(incoming_http_requests_total) by (system)", "/g
 func TestLink(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tt := range linkTests {
 		if graphLink := GraphLinkForExpression(tt.expression); graphLink != tt.expectedGraphLink {
 			t.Errorf("GraphLinkForExpression failed for expression (%#q), want %q got %q", tt.expression, tt.expectedGraphLink, graphLink)
@@ -25,6 +27,8 @@ func TestLink(t *testing.T) {
 	}
 }
 func TestSanitizeLabelName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	actual := SanitizeLabelName("fooClientLABEL")

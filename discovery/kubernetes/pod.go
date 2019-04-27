@@ -27,6 +27,8 @@ type Pod struct {
 func NewPod(l log.Logger, pods cache.SharedInformer) *Pod {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
@@ -46,6 +48,8 @@ func NewPod(l log.Logger, pods cache.SharedInformer) *Pod {
 func (p *Pod) enqueue(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		return
@@ -53,6 +57,8 @@ func (p *Pod) enqueue(obj interface{}) {
 	p.queue.Add(key)
 }
 func (p *Pod) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer p.queue.ShutDown()
@@ -67,6 +73,8 @@ func (p *Pod) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	<-ctx.Done()
 }
 func (p *Pod) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyObj, quit := p.queue.Get()
@@ -98,6 +106,8 @@ func (p *Pod) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool 
 func convertToPod(o interface{}) (*apiv1.Pod, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, ok := o.(*apiv1.Pod)
 	if ok {
 		return pod, nil
@@ -126,6 +136,8 @@ const (
 func GetControllerOf(controllee metav1.Object) *metav1.OwnerReference {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ref := range controllee.GetOwnerReferences() {
 		if ref.Controller != nil && *ref.Controller {
 			return &ref
@@ -134,6 +146,8 @@ func GetControllerOf(controllee metav1.Object) *metav1.OwnerReference {
 	return nil
 }
 func podLabels(pod *apiv1.Pod) model.LabelSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ls := model.LabelSet{podNameLabel: lv(pod.ObjectMeta.Name), podIPLabel: lv(pod.Status.PodIP), podReadyLabel: podReady(pod), podPhaseLabel: lv(string(pod.Status.Phase)), podNodeNameLabel: lv(pod.Spec.NodeName), podHostIPLabel: lv(pod.Status.HostIP), podUID: lv(string(pod.ObjectMeta.UID))}
@@ -159,6 +173,8 @@ func podLabels(pod *apiv1.Pod) model.LabelSet {
 func (p *Pod) buildPod(pod *apiv1.Pod) *targetgroup.Group {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tg := &targetgroup.Group{Source: podSource(pod)}
 	if len(pod.Status.PodIP) == 0 {
 		return tg
@@ -181,14 +197,20 @@ func (p *Pod) buildPod(pod *apiv1.Pod) *targetgroup.Group {
 func podSource(pod *apiv1.Pod) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return podSourceFromNamespaceAndName(pod.Namespace, pod.Name)
 }
 func podSourceFromNamespaceAndName(namespace, name string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "pod/" + namespace + "/" + name
 }
 func podReady(pod *apiv1.Pod) model.LabelValue {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, cond := range pod.Status.Conditions {

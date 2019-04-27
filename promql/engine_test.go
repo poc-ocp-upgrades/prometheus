@@ -15,6 +15,8 @@ import (
 func TestQueryConcurrency(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 100 * time.Second}
 	engine := NewEngine(opts)
 	ctx, cancelCtx := context.WithCancel(context.Background())
@@ -55,6 +57,8 @@ func TestQueryConcurrency(t *testing.T) {
 func TestQueryTimeout(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 20, MaxSamples: 10, Timeout: 5 * time.Millisecond}
 	engine := NewEngine(opts)
 	ctx, cancelCtx := context.WithCancel(context.Background())
@@ -72,6 +76,8 @@ func TestQueryTimeout(t *testing.T) {
 	}
 }
 func TestQueryCancel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 10 * time.Second}
@@ -115,9 +121,13 @@ type errQuerier struct{ err error }
 func (q *errQuerier) Select(*storage.SelectParams, ...*labels.Matcher) (storage.SeriesSet, storage.Warnings, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errSeriesSet{err: q.err}, nil, q.err
 }
 func (*errQuerier) LabelValues(name string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil, nil
@@ -125,9 +135,13 @@ func (*errQuerier) LabelValues(name string) ([]string, error) {
 func (*errQuerier) LabelNames() ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (*errQuerier) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -138,9 +152,13 @@ type errSeriesSet struct{ err error }
 func (errSeriesSet) Next() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (errSeriesSet) At() storage.Series {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -148,9 +166,13 @@ func (errSeriesSet) At() storage.Series {
 func (e errSeriesSet) Err() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.err
 }
 func TestQueryError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 10 * time.Second}
@@ -185,6 +207,8 @@ func TestQueryError(t *testing.T) {
 	}
 }
 func TestEngineShutdown(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 10, MaxSamples: 10, Timeout: 10 * time.Second}
@@ -226,6 +250,8 @@ func TestEngineShutdown(t *testing.T) {
 	}
 }
 func TestEngineEvalStmtTimestamps(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	test, err := NewTest(t, `
@@ -275,6 +301,8 @@ load 10s
 func TestMaxQuerySamples(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test, err := NewTest(t, `
 load 10s
   metric 1 2
@@ -320,6 +348,8 @@ load 10s
 func TestRecoverEvaluatorRuntime(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ev := &evaluator{logger: log.NewNopLogger()}
 	var err error
 	defer ev.recover(&err)
@@ -330,6 +360,8 @@ func TestRecoverEvaluatorRuntime(t *testing.T) {
 	}
 }
 func TestRecoverEvaluatorError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ev := &evaluator{logger: log.NewNopLogger()}
@@ -344,6 +376,8 @@ func TestRecoverEvaluatorError(t *testing.T) {
 	panic(e)
 }
 func TestSubquerySelector(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

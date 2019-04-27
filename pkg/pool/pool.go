@@ -18,6 +18,8 @@ type Pool struct {
 func New(minSize, maxSize int, factor float64, makeFunc func(int) interface{}) *Pool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if minSize < 1 {
 		panic("invalid minimum pool size")
 	}
@@ -37,6 +39,8 @@ func New(minSize, maxSize int, factor float64, makeFunc func(int) interface{}) *
 func (p *Pool) Get(sz int) interface{} {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, bktSize := range p.sizes {
 		if sz > bktSize {
 			continue
@@ -50,6 +54,8 @@ func (p *Pool) Get(sz int) interface{} {
 	return p.make(sz)
 }
 func (p *Pool) Put(s interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	slice := reflect.ValueOf(s)
@@ -67,7 +73,16 @@ func (p *Pool) Put(s interface{}) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

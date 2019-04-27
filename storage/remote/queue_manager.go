@@ -41,6 +41,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(succeededSamplesTotal)
 	prometheus.MustRegister(failedSamplesTotal)
 	prometheus.MustRegister(droppedSamplesTotal)
@@ -76,6 +78,8 @@ type QueueManager struct {
 func NewQueueManager(logger log.Logger, cfg config.QueueConfig, externalLabels model.LabelSet, relabelConfigs []*pkgrelabel.Config, client StorageClient, flushDeadline time.Duration) *QueueManager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if logger == nil {
 		logger = log.NewNopLogger()
 	} else {
@@ -92,6 +96,8 @@ func NewQueueManager(logger log.Logger, cfg config.QueueConfig, externalLabels m
 	return t
 }
 func (t *QueueManager) Append(s *model.Sample) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	snew := *s
@@ -121,9 +127,13 @@ func (t *QueueManager) Append(s *model.Sample) error {
 func (*QueueManager) NeedsThrottling() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (t *QueueManager) Start() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.wg.Add(2)
@@ -136,6 +146,8 @@ func (t *QueueManager) Start() {
 func (t *QueueManager) Stop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	level.Info(t.logger).Log("msg", "Stopping remote storage...")
 	close(t.quit)
 	t.wg.Wait()
@@ -145,6 +157,8 @@ func (t *QueueManager) Stop() {
 	level.Info(t.logger).Log("msg", "Remote storage stopped.")
 }
 func (t *QueueManager) updateShardsLoop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer t.wg.Done()
@@ -160,6 +174,8 @@ func (t *QueueManager) updateShardsLoop() {
 	}
 }
 func (t *QueueManager) calculateDesiredShards() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.samplesIn.tick()
@@ -208,6 +224,8 @@ func (t *QueueManager) calculateDesiredShards() {
 func (t *QueueManager) reshardLoop() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer t.wg.Done()
 	for {
 		select {
@@ -219,6 +237,8 @@ func (t *QueueManager) reshardLoop() {
 	}
 }
 func (t *QueueManager) reshard(n int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	numShards.WithLabelValues(t.queueName).Set(float64(n))
@@ -243,6 +263,8 @@ type shards struct {
 func (t *QueueManager) newShards(numShards int) *shards {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	queues := make([]chan *model.Sample, numShards)
 	for i := 0; i < numShards; i++ {
 		queues[i] = make(chan *model.Sample, t.cfg.Capacity)
@@ -254,11 +276,15 @@ func (t *QueueManager) newShards(numShards int) *shards {
 func (s *shards) start() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < len(s.queues); i++ {
 		go s.runShard(i)
 	}
 }
 func (s *shards) stop(deadline time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, shard := range s.queues {
@@ -276,6 +302,8 @@ func (s *shards) stop(deadline time.Duration) {
 func (s *shards) enqueue(sample *model.Sample) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.qm.samplesIn.incr(1)
 	fp := sample.Metric.FastFingerprint()
 	shard := uint64(fp) % uint64(len(s.queues))
@@ -287,6 +315,8 @@ func (s *shards) enqueue(sample *model.Sample) bool {
 	}
 }
 func (s *shards) runShard(i int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {
@@ -339,12 +369,16 @@ func (s *shards) runShard(i int) {
 func (s *shards) sendSamples(samples model.Samples) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	begin := time.Now()
 	s.sendSamplesWithBackoff(samples)
 	s.qm.samplesOut.incr(int64(len(samples)))
 	s.qm.samplesOutDuration.incr(int64(time.Since(begin)))
 }
 func (s *shards) sendSamplesWithBackoff(samples model.Samples) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backoff := s.qm.cfg.MinBackoff

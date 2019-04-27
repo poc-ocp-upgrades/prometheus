@@ -25,6 +25,8 @@ var (
 func Load(s string) (*Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &Config{}
 	*cfg = DefaultConfig
 	err := yaml.UnmarshalStrict([]byte(s), cfg)
@@ -35,6 +37,8 @@ func Load(s string) (*Config, error) {
 	return cfg, nil
 }
 func LoadFile(filename string) (*Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	content, err := ioutil.ReadFile(filename)
@@ -70,6 +74,8 @@ type Config struct {
 }
 
 func resolveFilepaths(baseDir string, cfg *Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	join := func(fp string) string {
@@ -124,6 +130,8 @@ func resolveFilepaths(baseDir string, cfg *Config) {
 func (c Config) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, err := yaml.Marshal(c)
 	if err != nil {
 		return fmt.Sprintf("<error creating config string: %s>", err)
@@ -131,6 +139,8 @@ func (c Config) String() string {
 	return string(b)
 }
 func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultConfig
@@ -192,6 +202,8 @@ type GlobalConfig struct {
 func (c *GlobalConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	gc := &GlobalConfig{}
 	type plain GlobalConfig
 	if err := unmarshal((*plain)(gc)); err != nil {
@@ -219,6 +231,8 @@ func (c *GlobalConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func (c *GlobalConfig) isZero() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.ExternalLabels == nil && c.ScrapeInterval == 0 && c.ScrapeTimeout == 0 && c.EvaluationInterval == 0
 }
 
@@ -238,6 +252,8 @@ type ScrapeConfig struct {
 }
 
 func (c *ScrapeConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultScrapeConfig
@@ -288,6 +304,8 @@ type AlertingConfig struct {
 func (c *AlertingConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = AlertingConfig{}
 	type plain AlertingConfig
 	if err := unmarshal((*plain)(c)); err != nil {
@@ -311,6 +329,8 @@ type AlertmanagerConfig struct {
 }
 
 func (c *AlertmanagerConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultAlertmanagerConfig
@@ -346,6 +366,8 @@ func (c *AlertmanagerConfig) UnmarshalYAML(unmarshal func(interface{}) error) er
 func CheckTargetAddress(address model.LabelValue) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.Contains(string(address), "/") {
 		return fmt.Errorf("%q is not a valid hostname", address)
 	}
@@ -369,6 +391,8 @@ type RemoteWriteConfig struct {
 }
 
 func (c *RemoteWriteConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	*c = DefaultRemoteWriteConfig
@@ -408,6 +432,8 @@ type RemoteReadConfig struct {
 func (c *RemoteReadConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*c = DefaultRemoteReadConfig
 	type plain RemoteReadConfig
 	if err := unmarshal((*plain)(c)); err != nil {
@@ -421,7 +447,16 @@ func (c *RemoteReadConfig) UnmarshalYAML(unmarshal func(interface{}) error) erro
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

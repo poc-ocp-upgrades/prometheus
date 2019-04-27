@@ -28,6 +28,8 @@ type Endpoints struct {
 func NewEndpoints(l log.Logger, svc, eps, pod cache.SharedInformer) *Endpoints {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
@@ -74,6 +76,8 @@ func NewEndpoints(l log.Logger, svc, eps, pod cache.SharedInformer) *Endpoints {
 func (e *Endpoints) enqueue(obj interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		return
@@ -81,6 +85,8 @@ func (e *Endpoints) enqueue(obj interface{}) {
 	e.queue.Add(key)
 }
 func (e *Endpoints) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer e.queue.ShutDown()
@@ -95,6 +101,8 @@ func (e *Endpoints) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
 	<-ctx.Done()
 }
 func (e *Endpoints) process(ctx context.Context, ch chan<- []*targetgroup.Group) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyObj, quit := e.queue.Get()
@@ -128,6 +136,8 @@ func (e *Endpoints) process(ctx context.Context, ch chan<- []*targetgroup.Group)
 func convertToEndpoints(o interface{}) (*apiv1.Endpoints, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	endpoints, ok := o.(*apiv1.Endpoints)
 	if ok {
 		return endpoints, nil
@@ -137,9 +147,13 @@ func convertToEndpoints(o interface{}) (*apiv1.Endpoints, error) {
 func endpointsSource(ep *apiv1.Endpoints) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return endpointsSourceFromNamespaceAndName(ep.Namespace, ep.Name)
 }
 func endpointsSourceFromNamespaceAndName(namespace, name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return "endpoints/" + namespace + "/" + name
@@ -155,6 +169,8 @@ const (
 )
 
 func (e *Endpoints) buildEndpoints(eps *apiv1.Endpoints) *targetgroup.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tg := &targetgroup.Group{Source: endpointsSource(eps)}
@@ -235,6 +251,8 @@ func (e *Endpoints) buildEndpoints(eps *apiv1.Endpoints) *targetgroup.Group {
 func (e *Endpoints) resolvePodRef(ref *apiv1.ObjectReference) *apiv1.Pod {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref == nil || ref.Kind != "Pod" {
 		return nil
 	}
@@ -251,6 +269,8 @@ func (e *Endpoints) resolvePodRef(ref *apiv1.ObjectReference) *apiv1.Pod {
 	return obj.(*apiv1.Pod)
 }
 func (e *Endpoints) addServiceLabels(ns, name string, tg *targetgroup.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	svc := &apiv1.Service{}

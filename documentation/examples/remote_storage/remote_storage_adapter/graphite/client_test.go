@@ -12,6 +12,8 @@ var (
 func TestEscape(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value := "abzABZ019(){},'\"\\"
 	expected := "abzABZ019\\(\\)\\{\\}\\,\\'\\\"\\\\"
 	actual := escape(model.LabelValue(value))
@@ -26,6 +28,8 @@ func TestEscape(t *testing.T) {
 	}
 }
 func TestPathFromMetric(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	expected := ("prefix." + "test:metric" + ".many_chars.abc!ABC:012-3!45%C3%B667~89%2E%2F\\(\\)\\{\\}\\,%3D%2E\\\"\\\\" + ".testlabel.test:value")

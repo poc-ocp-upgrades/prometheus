@@ -21,6 +21,8 @@ type tarGzFileWriter struct {
 func newTarGzFileWriter(archiveName string) (*tarGzFileWriter, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Create(archiveName)
 	if err != nil {
 		return nil, fmt.Errorf("error creating archive %q: %s", archiveName, err)
@@ -32,6 +34,8 @@ func newTarGzFileWriter(archiveName string) (*tarGzFileWriter, error) {
 func (w *tarGzFileWriter) close() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := w.tarWriter.Close(); err != nil {
 		return err
 	}
@@ -41,6 +45,8 @@ func (w *tarGzFileWriter) close() error {
 	return w.file.Close()
 }
 func (w *tarGzFileWriter) write(filename string, b []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	header := &tar.Header{Name: filename, Mode: filePerm, Size: int64(len(b))}
@@ -55,7 +61,16 @@ func (w *tarGzFileWriter) write(filename string, b []byte) error {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -17,9 +17,13 @@ type Value interface {
 func (Matrix) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeMatrix
 }
 func (Vector) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ValueTypeVector
@@ -27,9 +31,13 @@ func (Vector) Type() ValueType {
 func (Scalar) Type() ValueType {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValueTypeScalar
 }
 func (String) Type() ValueType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ValueTypeString
@@ -53,9 +61,13 @@ type String struct {
 func (s String) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.V
 }
 func (s String) MarshalJSON() ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return json.Marshal([...]interface{}{float64(s.T) / 1000, s.V})
@@ -69,10 +81,14 @@ type Scalar struct {
 func (s Scalar) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v := strconv.FormatFloat(s.V, 'f', -1, 64)
 	return fmt.Sprintf("scalar: %v @[%v]", v, s.T)
 }
 func (s Scalar) MarshalJSON() ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	v := strconv.FormatFloat(s.V, 'f', -1, 64)
@@ -85,6 +101,8 @@ type Series struct {
 }
 
 func (s Series) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vals := make([]string, len(s.Points))
@@ -102,10 +120,14 @@ type Point struct {
 func (p Point) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v := strconv.FormatFloat(p.V, 'f', -1, 64)
 	return fmt.Sprintf("%v @[%v]", v, p.T)
 }
 func (p Point) MarshalJSON() ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	v := strconv.FormatFloat(p.V, 'f', -1, 64)
@@ -120,9 +142,13 @@ type Sample struct {
 func (s Sample) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s => %s", s.Metric, s.Point)
 }
 func (s Sample) MarshalJSON() ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	v := struct {
@@ -137,6 +163,8 @@ type Vector []Sample
 func (vec Vector) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	entries := make([]string, len(vec))
 	for i, s := range vec {
 		entries[i] = s.String()
@@ -144,6 +172,8 @@ func (vec Vector) String() string {
 	return strings.Join(entries, "\n")
 }
 func (vec Vector) ContainsSameLabelset() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := make(map[uint64]struct{}, len(vec))
@@ -162,6 +192,8 @@ type Matrix []Series
 func (m Matrix) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strs := make([]string, len(m))
 	for i, ss := range m {
 		strs[i] = ss.String()
@@ -169,6 +201,8 @@ func (m Matrix) String() string {
 	return strings.Join(strs, "\n")
 }
 func (m Matrix) TotalSamples() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	numSamples := 0
@@ -180,9 +214,13 @@ func (m Matrix) TotalSamples() int {
 func (m Matrix) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m Matrix) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return labels.Compare(m[i].Metric, m[j].Metric) < 0
@@ -190,9 +228,13 @@ func (m Matrix) Less(i, j int) bool {
 func (m Matrix) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m Matrix) ContainsSameLabelset() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l := make(map[uint64]struct{}, len(m))
@@ -215,6 +257,8 @@ type Result struct {
 func (r *Result) Vector() (Vector, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Err != nil {
 		return nil, r.Err
 	}
@@ -225,6 +269,8 @@ func (r *Result) Vector() (Vector, error) {
 	return v, nil
 }
 func (r *Result) Matrix() (Matrix, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.Err != nil {
@@ -239,6 +285,8 @@ func (r *Result) Matrix() (Matrix, error) {
 func (r *Result) Scalar() (Scalar, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Err != nil {
 		return Scalar{}, r.Err
 	}
@@ -249,6 +297,8 @@ func (r *Result) Scalar() (Scalar, error) {
 	return v, nil
 }
 func (r *Result) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if r.Err != nil {
@@ -265,14 +315,20 @@ type StorageSeries struct{ series Series }
 func NewStorageSeries(series Series) *StorageSeries {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &StorageSeries{series: series}
 }
 func (ss *StorageSeries) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ss.series.Metric
 }
 func (ss *StorageSeries) Iterator() storage.SeriesIterator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return newStorageSeriesIterator(ss.series)
@@ -286,9 +342,13 @@ type storageSeriesIterator struct {
 func newStorageSeriesIterator(series Series) *storageSeriesIterator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &storageSeriesIterator{points: series.Points, curr: -1}
 }
 func (ssi *storageSeriesIterator) Seek(t int64) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i := ssi.curr
@@ -307,16 +367,22 @@ func (ssi *storageSeriesIterator) Seek(t int64) bool {
 func (ssi *storageSeriesIterator) At() (t int64, v float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := ssi.points[ssi.curr]
 	return p.T, p.V
 }
 func (ssi *storageSeriesIterator) Next() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ssi.curr++
 	return ssi.curr < len(ssi.points)
 }
 func (ssi *storageSeriesIterator) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil

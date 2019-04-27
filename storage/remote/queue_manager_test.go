@@ -25,9 +25,13 @@ type TestStorageClient struct {
 func NewTestStorageClient() *TestStorageClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TestStorageClient{receivedSamples: map[string][]prompb.Sample{}, expectedSamples: map[string][]prompb.Sample{}}
 }
 func (c *TestStorageClient) expectSamples(ss model.Samples) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.mtx.Lock()
@@ -43,6 +47,8 @@ func (c *TestStorageClient) expectSamples(ss model.Samples) {
 func (c *TestStorageClient) waitForExpectedSamples(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.wg.Wait()
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
@@ -53,6 +59,8 @@ func (c *TestStorageClient) waitForExpectedSamples(t *testing.T) {
 	}
 }
 func (c *TestStorageClient) Store(_ context.Context, req *prompb.WriteRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.mtx.Lock()
@@ -71,9 +79,13 @@ func (c *TestStorageClient) Store(_ context.Context, req *prompb.WriteRequest) e
 func (c *TestStorageClient) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "teststorageclient"
 }
 func TestSampleDelivery(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n := config.DefaultQueueConfig.Capacity * 2
@@ -98,6 +110,8 @@ func TestSampleDelivery(t *testing.T) {
 	c.waitForExpectedSamples(t)
 }
 func TestSampleDeliveryTimeout(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n := config.DefaultQueueConfig.Capacity - 1
@@ -127,6 +141,8 @@ func TestSampleDeliveryTimeout(t *testing.T) {
 func TestSampleDeliveryOrder(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ts := 10
 	n := config.DefaultQueueConfig.MaxSamplesPerSend * ts
 	samples := make(model.Samples, 0, n)
@@ -153,9 +169,13 @@ type TestBlockingStorageClient struct {
 func NewTestBlockedStorageClient() *TestBlockingStorageClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TestBlockingStorageClient{block: make(chan bool), numCalls: 0}
 }
 func (c *TestBlockingStorageClient) Store(ctx context.Context, _ *prompb.WriteRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.AddUint64(&c.numCalls, 1)
@@ -168,9 +188,13 @@ func (c *TestBlockingStorageClient) Store(ctx context.Context, _ *prompb.WriteRe
 func (c *TestBlockingStorageClient) NumCalls() uint64 {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return atomic.LoadUint64(&c.numCalls)
 }
 func (c *TestBlockingStorageClient) unlock() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	close(c.block)
@@ -178,9 +202,13 @@ func (c *TestBlockingStorageClient) unlock() {
 func (c *TestBlockingStorageClient) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "testblockingstorageclient"
 }
 func (t *QueueManager) queueLen() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.shardsMtx.Lock()
@@ -192,6 +220,8 @@ func (t *QueueManager) queueLen() int {
 	return queueLength
 }
 func TestSpawnNotMoreThanMaxConcurrentSendsGoroutines(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n := config.DefaultQueueConfig.MaxSamplesPerSend * 2
@@ -225,6 +255,8 @@ func TestSpawnNotMoreThanMaxConcurrentSendsGoroutines(t *testing.T) {
 	}
 }
 func TestShutdown(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	deadline := 10 * time.Second

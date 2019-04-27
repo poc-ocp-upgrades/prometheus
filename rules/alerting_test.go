@@ -12,6 +12,8 @@ import (
 func TestAlertingRuleHTMLSnippet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expr, err := promql.ParseExpr(`foo{html="<b>BOLD<b>"}`)
 	testutil.Ok(t, err)
 	rule := NewAlertingRule("testrule", expr, 0, labels.FromStrings("html", "<b>BOLD</b>"), labels.FromStrings("html", "<b>BOLD</b>"), false, nil)
@@ -26,6 +28,8 @@ annotations:
 	testutil.Assert(t, want == got, "incorrect HTML snippet; want:\n\n|%v|\n\ngot:\n\n|%v|", want, got)
 }
 func TestAlertingRuleLabelsUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suite, err := promql.NewTest(t, `

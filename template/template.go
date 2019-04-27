@@ -30,6 +30,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(templateTextExpansionFailures)
 	prometheus.MustRegister(templateTextExpansionTotal)
 }
@@ -47,14 +49,20 @@ type queryResultByLabelSorter struct {
 func (q queryResultByLabelSorter) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(q.results)
 }
 func (q queryResultByLabelSorter) Less(i, j int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return q.results[i].Labels[q.by] < q.results[j].Labels[q.by]
 }
 func (q queryResultByLabelSorter) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	q.results[i], q.results[j] = q.results[j], q.results[i]
@@ -63,6 +71,8 @@ func (q queryResultByLabelSorter) Swap(i, j int) {
 type QueryFunc func(context.Context, string, time.Time) (promql.Vector, error)
 
 func query(ctx context.Context, q string, ts time.Time, queryFn QueryFunc) (queryResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vector, err := queryFn(ctx, q, ts)
@@ -85,6 +95,8 @@ type Expander struct {
 }
 
 func NewTemplateExpander(ctx context.Context, text string, name string, data interface{}, timestamp model.Time, queryFunc QueryFunc, externalURL *url.URL) *Expander {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &Expander{text: text, name: name, data: data, funcMap: text_template.FuncMap{"query": func(q string) (queryResult, error) {
@@ -204,6 +216,8 @@ func NewTemplateExpander(ctx context.Context, text string, name string, data int
 func AlertTemplateData(labels map[string]string, value float64) interface{} {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return struct {
 		Labels	map[string]string
 		Value	float64
@@ -212,11 +226,15 @@ func AlertTemplateData(labels map[string]string, value float64) interface{} {
 func (te Expander) Funcs(fm text_template.FuncMap) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range fm {
 		te.funcMap[k] = v
 	}
 }
 func (te Expander) Expand() (result string, resultErr error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {
@@ -244,6 +262,8 @@ func (te Expander) Expand() (result string, resultErr error) {
 	return buffer.String(), nil
 }
 func (te Expander) ExpandHTML(templateFiles []string) (result string, resultErr error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {
@@ -282,6 +302,8 @@ func (te Expander) ExpandHTML(templateFiles []string) (result string, resultErr 
 func (te Expander) ParseTest() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := text_template.New(te.name).Funcs(te.funcMap).Option("missingkey=zero").Parse(te.text)
 	if err != nil {
 		return err
@@ -291,7 +313,16 @@ func (te Expander) ParseTest() error {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -11,6 +11,8 @@ import (
 func TestSampleRing(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := []struct {
 		input	[]int64
 		delta	int64
@@ -44,6 +46,8 @@ func TestSampleRing(t *testing.T) {
 	}
 }
 func TestBufferedSeriesIterator(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var it *BufferedSeriesIterator
@@ -84,6 +88,8 @@ func TestBufferedSeriesIterator(t *testing.T) {
 func TestBufferedSeriesIteratorNoBadAt(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	done := false
 	m := &mockSeriesIterator{seek: func(int64) bool {
 		return false
@@ -101,6 +107,8 @@ func TestBufferedSeriesIteratorNoBadAt(t *testing.T) {
 	it.Next()
 }
 func BenchmarkBufferedSeriesIterator(b *testing.B) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	it := NewBufferIterator(newFakeSeriesIterator(int64(b.N), 30), 5*60)
@@ -122,9 +130,13 @@ type mockSeriesIterator struct {
 func (m *mockSeriesIterator) Seek(t int64) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.seek(t)
 }
 func (m *mockSeriesIterator) At() (int64, float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return m.at()
@@ -132,9 +144,13 @@ func (m *mockSeriesIterator) At() (int64, float64) {
 func (m *mockSeriesIterator) Next() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.next()
 }
 func (m *mockSeriesIterator) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return m.err()
@@ -148,6 +164,8 @@ type mockSeries struct {
 func newMockSeries(lset labels.Labels, samples []sample) Series {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &mockSeries{labels: func() labels.Labels {
 		return lset
 	}, iterator: func() SeriesIterator {
@@ -157,9 +175,13 @@ func newMockSeries(lset labels.Labels, samples []sample) Series {
 func (m *mockSeries) Labels() labels.Labels {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.labels()
 }
 func (m *mockSeries) Iterator() SeriesIterator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return m.iterator()
@@ -173,9 +195,13 @@ type listSeriesIterator struct {
 func newListSeriesIterator(list []sample) *listSeriesIterator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &listSeriesIterator{list: list, idx: -1}
 }
 func (it *listSeriesIterator) At() (int64, float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := it.list[it.idx]
@@ -184,10 +210,14 @@ func (it *listSeriesIterator) At() (int64, float64) {
 func (it *listSeriesIterator) Next() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	it.idx++
 	return it.idx < len(it.list)
 }
 func (it *listSeriesIterator) Seek(t int64) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if it.idx == -1 {
@@ -202,6 +232,8 @@ func (it *listSeriesIterator) Seek(t int64) bool {
 func (it *listSeriesIterator) Err() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 
@@ -214,14 +246,20 @@ type fakeSeriesIterator struct {
 func newFakeSeriesIterator(nsamples, step int64) *fakeSeriesIterator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeSeriesIterator{nsamples: nsamples, step: step, idx: -1}
 }
 func (it *fakeSeriesIterator) At() (int64, float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return it.idx * it.step, 123
 }
 func (it *fakeSeriesIterator) Next() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	it.idx++
@@ -230,10 +268,14 @@ func (it *fakeSeriesIterator) Next() bool {
 func (it *fakeSeriesIterator) Seek(t int64) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	it.idx = t / it.step
 	return it.idx < it.nsamples
 }
 func (it *fakeSeriesIterator) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
