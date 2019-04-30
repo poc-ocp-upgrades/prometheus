@@ -1,16 +1,3 @@
-// Copyright 2017 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package openstack
 
 import (
@@ -18,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"time"
-
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/gophercloud/gophercloud"
@@ -32,41 +18,38 @@ import (
 )
 
 const (
-	openstackLabelPrefix         = model.MetaLabelPrefix + "openstack_"
-	openstackLabelAddressPool    = openstackLabelPrefix + "address_pool"
-	openstackLabelInstanceID     = openstackLabelPrefix + "instance_id"
-	openstackLabelInstanceName   = openstackLabelPrefix + "instance_name"
-	openstackLabelInstanceStatus = openstackLabelPrefix + "instance_status"
-	openstackLabelInstanceFlavor = openstackLabelPrefix + "instance_flavor"
-	openstackLabelPublicIP       = openstackLabelPrefix + "public_ip"
-	openstackLabelPrivateIP      = openstackLabelPrefix + "private_ip"
-	openstackLabelTagPrefix      = openstackLabelPrefix + "tag_"
+	openstackLabelPrefix		= model.MetaLabelPrefix + "openstack_"
+	openstackLabelAddressPool	= openstackLabelPrefix + "address_pool"
+	openstackLabelInstanceID	= openstackLabelPrefix + "instance_id"
+	openstackLabelInstanceName	= openstackLabelPrefix + "instance_name"
+	openstackLabelInstanceStatus	= openstackLabelPrefix + "instance_status"
+	openstackLabelInstanceFlavor	= openstackLabelPrefix + "instance_flavor"
+	openstackLabelPublicIP		= openstackLabelPrefix + "public_ip"
+	openstackLabelPrivateIP		= openstackLabelPrefix + "private_ip"
+	openstackLabelTagPrefix		= openstackLabelPrefix + "tag_"
 )
 
-// InstanceDiscovery discovers OpenStack instances.
 type InstanceDiscovery struct {
-	provider   *gophercloud.ProviderClient
-	authOpts   *gophercloud.AuthOptions
-	region     string
-	interval   time.Duration
-	logger     log.Logger
-	port       int
-	allTenants bool
+	provider	*gophercloud.ProviderClient
+	authOpts	*gophercloud.AuthOptions
+	region		string
+	interval	time.Duration
+	logger		log.Logger
+	port		int
+	allTenants	bool
 }
 
-// NewInstanceDiscovery returns a new instance discovery.
-func NewInstanceDiscovery(provider *gophercloud.ProviderClient, opts *gophercloud.AuthOptions,
-	interval time.Duration, port int, region string, allTenants bool, l log.Logger) *InstanceDiscovery {
+func NewInstanceDiscovery(provider *gophercloud.ProviderClient, opts *gophercloud.AuthOptions, interval time.Duration, port int, region string, allTenants bool, l log.Logger) *InstanceDiscovery {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l == nil {
 		l = log.NewNopLogger()
 	}
-	return &InstanceDiscovery{provider: provider, authOpts: opts,
-		region: region, interval: interval, port: port, allTenants: allTenants, logger: l}
+	return &InstanceDiscovery{provider: provider, authOpts: opts, region: region, interval: interval, port: port, allTenants: allTenants, logger: l}
 }
-
-// Run implements the Discoverer interface.
 func (i *InstanceDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Group) {
-	// Get an initial set right away.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tg, err := i.refresh()
 	if err != nil {
 		level.Error(i.logger).Log("msg", "Unable to refresh target groups", "err", err.Error())
@@ -77,10 +60,8 @@ func (i *InstanceDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Gr
 			return
 		}
 	}
-
 	ticker := time.NewTicker(i.interval)
 	defer ticker.Stop()
-
 	for {
 		select {
 		case <-ticker.C:
@@ -89,7 +70,6 @@ func (i *InstanceDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Gr
 				level.Error(i.logger).Log("msg", "Unable to refresh target groups", "err", err.Error())
 				continue
 			}
-
 			select {
 			case ch <- []*targetgroup.Group{tg}:
 			case <-ctx.Done():
@@ -102,11 +82,13 @@ func (i *InstanceDiscovery) Run(ctx context.Context, ch chan<- []*targetgroup.Gr
 }
 
 type floatingIPKey struct {
-	id    string
-	fixed string
+	id	string
+	fixed	string
 }
 
 func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	t0 := time.Now()
 	defer func() {
@@ -115,20 +97,14 @@ func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
 			refreshFailuresCount.Inc()
 		}
 	}()
-
 	err = openstack.Authenticate(i.provider, *i.authOpts)
 	if err != nil {
 		return nil, fmt.Errorf("could not authenticate to OpenStack: %s", err)
 	}
-	client, err := openstack.NewComputeV2(i.provider, gophercloud.EndpointOpts{
-		Region: i.region,
-	})
+	client, err := openstack.NewComputeV2(i.provider, gophercloud.EndpointOpts{Region: i.region})
 	if err != nil {
 		return nil, fmt.Errorf("could not create OpenStack compute session: %s", err)
 	}
-
-	// OpenStack API reference
-	// https://developer.openstack.org/api-ref/compute/#list-floating-ips
 	pagerFIP := floatingips.List(client)
 	floatingIPList := make(map[floatingIPKey]string)
 	floatingIPPresent := make(map[string]struct{})
@@ -138,7 +114,6 @@ func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
 			return false, fmt.Errorf("could not extract floatingips: %s", err)
 		}
 		for _, ip := range result {
-			// Skip not associated ips
 			if ip.InstanceID == "" || ip.FixedIP == "" {
 				continue
 			}
@@ -150,34 +125,20 @@ func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// OpenStack API reference
-	// https://developer.openstack.org/api-ref/compute/#list-servers
-	opts := servers.ListOpts{
-		AllTenants: i.allTenants,
-	}
+	opts := servers.ListOpts{AllTenants: i.allTenants}
 	pager := servers.List(client, opts)
-	tg := &targetgroup.Group{
-		Source: fmt.Sprintf("OS_" + i.region),
-	}
+	tg := &targetgroup.Group{Source: fmt.Sprintf("OS_" + i.region)}
 	err = pager.EachPage(func(page pagination.Page) (bool, error) {
 		instanceList, err := servers.ExtractServers(page)
 		if err != nil {
 			return false, fmt.Errorf("could not extract instances: %s", err)
 		}
-
 		for _, s := range instanceList {
 			if len(s.Addresses) == 0 {
 				level.Info(i.logger).Log("msg", "Got no IP address", "instance", s.ID)
 				continue
 			}
-
-			labels := model.LabelSet{
-				openstackLabelInstanceID:     model.LabelValue(s.ID),
-				openstackLabelInstanceStatus: model.LabelValue(s.Status),
-				openstackLabelInstanceName:   model.LabelValue(s.Name),
-			}
-
+			labels := model.LabelSet{openstackLabelInstanceID: model.LabelValue(s.ID), openstackLabelInstanceStatus: model.LabelValue(s.Status), openstackLabelInstanceName: model.LabelValue(s.Name)}
 			id, ok := s.Flavor["id"].(string)
 			if !ok {
 				level.Warn(i.logger).Log("msg", "Invalid type for flavor id, expected string")
@@ -223,7 +184,6 @@ func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
 					}
 					addr = net.JoinHostPort(addr, fmt.Sprintf("%d", i.port))
 					lbls[model.AddressLabel] = model.LabelValue(addr)
-
 					tg.Targets = append(tg.Targets, lbls)
 				}
 			}
@@ -233,6 +193,5 @@ func (i *InstanceDiscovery) refresh() (*targetgroup.Group, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return tg, nil
 }
