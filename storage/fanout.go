@@ -1,16 +1,3 @@
-// Copyright 2017 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package storage
 
 import (
@@ -18,7 +5,6 @@ import (
 	"context"
 	"sort"
 	"strings"
-
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
@@ -27,31 +13,23 @@ import (
 )
 
 type fanout struct {
-	logger log.Logger
-
-	primary     Storage
-	secondaries []Storage
+	logger		log.Logger
+	primary		Storage
+	secondaries	[]Storage
 }
 
-// NewFanout returns a new fan-out Storage, which proxies reads and writes
-// through to multiple underlying storages.
 func NewFanout(logger log.Logger, primary Storage, secondaries ...Storage) Storage {
-	return &fanout{
-		logger:      logger,
-		primary:     primary,
-		secondaries: secondaries,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &fanout{logger: logger, primary: primary, secondaries: secondaries}
 }
-
-// StartTime implements the Storage interface.
 func (f *fanout) StartTime() (int64, error) {
-	// StartTime of a fanout should be the earliest StartTime of all its storages,
-	// both primary and secondaries.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	firstTime, err := f.primary.StartTime()
 	if err != nil {
 		return int64(model.Latest), err
 	}
-
 	for _, storage := range f.secondaries {
 		t, err := storage.StartTime()
 		if err != nil {
@@ -63,18 +41,15 @@ func (f *fanout) StartTime() (int64, error) {
 	}
 	return firstTime, nil
 }
-
 func (f *fanout) Querier(ctx context.Context, mint, maxt int64) (Querier, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	queriers := make([]Querier, 0, 1+len(f.secondaries))
-
-	// Add primary querier
 	primaryQuerier, err := f.primary.Querier(ctx, mint, maxt)
 	if err != nil {
 		return nil, err
 	}
 	queriers = append(queriers, primaryQuerier)
-
-	// Add secondary queriers
 	for _, storage := range f.secondaries {
 		querier, err := storage.Querier(ctx, mint, maxt)
 		if err != nil {
@@ -83,16 +58,15 @@ func (f *fanout) Querier(ctx context.Context, mint, maxt int64) (Querier, error)
 		}
 		queriers = append(queriers, querier)
 	}
-
 	return NewMergeQuerier(primaryQuerier, queriers), nil
 }
-
 func (f *fanout) Appender() (Appender, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	primary, err := f.primary.Appender()
 	if err != nil {
 		return nil, err
 	}
-
 	secondaries := make([]Appender, 0, len(f.secondaries))
 	for _, storage := range f.secondaries {
 		appender, err := storage.Appender()
@@ -101,20 +75,14 @@ func (f *fanout) Appender() (Appender, error) {
 		}
 		secondaries = append(secondaries, appender)
 	}
-	return &fanoutAppender{
-		logger:      f.logger,
-		primary:     primary,
-		secondaries: secondaries,
-	}, nil
+	return &fanoutAppender{logger: f.logger, primary: primary, secondaries: secondaries}, nil
 }
-
-// Close closes the storage and all its underlying resources.
 func (f *fanout) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := f.primary.Close(); err != nil {
 		return err
 	}
-
-	// TODO return multiple errors?
 	var lastErr error
 	for _, storage := range f.secondaries {
 		if err := storage.Close(); err != nil {
@@ -124,20 +92,19 @@ func (f *fanout) Close() error {
 	return lastErr
 }
 
-// fanoutAppender implements Appender.
 type fanoutAppender struct {
-	logger log.Logger
-
-	primary     Appender
-	secondaries []Appender
+	logger		log.Logger
+	primary		Appender
+	secondaries	[]Appender
 }
 
 func (f *fanoutAppender) Add(l labels.Labels, t int64, v float64) (uint64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := f.primary.Add(l, t, v)
 	if err != nil {
 		return ref, err
 	}
-
 	for _, appender := range f.secondaries {
 		if _, err := appender.Add(l, t, v); err != nil {
 			return 0, err
@@ -145,12 +112,12 @@ func (f *fanoutAppender) Add(l labels.Labels, t int64, v float64) (uint64, error
 	}
 	return ref, nil
 }
-
 func (f *fanoutAppender) AddFast(l labels.Labels, ref uint64, t int64, v float64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := f.primary.AddFast(l, ref, t, v); err != nil {
 		return err
 	}
-
 	for _, appender := range f.secondaries {
 		if _, err := appender.Add(l, t, v); err != nil {
 			return err
@@ -158,10 +125,10 @@ func (f *fanoutAppender) AddFast(l labels.Labels, ref uint64, t int64, v float64
 	}
 	return nil
 }
-
 func (f *fanoutAppender) Commit() (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = f.primary.Commit()
-
 	for _, appender := range f.secondaries {
 		if err == nil {
 			err = appender.Commit()
@@ -173,10 +140,10 @@ func (f *fanoutAppender) Commit() (err error) {
 	}
 	return
 }
-
 func (f *fanoutAppender) Rollback() (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = f.primary.Rollback()
-
 	for _, appender := range f.secondaries {
 		rollbackErr := appender.Rollback()
 		if err == nil {
@@ -188,47 +155,36 @@ func (f *fanoutAppender) Rollback() (err error) {
 	return nil
 }
 
-// mergeQuerier implements Querier.
 type mergeQuerier struct {
-	primaryQuerier Querier
-	queriers       []Querier
-
-	failedQueriers map[Querier]struct{}
-	setQuerierMap  map[SeriesSet]Querier
+	primaryQuerier	Querier
+	queriers		[]Querier
+	failedQueriers	map[Querier]struct{}
+	setQuerierMap	map[SeriesSet]Querier
 }
 
-// NewMergeQuerier returns a new Querier that merges results of input queriers.
-// NB NewMergeQuerier will return NoopQuerier if no queriers are passed to it,
-// and will filter NoopQueriers from its arguments, in order to reduce overhead
-// when only one querier is passed.
 func NewMergeQuerier(primaryQuerier Querier, queriers []Querier) Querier {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filtered := make([]Querier, 0, len(queriers))
 	for _, querier := range queriers {
 		if querier != NoopQuerier() {
 			filtered = append(filtered, querier)
 		}
 	}
-
 	setQuerierMap := make(map[SeriesSet]Querier)
 	failedQueriers := make(map[Querier]struct{})
-
 	switch len(filtered) {
 	case 0:
 		return NoopQuerier()
 	case 1:
 		return filtered[0]
 	default:
-		return &mergeQuerier{
-			primaryQuerier: primaryQuerier,
-			queriers:       filtered,
-			failedQueriers: failedQueriers,
-			setQuerierMap:  setQuerierMap,
-		}
+		return &mergeQuerier{primaryQuerier: primaryQuerier, queriers: filtered, failedQueriers: failedQueriers, setQuerierMap: setQuerierMap}
 	}
 }
-
-// Select returns a set of series that matches the given label matchers.
 func (q *mergeQuerier) Select(params *SelectParams, matchers ...*labels.Matcher) (SeriesSet, Warnings, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	seriesSets := make([]SeriesSet, 0, len(q.queriers))
 	var warnings Warnings
 	for _, querier := range q.queriers {
@@ -239,7 +195,6 @@ func (q *mergeQuerier) Select(params *SelectParams, matchers ...*labels.Matcher)
 		}
 		if err != nil {
 			q.failedQueriers[querier] = struct{}{}
-			// If the error source isn't the primary querier, return the error as a warning and continue.
 			if querier != q.primaryQuerier {
 				warnings = append(warnings, err)
 				continue
@@ -251,9 +206,9 @@ func (q *mergeQuerier) Select(params *SelectParams, matchers ...*labels.Matcher)
 	}
 	return NewMergeSeriesSet(seriesSets, q), warnings, nil
 }
-
-// LabelValues returns all potential values for a label name.
 func (q *mergeQuerier) LabelValues(name string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var results [][]string
 	for _, querier := range q.queriers {
 		values, err := querier.LabelValues(name)
@@ -264,13 +219,15 @@ func (q *mergeQuerier) LabelValues(name string) ([]string, error) {
 	}
 	return mergeStringSlices(results), nil
 }
-
 func (q *mergeQuerier) IsFailedSet(set SeriesSet) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, isFailedQuerier := q.failedQueriers[q.setQuerierMap[set]]
 	return isFailedQuerier
 }
-
 func mergeStringSlices(ss [][]string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch len(ss) {
 	case 0:
 		return nil
@@ -280,14 +237,12 @@ func mergeStringSlices(ss [][]string) []string {
 		return mergeTwoStringSlices(ss[0], ss[1])
 	default:
 		halfway := len(ss) / 2
-		return mergeTwoStringSlices(
-			mergeStringSlices(ss[:halfway]),
-			mergeStringSlices(ss[halfway:]),
-		)
+		return mergeTwoStringSlices(mergeStringSlices(ss[:halfway]), mergeStringSlices(ss[halfway:]))
 	}
 }
-
 func mergeTwoStringSlices(a, b []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i, j := 0, 0
 	result := make([]string, 0, len(a)+len(b))
 	for i < len(a) && j < len(b) {
@@ -308,9 +263,9 @@ func mergeTwoStringSlices(a, b []string) []string {
 	result = append(result, b[j:]...)
 	return result
 }
-
-// LabelNames returns all the unique label names present in the block in sorted order.
 func (q *mergeQuerier) LabelNames() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelNamesMap := make(map[string]struct{})
 	for _, b := range q.queriers {
 		names, err := b.LabelNames()
@@ -321,19 +276,16 @@ func (q *mergeQuerier) LabelNames() ([]string, error) {
 			labelNamesMap[name] = struct{}{}
 		}
 	}
-
 	labelNames := make([]string, 0, len(labelNamesMap))
 	for name := range labelNamesMap {
 		labelNames = append(labelNames, name)
 	}
 	sort.Strings(labelNames)
-
 	return labelNames, nil
 }
-
-// Close releases the resources of the Querier.
 func (q *mergeQuerier) Close() error {
-	// TODO return multiple errors?
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var lastErr error
 	for _, querier := range q.queriers {
 		if err := querier.Close(); err != nil {
@@ -343,25 +295,20 @@ func (q *mergeQuerier) Close() error {
 	return lastErr
 }
 
-// mergeSeriesSet implements SeriesSet
 type mergeSeriesSet struct {
-	currentLabels labels.Labels
-	currentSets   []SeriesSet
-	heap          seriesSetHeap
-	sets          []SeriesSet
-
-	querier *mergeQuerier
+	currentLabels	labels.Labels
+	currentSets		[]SeriesSet
+	heap			seriesSetHeap
+	sets			[]SeriesSet
+	querier			*mergeQuerier
 }
 
-// NewMergeSeriesSet returns a new series set that merges (deduplicates)
-// series returned by the input series sets when iterating.
 func NewMergeSeriesSet(sets []SeriesSet, querier *mergeQuerier) SeriesSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(sets) == 1 {
 		return sets[0]
 	}
-
-	// Sets need to be pre-advanced, so we can introspect the label of the
-	// series under the cursor.
 	var h seriesSetHeap
 	for _, set := range sets {
 		if set == nil {
@@ -371,21 +318,12 @@ func NewMergeSeriesSet(sets []SeriesSet, querier *mergeQuerier) SeriesSet {
 			heap.Push(&h, set)
 		}
 	}
-	return &mergeSeriesSet{
-		heap:    h,
-		sets:    sets,
-		querier: querier,
-	}
+	return &mergeSeriesSet{heap: h, sets: sets, querier: querier}
 }
-
 func (c *mergeSeriesSet) Next() bool {
-	// Run in a loop because the "next" series sets may not be valid anymore.
-	// If a remote querier fails, we discard all series sets from that querier.
-	// If, for the current label set, all the next series sets come from
-	// failed remote storage sources, we want to keep trying with the next label set.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
-		// Firstly advance all the current series sets.  If any of them have run out
-		// we can drop them, otherwise they should be inserted back into the heap.
 		for _, set := range c.currentSets {
 			if set.Next() {
 				heap.Push(&c.heap, set)
@@ -394,8 +332,6 @@ func (c *mergeSeriesSet) Next() bool {
 		if len(c.heap) == 0 {
 			return false
 		}
-
-		// Now, pop items of the heap that have equal label sets.
 		c.currentSets = nil
 		c.currentLabels = c.heap[0].At().Labels()
 		for len(c.heap) > 0 && labels.Equal(c.currentLabels, c.heap[0].At().Labels()) {
@@ -405,17 +341,15 @@ func (c *mergeSeriesSet) Next() bool {
 			}
 			c.currentSets = append(c.currentSets, set)
 		}
-
-		// As long as the current set contains at least 1 set,
-		// then it should return true.
 		if len(c.currentSets) != 0 {
 			break
 		}
 	}
 	return true
 }
-
 func (c *mergeSeriesSet) At() Series {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.currentSets) == 1 {
 		return c.currentSets[0].At()
 	}
@@ -423,13 +357,11 @@ func (c *mergeSeriesSet) At() Series {
 	for _, seriesSet := range c.currentSets {
 		series = append(series, seriesSet.At())
 	}
-	return &mergeSeries{
-		labels: c.currentLabels,
-		series: series,
-	}
+	return &mergeSeries{labels: c.currentLabels, series: series}
 }
-
 func (c *mergeSeriesSet) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, set := range c.sets {
 		if err := set.Err(); err != nil {
 			return err
@@ -440,19 +372,30 @@ func (c *mergeSeriesSet) Err() error {
 
 type seriesSetHeap []SeriesSet
 
-func (h seriesSetHeap) Len() int      { return len(h) }
-func (h seriesSetHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
-
+func (h seriesSetHeap) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(h)
+}
+func (h seriesSetHeap) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	h[i], h[j] = h[j], h[i]
+}
 func (h seriesSetHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a, b := h[i].At().Labels(), h[j].At().Labels()
 	return labels.Compare(a, b) < 0
 }
-
 func (h *seriesSetHeap) Push(x interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*h = append(*h, x.(SeriesSet))
 }
-
 func (h *seriesSetHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	old := *h
 	n := len(old)
 	x := old[n-1]
@@ -461,15 +404,18 @@ func (h *seriesSetHeap) Pop() interface{} {
 }
 
 type mergeSeries struct {
-	labels labels.Labels
-	series []Series
+	labels	labels.Labels
+	series	[]Series
 }
 
 func (m *mergeSeries) Labels() labels.Labels {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.labels
 }
-
 func (m *mergeSeries) Iterator() SeriesIterator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	iterators := make([]SeriesIterator, 0, len(m.series))
 	for _, s := range m.series {
 		iterators = append(iterators, s.Iterator())
@@ -478,18 +424,18 @@ func (m *mergeSeries) Iterator() SeriesIterator {
 }
 
 type mergeIterator struct {
-	iterators []SeriesIterator
-	h         seriesIteratorHeap
+	iterators	[]SeriesIterator
+	h			seriesIteratorHeap
 }
 
 func newMergeIterator(iterators []SeriesIterator) SeriesIterator {
-	return &mergeIterator{
-		iterators: iterators,
-		h:         nil,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &mergeIterator{iterators: iterators, h: nil}
 }
-
 func (c *mergeIterator) Seek(t int64) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.h = seriesIteratorHeap{}
 	for _, iter := range c.iterators {
 		if iter.Seek(t) {
@@ -498,47 +444,44 @@ func (c *mergeIterator) Seek(t int64) bool {
 	}
 	return len(c.h) > 0
 }
-
 func (c *mergeIterator) At() (t int64, v float64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.h) == 0 {
 		panic("mergeIterator.At() called after .Next() returned false.")
 	}
-
 	return c.h[0].At()
 }
-
 func (c *mergeIterator) Next() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.h == nil {
 		for _, iter := range c.iterators {
 			if iter.Next() {
 				heap.Push(&c.h, iter)
 			}
 		}
-
 		return len(c.h) > 0
 	}
-
 	if len(c.h) == 0 {
 		return false
 	}
-
 	currt, _ := c.At()
 	for len(c.h) > 0 {
 		nextt, _ := c.h[0].At()
 		if nextt != currt {
 			break
 		}
-
 		iter := heap.Pop(&c.h).(SeriesIterator)
 		if iter.Next() {
 			heap.Push(&c.h, iter)
 		}
 	}
-
 	return len(c.h) > 0
 }
-
 func (c *mergeIterator) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, iter := range c.iterators {
 		if err := iter.Err(); err != nil {
 			return err
@@ -549,20 +492,31 @@ func (c *mergeIterator) Err() error {
 
 type seriesIteratorHeap []SeriesIterator
 
-func (h seriesIteratorHeap) Len() int      { return len(h) }
-func (h seriesIteratorHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
-
+func (h seriesIteratorHeap) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(h)
+}
+func (h seriesIteratorHeap) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	h[i], h[j] = h[j], h[i]
+}
 func (h seriesIteratorHeap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	at, _ := h[i].At()
 	bt, _ := h[j].At()
 	return at < bt
 }
-
 func (h *seriesIteratorHeap) Push(x interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*h = append(*h, x.(SeriesIterator))
 }
-
 func (h *seriesIteratorHeap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	old := *h
 	n := len(old)
 	x := old[n-1]

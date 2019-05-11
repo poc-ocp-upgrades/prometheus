@@ -1,16 +1,3 @@
-// Copyright 2015 The Prometheus Authors
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package promql
 
 import (
@@ -23,95 +10,83 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
 	"github.com/prometheus/common/model"
-
 	"github.com/prometheus/prometheus/pkg/labels"
 	"github.com/prometheus/prometheus/storage"
 	"github.com/prometheus/prometheus/util/testutil"
 )
 
 var (
-	minNormal = math.Float64frombits(0x0010000000000000) // The smallest positive normal value of type float64.
-
-	patSpace       = regexp.MustCompile("[\t ]+")
-	patLoad        = regexp.MustCompile(`^load\s+(.+?)$`)
-	patEvalInstant = regexp.MustCompile(`^eval(?:_(fail|ordered))?\s+instant\s+(?:at\s+(.+?))?\s+(.+)$`)
+	minNormal		= math.Float64frombits(0x0010000000000000)
+	patSpace		= regexp.MustCompile("[\t ]+")
+	patLoad			= regexp.MustCompile(`^load\s+(.+?)$`)
+	patEvalInstant	= regexp.MustCompile(`^eval(?:_(fail|ordered))?\s+instant\s+(?:at\s+(.+?))?\s+(.+)$`)
 )
 
 const (
-	epsilon = 0.000001 // Relative error allowed for sample values.
+	epsilon = 0.000001
 )
 
 var testStartTime = time.Unix(0, 0)
 
-// Test is a sequence of read and write commands that are run
-// against a test storage.
 type Test struct {
 	testutil.T
-
-	cmds []testCommand
-
-	storage storage.Storage
-
-	queryEngine *Engine
-	context     context.Context
-	cancelCtx   context.CancelFunc
+	cmds		[]testCommand
+	storage		storage.Storage
+	queryEngine	*Engine
+	context		context.Context
+	cancelCtx	context.CancelFunc
 }
 
-// NewTest returns an initialized empty Test.
 func NewTest(t testutil.T, input string) (*Test, error) {
-	test := &Test{
-		T:    t,
-		cmds: []testCommand{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	test := &Test{T: t, cmds: []testCommand{}}
 	err := test.parse(input)
 	test.clear()
-
 	return test, err
 }
-
 func newTestFromFile(t testutil.T, filename string) (*Test, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 	return NewTest(t, string(content))
 }
-
-// QueryEngine returns the test's query engine.
 func (t *Test) QueryEngine() *Engine {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.queryEngine
 }
-
-// Queryable allows querying the test data.
 func (t *Test) Queryable() storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.storage
 }
-
-// Context returns the test's context.
 func (t *Test) Context() context.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.context
 }
-
-// Storage returns the test's storage.
 func (t *Test) Storage() storage.Storage {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.storage
 }
-
 func raise(line int, format string, v ...interface{}) error {
-	return &ParseErr{
-		Line: line + 1,
-		Err:  fmt.Errorf(format, v...),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &ParseErr{Line: line + 1, Err: fmt.Errorf(format, v...)}
 }
-
 func parseLoad(lines []string, i int) (int, *loadCmd, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !patLoad.MatchString(lines[i]) {
 		return i, nil, raise(i, "invalid load command. (load <step:duration>)")
 	}
 	parts := patLoad.FindStringSubmatch(lines[i])
-
 	gap, err := model.ParseDuration(parts[1])
 	if err != nil {
 		return i, nil, raise(i, "invalid step definition %q: %s", parts[1], err)
@@ -135,16 +110,17 @@ func parseLoad(lines []string, i int) (int, *loadCmd, error) {
 	}
 	return i, cmd, nil
 }
-
 func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !patEvalInstant.MatchString(lines[i]) {
 		return i, nil, raise(i, "invalid evaluation command. (eval[_fail|_ordered] instant [at <offset:duration>] <query>")
 	}
 	parts := patEvalInstant.FindStringSubmatch(lines[i])
 	var (
-		mod  = parts[1]
-		at   = parts[2]
-		expr = parts[3]
+		mod		= parts[1]
+		at		= parts[2]
+		expr	= parts[3]
 	)
 	_, err := ParseExpr(expr)
 	if err != nil {
@@ -154,13 +130,11 @@ func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
 		}
 		return i, nil, err
 	}
-
 	offset, err := model.ParseDuration(at)
 	if err != nil {
 		return i, nil, raise(i, "invalid step definition %q: %s", parts[1], err)
 	}
 	ts := testStartTime.Add(time.Duration(offset))
-
 	cmd := newEvalCmd(expr, ts, i+1)
 	switch mod {
 	case "ordered":
@@ -168,7 +142,6 @@ func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
 	case "fail":
 		cmd.fail = true
 	}
-
 	for j := 1; i+1 < len(lines); j++ {
 		i++
 		defLine := lines[i]
@@ -187,8 +160,6 @@ func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
 			}
 			return i, nil, err
 		}
-
-		// Currently, we are not expecting any matrices.
 		if len(vals) > 1 {
 			return i, nil, raise(i, "expecting multiple values in instant evaluation not allowed")
 		}
@@ -196,9 +167,9 @@ func (t *Test) parseEval(lines []string, i int) (int, *evalCmd, error) {
 	}
 	return i, cmd, nil
 }
-
-// getLines returns trimmed lines after removing the comments.
 func getLines(input string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := strings.Split(input, "\n")
 	for i, l := range lines {
 		l = strings.TrimSpace(l)
@@ -209,19 +180,17 @@ func getLines(input string) []string {
 	}
 	return lines
 }
-
-// parse the given command sequence and appends it to the test.
 func (t *Test) parse(input string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := getLines(input)
 	var err error
-	// Scan for steps line by line.
 	for i := 0; i < len(lines); i++ {
 		l := lines[i]
 		if len(l) == 0 {
 			continue
 		}
 		var cmd testCommand
-
 		switch c := strings.ToLower(patSpace.Split(l, 2)[0]); {
 		case c == "clear":
 			cmd = &clearCmd{}
@@ -240,60 +209,57 @@ func (t *Test) parse(input string) error {
 	return nil
 }
 
-// testCommand is an interface that ensures that only the package internal
-// types can be a valid command for a test.
-type testCommand interface {
-	testCmd()
+type testCommand interface{ testCmd() }
+
+func (*clearCmd) testCmd() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (*loadCmd) testCmd() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (*evalCmd) testCmd() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 
-func (*clearCmd) testCmd() {}
-func (*loadCmd) testCmd()  {}
-func (*evalCmd) testCmd()  {}
-
-// loadCmd is a command that loads sequences of sample values for specific
-// metrics into the storage.
 type loadCmd struct {
-	gap     time.Duration
-	metrics map[uint64]labels.Labels
-	defs    map[uint64][]Point
+	gap		time.Duration
+	metrics	map[uint64]labels.Labels
+	defs	map[uint64][]Point
 }
 
 func newLoadCmd(gap time.Duration) *loadCmd {
-	return &loadCmd{
-		gap:     gap,
-		metrics: map[uint64]labels.Labels{},
-		defs:    map[uint64][]Point{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &loadCmd{gap: gap, metrics: map[uint64]labels.Labels{}, defs: map[uint64][]Point{}}
 }
-
 func (cmd loadCmd) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "load"
 }
-
-// set a sequence of sample values for the given metric.
 func (cmd *loadCmd) set(m labels.Labels, vals ...sequenceValue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h := m.Hash()
-
 	samples := make([]Point, 0, len(vals))
 	ts := testStartTime
 	for _, v := range vals {
 		if !v.omitted {
-			samples = append(samples, Point{
-				T: ts.UnixNano() / int64(time.Millisecond/time.Nanosecond),
-				V: v.value,
-			})
+			samples = append(samples, Point{T: ts.UnixNano() / int64(time.Millisecond/time.Nanosecond), V: v.value})
 		}
 		ts = ts.Add(cmd.gap)
 	}
 	cmd.defs[h] = samples
 	cmd.metrics[h] = m
 }
-
-// append the defined time series to the storage.
 func (cmd *loadCmd) append(a storage.Appender) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for h, smpls := range cmd.defs {
 		m := cmd.metrics[h]
-
 		for _, s := range smpls {
 			if _, err := a.Add(m, s.T, s.V); err != nil {
 				return err
@@ -303,46 +269,37 @@ func (cmd *loadCmd) append(a storage.Appender) error {
 	return nil
 }
 
-// evalCmd is a command that evaluates an expression for the given time (range)
-// and expects a specific result.
 type evalCmd struct {
-	expr  string
-	start time.Time
-	line  int
-
-	fail, ordered bool
-
-	metrics  map[uint64]labels.Labels
-	expected map[uint64]entry
+	expr			string
+	start			time.Time
+	line			int
+	fail, ordered	bool
+	metrics			map[uint64]labels.Labels
+	expected		map[uint64]entry
 }
-
 type entry struct {
-	pos  int
-	vals []sequenceValue
+	pos		int
+	vals	[]sequenceValue
 }
 
 func (e entry) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%d: %s", e.pos, e.vals)
 }
-
 func newEvalCmd(expr string, start time.Time, line int) *evalCmd {
-	return &evalCmd{
-		expr:  expr,
-		start: start,
-		line:  line,
-
-		metrics:  map[uint64]labels.Labels{},
-		expected: map[uint64]entry{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &evalCmd{expr: expr, start: start, line: line, metrics: map[uint64]labels.Labels{}, expected: map[uint64]entry{}}
 }
-
 func (ev *evalCmd) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "eval"
 }
-
-// expect adds a new metric with a sequence of values to the set of expected
-// results for the query.
 func (ev *evalCmd) expect(pos int, m labels.Labels, vals ...sequenceValue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m == nil {
 		ev.expected[0] = entry{pos: pos, vals: vals}
 		return
@@ -351,13 +308,12 @@ func (ev *evalCmd) expect(pos int, m labels.Labels, vals ...sequenceValue) {
 	ev.metrics[h] = m
 	ev.expected[h] = entry{pos: pos, vals: vals}
 }
-
-// compareResult compares the result value with the defined expectation.
 func (ev *evalCmd) compareResult(result Value) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch val := result.(type) {
 	case Matrix:
 		return fmt.Errorf("received range result on instant evaluation")
-
 	case Vector:
 		seen := map[uint64]bool{}
 		for pos, v := range val {
@@ -372,7 +328,6 @@ func (ev *evalCmd) compareResult(result Value) error {
 			if !almostEqual(exp.vals[0].value, v.V) {
 				return fmt.Errorf("expected %v for %s but got %v", exp.vals[0].value, v.Metric, v.V)
 			}
-
 			seen[fp] = true
 		}
 		for fp, expVals := range ev.expected {
@@ -384,45 +339,40 @@ func (ev *evalCmd) compareResult(result Value) error {
 				return fmt.Errorf("expected metric %s with %v not found", ev.metrics[fp], expVals)
 			}
 		}
-
 	case Scalar:
 		if !almostEqual(ev.expected[0].vals[0].value, val.V) {
 			return fmt.Errorf("expected Scalar %v but got %v", val.V, ev.expected[0].vals[0].value)
 		}
-
 	default:
 		panic(fmt.Errorf("promql.Test.compareResult: unexpected result type %T", result))
 	}
 	return nil
 }
 
-// clearCmd is a command that wipes the test's storage state.
 type clearCmd struct{}
 
 func (cmd clearCmd) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "clear"
 }
-
-// Run executes the command sequence of the test. Until the maximum error number
-// is reached, evaluation errors do not terminate execution.
 func (t *Test) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, cmd := range t.cmds {
 		err := t.exec(cmd)
-		// TODO(fabxc): aggregate command errors, yield diffs for result
-		// comparison errors.
 		if err != nil {
 			return err
 		}
 	}
 	return nil
 }
-
-// exec processes a single step of the test.
 func (t *Test) exec(tc testCommand) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch cmd := tc.(type) {
 	case *clearCmd:
 		t.clear()
-
 	case *loadCmd:
 		app, err := t.storage.Appender()
 		if err != nil {
@@ -432,11 +382,9 @@ func (t *Test) exec(tc testCommand) error {
 			app.Rollback()
 			return err
 		}
-
 		if err := app.Commit(); err != nil {
 			return err
 		}
-
 	case *evalCmd:
 		q, err := t.queryEngine.NewInstantQuery(t.storage, cmd.expr, cmd.start)
 		if err != nil {
@@ -453,14 +401,10 @@ func (t *Test) exec(tc testCommand) error {
 		if res.Err == nil && cmd.fail {
 			return fmt.Errorf("expected error evaluating query %q (line %d) but got none", cmd.expr, cmd.line)
 		}
-
 		err = cmd.compareResult(res.Value)
 		if err != nil {
 			return fmt.Errorf("error in %s %s: %s", cmd, cmd.expr, err)
 		}
-
-		// Check query returns same result in range mode,
-		/// by checking against the middle step.
 		q, err = t.queryEngine.NewRangeQuery(t.storage, cmd.expr, cmd.start.Add(-time.Minute), cmd.start.Add(time.Minute), time.Minute)
 		if err != nil {
 			return err
@@ -471,7 +415,6 @@ func (t *Test) exec(tc testCommand) error {
 		}
 		defer q.Close()
 		if cmd.ordered {
-			// Ordering isn't defined for range queries.
 			return nil
 		}
 		mat := rangeRes.Value.(Matrix)
@@ -492,15 +435,14 @@ func (t *Test) exec(tc testCommand) error {
 		if err != nil {
 			return fmt.Errorf("error in %s %s (line %d) rande mode: %s", cmd, cmd.expr, cmd.line, err)
 		}
-
 	default:
 		panic("promql.Test.exec: unknown test command type")
 	}
 	return nil
 }
-
-// clear the current test storage of all inserted samples.
 func (t *Test) clear() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.storage != nil {
 		if err := t.storage.Close(); err != nil {
 			t.T.Fatalf("closing test storage: %s", err)
@@ -510,51 +452,36 @@ func (t *Test) clear() {
 		t.cancelCtx()
 	}
 	t.storage = testutil.NewStorage(t)
-
-	opts := EngineOpts{
-		Logger:        nil,
-		Reg:           nil,
-		MaxConcurrent: 20,
-		MaxSamples:    10000,
-		Timeout:       100 * time.Second,
-	}
-
+	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 20, MaxSamples: 10000, Timeout: 100 * time.Second}
 	t.queryEngine = NewEngine(opts)
 	t.context, t.cancelCtx = context.WithCancel(context.Background())
 }
-
-// Close closes resources associated with the Test.
 func (t *Test) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.cancelCtx()
-
 	if err := t.storage.Close(); err != nil {
 		t.T.Fatalf("closing test storage: %s", err)
 	}
 }
-
-// samplesAlmostEqual returns true if the two sample lines only differ by a
-// small relative error in their sample value.
 func almostEqual(a, b float64) bool {
-	// NaN has no equality but for testing we still want to know whether both values
-	// are NaN.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if math.IsNaN(a) && math.IsNaN(b) {
 		return true
 	}
-
-	// Cf. http://floating-point-gui.de/errors/comparison/
 	if a == b {
 		return true
 	}
-
 	diff := math.Abs(a - b)
-
 	if a == 0 || b == 0 || diff < minNormal {
 		return diff < epsilon*minNormal
 	}
 	return diff/(math.Abs(a)+math.Abs(b)) < epsilon
 }
-
 func parseNumber(s string) (float64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, err := strconv.ParseInt(s, 0, 64)
 	f := float64(n)
 	if err != nil {
@@ -566,34 +493,27 @@ func parseNumber(s string) (float64, error) {
 	return f, nil
 }
 
-// LazyLoader lazily loads samples into storage.
-// This is specifically implemented for unit testing of rules.
 type LazyLoader struct {
 	testutil.T
-
-	loadCmd *loadCmd
-
-	storage storage.Storage
-
-	queryEngine *Engine
-	context     context.Context
-	cancelCtx   context.CancelFunc
+	loadCmd		*loadCmd
+	storage		storage.Storage
+	queryEngine	*Engine
+	context		context.Context
+	cancelCtx	context.CancelFunc
 }
 
-// NewLazyLoader returns an initialized empty LazyLoader.
 func NewLazyLoader(t testutil.T, input string) (*LazyLoader, error) {
-	ll := &LazyLoader{
-		T: t,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	ll := &LazyLoader{T: t}
 	err := ll.parse(input)
 	ll.clear()
 	return ll, err
 }
-
-// parse the given load command.
 func (ll *LazyLoader) parse(input string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := getLines(input)
-	// Accepts only 'load' command.
 	for i := 0; i < len(lines); i++ {
 		l := lines[i]
 		if len(l) == 0 {
@@ -607,14 +527,13 @@ func (ll *LazyLoader) parse(input string) error {
 			ll.loadCmd = cmd
 			return nil
 		}
-
 		return raise(i, "invalid command %q", l)
 	}
 	return errors.New("no \"load\" command found")
 }
-
-// clear the current test storage of all inserted samples.
 func (ll *LazyLoader) clear() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ll.storage != nil {
 		if err := ll.storage.Close(); err != nil {
 			ll.T.Fatalf("closing test storage: %s", err)
@@ -624,21 +543,13 @@ func (ll *LazyLoader) clear() {
 		ll.cancelCtx()
 	}
 	ll.storage = testutil.NewStorage(ll)
-
-	opts := EngineOpts{
-		Logger:        nil,
-		Reg:           nil,
-		MaxConcurrent: 20,
-		MaxSamples:    10000,
-		Timeout:       100 * time.Second,
-	}
-
+	opts := EngineOpts{Logger: nil, Reg: nil, MaxConcurrent: 20, MaxSamples: 10000, Timeout: 100 * time.Second}
 	ll.queryEngine = NewEngine(opts)
 	ll.context, ll.cancelCtx = context.WithCancel(context.Background())
 }
-
-// appendTill appends the defined time series to the storage till the given timestamp (in milliseconds).
 func (ll *LazyLoader) appendTill(ts int64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	app, err := ll.storage.Appender()
 	if err != nil {
 		return err
@@ -647,7 +558,6 @@ func (ll *LazyLoader) appendTill(ts int64) error {
 		m := ll.loadCmd.metrics[h]
 		for i, s := range smpls {
 			if s.T > ts {
-				// Removing the already added samples.
 				ll.loadCmd.defs[h] = smpls[i:]
 				break
 			}
@@ -661,39 +571,36 @@ func (ll *LazyLoader) appendTill(ts int64) error {
 	}
 	return app.Commit()
 }
-
-// WithSamplesTill loads the samples till given timestamp and executes the given function.
 func (ll *LazyLoader) WithSamplesTill(ts time.Time, fn func(error)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tsMilli := ts.Sub(time.Unix(0, 0)) / time.Millisecond
 	fn(ll.appendTill(int64(tsMilli)))
 }
-
-// QueryEngine returns the LazyLoader's query engine.
 func (ll *LazyLoader) QueryEngine() *Engine {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.queryEngine
 }
-
-// Queryable allows querying the LazyLoader's data.
-// Note: only the samples till the max timestamp used
-//       in `WithSamplesTill` can be queried.
 func (ll *LazyLoader) Queryable() storage.Queryable {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.storage
 }
-
-// Context returns the LazyLoader's context.
 func (ll *LazyLoader) Context() context.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.context
 }
-
-// Storage returns the LazyLoader's storage.
 func (ll *LazyLoader) Storage() storage.Storage {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ll.storage
 }
-
-// Close closes resources associated with the LazyLoader.
 func (ll *LazyLoader) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ll.cancelCtx()
-
 	if err := ll.storage.Close(); err != nil {
 		ll.T.Fatalf("closing test storage: %s", err)
 	}
